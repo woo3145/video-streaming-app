@@ -1,17 +1,11 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import Header from '../components/Header';
 
 const MainLayout = () => {
   return (
-    <div>
-      <header>
-        <h1 className="w-full py-2 bg-blue-900 text-white">Header</h1>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="signin">SignIn</Link>
-          <Link to="watch/1">Watch</Link>
-        </nav>
-      </header>
-      <div>
+    <div className="w-full">
+      <Header />
+      <div className="w-full min-h-[calc(100vh-4rem)] max-w-qhd px-4 mx-auto">
         <Outlet />
       </div>
     </div>
