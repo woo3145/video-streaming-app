@@ -1,6 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { setCurrentTime, setDuration } from '../store/modules/videoSlice';
+import {
+  setCurrentTime,
+  setDuration,
+  setIsPlaying,
+} from '../store/modules/videoSlice';
 import VideoTimeDisplay from './VideoController/VideoTimeDisplay';
 import VideoController from './VideoController/VideoController';
 
@@ -20,9 +24,17 @@ const VideoPlayer = () => {
     const handleTimeUpdate = () => {
       dispatch(setCurrentTime(videoElement.currentTime));
     };
+    const handlePlay = () => {
+      dispatch(setIsPlaying(true));
+    };
+    const handlePause = () => {
+      dispatch(setIsPlaying(false));
+    };
 
     videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
     videoElement.addEventListener('timeupdate', handleTimeUpdate);
+    videoElement.addEventListener('play', handlePlay);
+    videoElement.addEventListener('pause', handlePause);
 
     // 새로고침 시 비디오 로드
     // - 브라우저는 첫 방문때만 웹페이지의 자원을 로드하고 새로고침 시 캐시를 사용하려고 함
@@ -30,10 +42,11 @@ const VideoPlayer = () => {
     if (src) {
       videoElement.load();
     }
-
     return () => {
       videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
       videoElement.removeEventListener('timeupdate', handleTimeUpdate);
+      videoElement.removeEventListener('play', handlePlay);
+      videoElement.removeEventListener('pause', handlePause);
     };
   }, [dispatch, src]);
 
