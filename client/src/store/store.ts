@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import videoSlice from './modules/videoSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import pageSizeSlice from './modules/pageSizeSlice';
+import videoSlice from './modules/videoSlice';
 
 export const store = configureStore({
   reducer: {
     video: videoSlice,
+    pageSize: pageSizeSlice,
   },
 });
 
