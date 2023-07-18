@@ -1,5 +1,5 @@
 import { MouseEvent, useCallback } from 'react';
-import { useAppSelector } from '../store/store';
+import { useAppSelector } from '../../store/store';
 
 interface Props {
   onClick: (time: number) => void;

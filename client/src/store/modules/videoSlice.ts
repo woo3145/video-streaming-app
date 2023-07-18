@@ -4,12 +4,14 @@ export interface VideoState {
   src: string;
   duration: number;
   currentTime: number;
+  isPlaying: boolean;
 }
 
 const initialState: VideoState = {
   src: '',
   duration: 0,
   currentTime: 0,
+  isPlaying: false,
 };
 
 export const videoSlice = createSlice({
@@ -27,9 +29,13 @@ export const videoSlice = createSlice({
     setCurrentTime: (state, action: PayloadAction<number>) => {
       state.currentTime = action.payload;
     },
+    setIsPlaying: (state, action: PayloadAction<boolean>) => {
+      state.isPlaying = action.payload;
+    },
   },
 });
 
-export const { setVideoSrc, setDuration, setCurrentTime } = videoSlice.actions;
+export const { setVideoSrc, setDuration, setCurrentTime, setIsPlaying } =
+  videoSlice.actions;
 
 export default videoSlice.reducer;

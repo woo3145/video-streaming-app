@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useAppSelector } from '../store/store';
+import { useAppSelector } from '../../store/store';
 
 const VideoTimeDisplay = () => {
   const { duration, currentTime } = useAppSelector((state) => state.video);
