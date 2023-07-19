@@ -1,14 +1,13 @@
 import { MouseEvent, useCallback } from 'react';
 import { useAppSelector } from '../../store/store';
+import VideoBufferedBar from './VideoBufferedBar';
 
 interface Props {
   onClick: (time: number) => void;
 }
 
 const VideoProgressBar = ({ onClick }: Props) => {
-  const { duration, currentTime, bufferedEnd } = useAppSelector(
-    (state) => state.video
-  );
+  const { duration, currentTime } = useAppSelector((state) => state.video);
 
   // 클릭한 지점을 계산하여 외부에서 들어온 onClick 함수에 계산된 newTime값으로 콜백
   const onClickHandler = useCallback(
@@ -31,10 +30,7 @@ const VideoProgressBar = ({ onClick }: Props) => {
       className="relative w-full h-2 bg-gray-700 cursor-pointer"
       onClick={onClickHandler}
     >
-      <div
-        style={{ width: `${(bufferedEnd / duration) * 100}%` }}
-        className="absolute top-0 left-0 h-2 bg-blue-500 rounded-full"
-      />
+      <VideoBufferedBar />
       <div
         style={{ width: `${(currentTime / duration) * 100}%` }}
         className="absolute top-0 left-0 h-2 bg-purple-500 rounded-full"
