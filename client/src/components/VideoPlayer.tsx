@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import {
   setBufferedRanges,
@@ -8,19 +8,24 @@ import {
 } from '../store/modules/videoSlice';
 import VideoTimeDisplay from './VideoController/VideoTimeDisplay';
 import VideoController from './VideoController/VideoController';
+import { MoonLoader } from 'react-spinners';
 
 const VideoPlayer = () => {
   const dispatch = useAppDispatch();
   const { src } = useAppSelector((state) => state.video);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isLoading, setIsLoading] = useState(false); // 비디오 로딩중 or 버퍼링중 상태
 
   // 동영상 메타데이터 로드 완료 시 동영상 길이 저장 && timeupdate 이벤트 등록
   useEffect(() => {
     const videoElement = videoRef.current;
     if (!videoElement) return;
 
+    setIsLoading(true); // 비디오 메타데이터가 로드되기 전에 로딩중 표시
+
     const handleLoadedMetadata = () => {
       dispatch(setDuration(videoElement.duration));
+      setIsLoading(false); // 메타데이터 로드 완료 후 로딩상태 해제
     };
     const handleTimeUpdate = () => {
       dispatch(setCurrentTime(videoElement.currentTime));
@@ -31,11 +36,19 @@ const VideoPlayer = () => {
     const handlePause = () => {
       dispatch(setIsPlaying(false));
     };
+    const handlePlaying = () => {
+      setIsLoading(false);
+    };
+    const handleWaiting = () => {
+      setIsLoading(true);
+    };
 
     videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
     videoElement.addEventListener('timeupdate', handleTimeUpdate);
     videoElement.addEventListener('play', handlePlay);
     videoElement.addEventListener('pause', handlePause);
+    videoElement.addEventListener('playing', handlePlaying);
+    videoElement.addEventListener('waiting', handleWaiting);
 
     // 버퍼링 조각 리덕스에 저장
     const updateBufferedRanges = () => {
@@ -63,6 +76,8 @@ const VideoPlayer = () => {
       videoElement.removeEventListener('timeupdate', handleTimeUpdate);
       videoElement.removeEventListener('play', handlePlay);
       videoElement.removeEventListener('pause', handlePause);
+      videoElement.removeEventListener('playing', handlePlaying);
+      videoElement.removeEventListener('waiting', handleWaiting);
       clearInterval(interval);
     };
   }, [dispatch, src]);
@@ -74,6 +89,12 @@ const VideoPlayer = () => {
       </video>
       <VideoTimeDisplay />
       <VideoController videoRef={videoRef} />
+      <MoonLoader
+        loading={isLoading}
+        size={40}
+        color={'#a855f7'}
+        aria-label="Loading Spinner"
+      />
     </div>
   );
 };
