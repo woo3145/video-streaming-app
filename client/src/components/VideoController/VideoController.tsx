@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { setCurrentTime, setVolume } from '../../store/modules/videoSlice';
 import VideoProgressBar from './VideoProgressBar';
 import VideoVolumeController from './VideoVolumeController';
+import VideoFullscreenButton from './VideoFullScreenButton';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;
@@ -65,6 +66,7 @@ const VideoController = ({ videoRef }: Props) => {
         onClickMute={handleMute}
       />
       <VideoProgressBar onClick={handleProgressBar} />
+      <VideoFullscreenButton videoRef={videoRef} />
     </div>
   );
 };

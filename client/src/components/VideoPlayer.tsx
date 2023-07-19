@@ -84,7 +84,7 @@ const VideoPlayer = () => {
 
   return (
     <div className="w-full h-auto">
-      <video ref={videoRef} controls>
+      <video ref={videoRef}>
         <source src={src} type="video/mp4" />
       </video>
       <VideoTimeDisplay />

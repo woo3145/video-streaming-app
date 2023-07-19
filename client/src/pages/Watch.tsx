@@ -4,7 +4,6 @@ import { useMockVideo } from '../hooks/useMockVideo';
 import { useAppDispatch } from '../store/store';
 import { setVideoSrc } from '../store/modules/videoSlice';
 import VideoPlayer from '../components/VideoPlayer';
-import VideoMetadata from '../components/VideoMetadata';
 
 const Watch = () => {
   const { videoId } = useParams();
@@ -22,7 +21,6 @@ const Watch = () => {
     <div>
       <div className="w-full text-3xl font-bold">Watch {data?.title}</div>
       <VideoPlayer />
-      <VideoMetadata />
     </div>
   );
 };
