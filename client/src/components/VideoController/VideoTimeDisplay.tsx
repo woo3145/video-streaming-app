@@ -12,8 +12,8 @@ const VideoTimeDisplay = () => {
   }, []);
 
   return (
-    <div>
-      {format(currentTime)}:{format(duration)}
+    <div className="text-sm">
+      {format(currentTime)} / {format(duration)}
     </div>
   );
 };

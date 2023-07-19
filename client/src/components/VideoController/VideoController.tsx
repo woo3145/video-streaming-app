@@ -5,6 +5,7 @@ import { setCurrentTime, setVolume } from '../../store/modules/videoSlice';
 import VideoProgressBar from './VideoProgressBar';
 import VideoVolumeController from './VideoVolumeController';
 import VideoFullscreenButton from './VideoFullScreenButton';
+import VideoTimeDisplay from './VideoTimeDisplay';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;
@@ -59,14 +60,19 @@ const VideoController = ({ videoRef }: Props) => {
   };
 
   return (
-    <div>
-      <VideoPlayButton onClick={handlePlayPause} />
-      <VideoVolumeController
-        onClickVolume={handleVolume}
-        onClickMute={handleMute}
-      />
+    <div className="absolute bottom-0 left-0 flex flex-col w-full text-white">
       <VideoProgressBar onClick={handleProgressBar} />
-      <VideoFullscreenButton videoRef={videoRef} />
+      <div className="flex items-center justify-between py-1 px-2">
+        <div className="flex items-center gap-2">
+          <VideoPlayButton onClick={handlePlayPause} />
+          <VideoVolumeController
+            onClickVolume={handleVolume}
+            onClickMute={handleMute}
+          />
+          <VideoTimeDisplay />
+        </div>
+        <VideoFullscreenButton videoRef={videoRef} />
+      </div>
     </div>
   );
 };

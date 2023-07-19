@@ -6,9 +6,8 @@ import {
   setDuration,
   setIsPlaying,
 } from '../store/modules/videoSlice';
-import VideoTimeDisplay from './VideoController/VideoTimeDisplay';
 import VideoController from './VideoController/VideoController';
-import { MoonLoader } from 'react-spinners';
+import { BeatLoader } from 'react-spinners';
 
 const VideoPlayer = () => {
   const dispatch = useAppDispatch();
@@ -83,18 +82,19 @@ const VideoPlayer = () => {
   }, [dispatch, src]);
 
   return (
-    <div className="w-full h-auto">
-      <video ref={videoRef}>
+    <div className="relative flex items-center justify-center w-full h-auto">
+      <video ref={videoRef} className="w-full">
         <source src={src} type="video/mp4" />
       </video>
-      <VideoTimeDisplay />
+      <div className="absolute">
+        <BeatLoader
+          loading={isLoading}
+          size={20}
+          color={'#a855f7'}
+          aria-label="Loading Spinner"
+        />
+      </div>
       <VideoController videoRef={videoRef} />
-      <MoonLoader
-        loading={isLoading}
-        size={40}
-        color={'#a855f7'}
-        aria-label="Loading Spinner"
-      />
     </div>
   );
 };

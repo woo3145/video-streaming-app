@@ -21,7 +21,7 @@ const VideoBufferedBar = () => {
               left: `${startPosition}%`,
               width: `${width}%`,
             }}
-            className="absolute top-0 h-2 bg-gray-500 rounded-full"
+            className="absolute top-0 h-2 bg-gray-500  "
           />
         );
       })}

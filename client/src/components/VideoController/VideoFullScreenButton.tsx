@@ -14,7 +14,7 @@ const VideoFullscreenButton = ({ videoRef }: Props) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   // 풀스크린 토글
-  // 추후에 requestFullscreen 대체 필요(Custom Conroller UI를 사용하기 위해)
+  // 추후에 requestFullscreen 대체 필요(Custom Controller UI를 사용하기 위해)
   const handleFullscreen = useCallback(() => {
     if (!document.fullscreenElement && videoRef.current) {
       if (videoRef.current.requestFullscreen) {

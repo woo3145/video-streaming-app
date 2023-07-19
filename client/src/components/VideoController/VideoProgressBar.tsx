@@ -33,7 +33,7 @@ const VideoProgressBar = ({ onClick }: Props) => {
       <VideoBufferedBar />
       <div
         style={{ width: `${(currentTime / duration) * 100}%` }}
-        className="absolute top-0 left-0 h-2 bg-purple-500 rounded-full"
+        className="absolute top-0 left-0 h-2 bg-purple-500"
       />
     </div>
   );
