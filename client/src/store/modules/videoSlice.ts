@@ -7,6 +7,7 @@ export interface VideoState {
   isPlaying: boolean;
   isMuted: boolean;
   volume: number;
+  bufferedEnd: number;
 }
 
 const initialState: VideoState = {
@@ -16,6 +17,7 @@ const initialState: VideoState = {
   isPlaying: false,
   isMuted: false,
   volume: 0.5,
+  bufferedEnd: 0,
 };
 
 export const videoSlice = createSlice({
@@ -43,6 +45,9 @@ export const videoSlice = createSlice({
     setIsMuted: (state, action: PayloadAction<boolean>) => {
       state.isMuted = action.payload;
     },
+    setBufferedEnd: (state, action: PayloadAction<number>) => {
+      state.bufferedEnd = action.payload;
+    },
   },
 });
 
@@ -53,6 +58,7 @@ export const {
   setIsPlaying,
   setVolume,
   setIsMuted,
+  setBufferedEnd,
 } = videoSlice.actions;
 
 export default videoSlice.reducer;

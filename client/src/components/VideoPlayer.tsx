@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import {
+  setBufferedEnd,
   setCurrentTime,
   setDuration,
   setIsPlaying,
@@ -36,6 +37,18 @@ const VideoPlayer = () => {
     videoElement.addEventListener('play', handlePlay);
     videoElement.addEventListener('pause', handlePause);
 
+    // 마지막으로 버퍼링된 시간 리덕스에 저장
+    const updateBufferedTime = () => {
+      const videoElement = videoRef.current;
+      if (!videoElement) return;
+
+      const buffered = videoElement.buffered;
+      const bufferedEnd =
+        buffered.length > 0 ? buffered.end(buffered.length - 1) : 0;
+      dispatch(setBufferedEnd(bufferedEnd));
+    };
+    const interval = setInterval(updateBufferedTime, 500);
+
     // 새로고침 시 비디오 로드
     // - 브라우저는 첫 방문때만 웹페이지의 자원을 로드하고 새로고침 시 캐시를 사용하려고 함
     // - 따라서 수동으로 비디오를 로드하거나 video tag에 매번 다른 key값을 할당하면 해결됨
@@ -47,6 +60,7 @@ const VideoPlayer = () => {
       videoElement.removeEventListener('timeupdate', handleTimeUpdate);
       videoElement.removeEventListener('play', handlePlay);
       videoElement.removeEventListener('pause', handlePause);
+      clearInterval(interval);
     };
   }, [dispatch, src]);
 
