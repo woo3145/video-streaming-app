@@ -59,7 +59,7 @@ const VideoFullscreenButton = ({ videoRef }: Props) => {
   return (
     <div
       onClick={handleFullscreen}
-      className="flex items-center justify-center w-8 h-8 text-xl cursor-pointer duration-300 hover:bg-gray-300"
+      className="flex items-center justify-center w-8 h-8 text-xl cursor-pointer duration-300 hover:bg-gray-900"
     >
       {isFullScreen ? <BsFullscreenExit /> : <BsFullscreen />}
     </div>

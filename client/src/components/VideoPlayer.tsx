@@ -82,8 +82,8 @@ const VideoPlayer = () => {
   }, [dispatch, src]);
 
   return (
-    <div className="relative flex items-center justify-center w-full h-auto">
-      <video ref={videoRef} className="w-full">
+    <div className="relative flex items-center justify-center w-full max-h-[720px] bg-black">
+      <video ref={videoRef} className="w-full max-h-[720px]">
         <source src={src} type="video/mp4" />
       </video>
       <div className="absolute">
