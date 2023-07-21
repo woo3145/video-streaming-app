@@ -5,6 +5,7 @@ import { useAppDispatch } from '../store/store';
 import { setVideoSrc } from '../store/modules/videoSlice';
 import VideoPlayer from '../components/VideoPlayer';
 import VideoMetadata from '../components/VideoMetadata';
+import CommentsSection from '../components/CommentsSection/CommentsSection';
 
 const Watch = () => {
   const { videoId } = useParams();
@@ -28,26 +29,7 @@ const Watch = () => {
         </div>
         {/* Right */}
         <div className="w-[400px] h-[70vh] shrink-0 border rounded-lg">
-          <div className="flex text-lg font-semibold">
-            <div className="flex justify-center items-center w-full py-2 cursor-pointer hover:bg-gray-200">
-              💬 댓글
-            </div>
-            <div className="flex justify-center items-center w-full py-2 border-b-4 border-purple-500 cursor-pointer hover:bg-gray-200">
-              ☁️ 구름
-            </div>
-          </div>
-          <div className="text-lg">
-            <div className="py-2 px-4 hover:bg-gray-200 cursor-pointer duration-200 truncate hover:whitespace-normal">
-              댓글 1
-            </div>
-            <div className="py-2 px-4 hover:bg-gray-200 cursor-pointer duration-200 truncate hover:whitespace-normal">
-              댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2
-              댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2
-              댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2
-              댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2 댓글 2
-              댓글 2 댓글 2
-            </div>
-          </div>
+          <CommentsSection />
         </div>
       </div>
     </div>
