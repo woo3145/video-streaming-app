@@ -1,5 +1,5 @@
 interface Props {
-  clouds: { id: number; comment: string }[];
+  clouds: ICloudComment[];
 }
 
 const CloudList = ({ clouds }: Props) => {
@@ -11,7 +11,7 @@ const CloudList = ({ clouds }: Props) => {
             key={idx}
             className="py-2 px-4 hover:bg-gray-200 cursor-pointer duration-200 truncate hover:whitespace-normal"
           >
-            {cloud.comment}
+            {cloud.content}
           </li>
         );
       })}

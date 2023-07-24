@@ -1,5 +1,5 @@
 interface Props {
-  comments: { id: number; comment: string }[];
+  comments: IComment[];
 }
 
 const CommentList = ({ comments }: Props) => {
@@ -11,7 +11,7 @@ const CommentList = ({ comments }: Props) => {
             key={idx}
             className="py-2 px-4 hover:bg-gray-200 cursor-pointer duration-200 truncate hover:whitespace-normal"
           >
-            {comment.comment}
+            {comment.content}
           </li>
         );
       })}
