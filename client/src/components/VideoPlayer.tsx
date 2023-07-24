@@ -5,6 +5,7 @@ import {
   setCurrentTime,
   setDuration,
   setIsPlaying,
+  setVideoSize,
 } from '../store/modules/videoSlice';
 import VideoController from './VideoController/VideoController';
 import { BeatLoader } from 'react-spinners';
@@ -22,11 +23,20 @@ const VideoPlayer = () => {
 
     setIsLoading(true); // 비디오 메타데이터가 로드되기 전에 로딩중 표시
 
+    // 비디오 width,height 리덕스에 저장 (window 리사이징 or 동영상 메타데이터 로드 완료 시)
+    const handleVideoResize = () => {
+      const { width, height } = videoElement.getBoundingClientRect();
+      dispatch(setVideoSize({ width, height }));
+    };
+    window.addEventListener('resize', handleVideoResize);
+
     const handleLoadedMetadata = () => {
       dispatch(setDuration(videoElement.duration));
+      handleVideoResize();
       setIsLoading(false); // 메타데이터 로드 완료 후 로딩상태 해제
     };
     const handleTimeUpdate = () => {
+      console.log(videoElement.currentTime);
       dispatch(setCurrentTime(videoElement.currentTime));
     };
     const handlePlay = () => {
@@ -77,6 +87,7 @@ const VideoPlayer = () => {
       videoElement.removeEventListener('pause', handlePause);
       videoElement.removeEventListener('playing', handlePlaying);
       videoElement.removeEventListener('waiting', handleWaiting);
+      window.removeEventListener('resize', handleVideoResize);
       clearInterval(interval);
     };
   }, [dispatch, src]);

@@ -6,6 +6,7 @@ import { setVideoSrc } from '../store/modules/videoSlice';
 import VideoPlayer from '../components/VideoPlayer';
 import VideoMetadata from '../components/VideoMetadata';
 import CommentsSection from '../components/CommentsSection/CommentsSection';
+import CloudCommentOverlay from '../components/CloudCommentOverlay';
 
 const Watch = () => {
   const { videoId } = useParams();
@@ -31,6 +32,9 @@ const Watch = () => {
         <div className="w-[400px] h-[70vh] shrink-0 border rounded-lg">
           <CommentsSection />
         </div>
+
+        {/* Overlay */}
+        <CloudCommentOverlay />
       </div>
     </div>
   );

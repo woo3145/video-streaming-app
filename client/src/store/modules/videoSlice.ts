@@ -8,6 +8,9 @@ export interface VideoState {
   isMuted: boolean;
   volume: number;
   bufferedRanges: { start: number; end: number }[];
+
+  videoWidth: number;
+  videoHeight: number;
 }
 
 const initialState: VideoState = {
@@ -18,6 +21,9 @@ const initialState: VideoState = {
   isMuted: false,
   volume: 0.5,
   bufferedRanges: [],
+
+  videoWidth: 0,
+  videoHeight: 0,
 };
 
 export const videoSlice = createSlice({
@@ -51,6 +57,14 @@ export const videoSlice = createSlice({
     ) => {
       state.bufferedRanges = action.payload;
     },
+
+    setVideoSize: (
+      state,
+      action: PayloadAction<{ width: number; height: number }>
+    ) => {
+      state.videoWidth = action.payload.width;
+      state.videoHeight = action.payload.height;
+    },
   },
 });
 
@@ -62,6 +76,7 @@ export const {
   setVolume,
   setIsMuted,
   setBufferedRanges,
+  setVideoSize,
 } = videoSlice.actions;
 
 export default videoSlice.reducer;

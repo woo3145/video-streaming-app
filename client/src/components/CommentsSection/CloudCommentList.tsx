@@ -2,7 +2,7 @@ interface Props {
   clouds: ICloudComment[];
 }
 
-const CloudList = ({ clouds }: Props) => {
+const CloudCommentList = ({ clouds }: Props) => {
   return (
     <ul className="text-lg">
       {clouds.map((cloud, idx) => {
@@ -19,4 +19,4 @@ const CloudList = ({ clouds }: Props) => {
   );
 };
 
-export default CloudList;
+export default CloudCommentList;

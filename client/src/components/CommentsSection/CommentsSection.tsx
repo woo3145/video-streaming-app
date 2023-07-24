@@ -2,8 +2,8 @@ import { useState } from 'react';
 import CommentTabs from './CommentTab';
 import CommentList from './CommentList';
 import { useMockComments } from '../../hooks/useMockComments';
-import CloudList from './CloudList';
 import { useMockClouds } from '../../hooks/useMockClouds';
+import CloudCommentList from './CloudCommentList';
 
 export type CommentTabType = 'Comment' | 'Cloud';
 
@@ -15,7 +15,7 @@ const CommentsSection = () => {
     <div>
       <CommentTabs tab={tab} setTab={setTab} />
       {tab === 'Comment' && <CommentList comments={comments} />}
-      {tab === 'Cloud' && <CloudList clouds={clouds} />}
+      {tab === 'Cloud' && <CloudCommentList clouds={clouds} />}
     </div>
   );
 };
