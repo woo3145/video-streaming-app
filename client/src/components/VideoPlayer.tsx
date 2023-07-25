@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import {
   setBufferedRanges,
@@ -15,6 +15,16 @@ const VideoPlayer = () => {
   const { src } = useAppSelector((state) => state.video);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoading, setIsLoading] = useState(false); // 비디오 로딩중 or 버퍼링중 상태
+
+  const rafRef = useRef<number | null>(null); // currentTime을 업데이트 하는 requestAnimationFrame의 참조
+
+  // 동영상의 currentTime을 리덕스에 저장하는 함수
+  const updateProgress = useCallback(() => {
+    if (rafRef.current !== null && videoRef.current) {
+      dispatch(setCurrentTime(videoRef.current.currentTime));
+      rafRef.current = requestAnimationFrame(updateProgress);
+    }
+  }, [dispatch]);
 
   // 동영상 메타데이터 로드 완료 시 동영상 길이 저장 && timeupdate 이벤트 등록
   useEffect(() => {
@@ -34,11 +44,12 @@ const VideoPlayer = () => {
       dispatch(setDuration(videoElement.duration));
       handleVideoResize();
       setIsLoading(false); // 메타데이터 로드 완료 후 로딩상태 해제
+
+      // 메타데이터가 로드 완료 되면 raf 실행
+      if (rafRef.current) cancelAnimationFrame(rafRef.current); // 이전 raf이 있다면 취소
+      rafRef.current = requestAnimationFrame(updateProgress);
     };
-    const handleTimeUpdate = () => {
-      console.log(videoElement.currentTime);
-      dispatch(setCurrentTime(videoElement.currentTime));
-    };
+
     const handlePlay = () => {
       dispatch(setIsPlaying(true));
     };
@@ -53,7 +64,6 @@ const VideoPlayer = () => {
     };
 
     videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
-    videoElement.addEventListener('timeupdate', handleTimeUpdate);
     videoElement.addEventListener('play', handlePlay);
     videoElement.addEventListener('pause', handlePause);
     videoElement.addEventListener('playing', handlePlaying);
@@ -82,15 +92,22 @@ const VideoPlayer = () => {
     }
     return () => {
       videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      videoElement.removeEventListener('timeupdate', handleTimeUpdate);
       videoElement.removeEventListener('play', handlePlay);
       videoElement.removeEventListener('pause', handlePause);
       videoElement.removeEventListener('playing', handlePlaying);
       videoElement.removeEventListener('waiting', handleWaiting);
       window.removeEventListener('resize', handleVideoResize);
       clearInterval(interval);
+
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
     };
-  }, [dispatch, src]);
+  }, [dispatch, src, updateProgress]);
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    if (!videoElement) return;
+  }, []);
 
   return (
     <div className="relative flex items-center justify-center w-full max-h-[720px] bg-black">

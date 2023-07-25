@@ -25,3 +25,5 @@ https://reactrouter.com/en/main/start/overview
 - 1. 동영상 width,height를 기준으로 CloudCommentOverlay의 크기를 결정(아마 width: videoWidth \* (videoDuration / 2))
 - 2. CloudCommentOverlay는 현재 재생시점으로 translateX를 구하여 댓글이 흐르도록 구현
 - 3. 각 CloudComment들은 left로 100% \* (구름 출현시간/동영상 총 플레이타임) + 동영상 width 을 가짐
+
+currentTime을 requestAniamtionFrame으로 업데이트 간격을 늘려 부드러운 애니메이션이 되도록 보완

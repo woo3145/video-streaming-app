@@ -17,7 +17,7 @@ const CloudCommentOverlay = () => {
     return x;
   };
   return (
-    <ul
+    <div
       className="text-lg pointer-events-none"
       style={{
         position: 'absolute',
@@ -28,11 +28,11 @@ const CloudCommentOverlay = () => {
     >
       {clouds.map((cloud, idx) => {
         const left = `calc(100% * ${
-          cloud.displayTime / duration
+          (cloud.displayTime / duration) * 2
         } + ${videoWidth}px)`;
         return <CloudComment cloudComment={cloud} key={idx} left={left} />;
       })}
-    </ul>
+    </div>
   );
 };
 
