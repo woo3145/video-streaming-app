@@ -25,16 +25,18 @@ const Watch = () => {
       <div className="flex gap-6 p-6">
         {/* Left */}
         <div className="w-full">
-          <VideoPlayer />
+          <div className="relative overflow-hidden">
+            <VideoPlayer />
+            {/* Overlay */}
+            <CloudCommentOverlay />
+          </div>
           <VideoMetadata title={video?.title || ''} />
         </div>
+
         {/* Right */}
         <div className="w-[400px] h-[70vh] shrink-0 border rounded-lg">
           <CommentsSection />
         </div>
-
-        {/* Overlay */}
-        <CloudCommentOverlay />
       </div>
     </div>
   );

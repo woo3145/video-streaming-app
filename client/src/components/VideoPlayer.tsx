@@ -22,7 +22,12 @@ const VideoPlayer = () => {
   const updateProgress = useCallback(() => {
     if (rafRef.current !== null && videoRef.current) {
       dispatch(setCurrentTime(videoRef.current.currentTime));
-      rafRef.current = requestAnimationFrame(updateProgress);
+      // 재생중일때만 재귀실행
+      if (!videoRef.current.paused) {
+        rafRef.current = requestAnimationFrame(updateProgress);
+      } else {
+        rafRef.current = null;
+      }
     }
   }, [dispatch]);
 
@@ -52,9 +57,18 @@ const VideoPlayer = () => {
 
     const handlePlay = () => {
       dispatch(setIsPlaying(true));
+      // raf 실행
+      if (rafRef.current === null) {
+        rafRef.current = requestAnimationFrame(updateProgress);
+      }
     };
     const handlePause = () => {
       dispatch(setIsPlaying(false));
+      // raf 제거
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
     };
     const handlePlaying = () => {
       setIsLoading(false);
@@ -69,21 +83,6 @@ const VideoPlayer = () => {
     videoElement.addEventListener('playing', handlePlaying);
     videoElement.addEventListener('waiting', handleWaiting);
 
-    // 버퍼링 조각 리덕스에 저장
-    const updateBufferedRanges = () => {
-      const videoElement = videoRef.current;
-      if (!videoElement) return;
-
-      const buffered = videoElement.buffered;
-      const bufferedRanges: { start: number; end: number }[] = [];
-      for (let i = 0; i < buffered.length; ++i) {
-        bufferedRanges.push({ start: buffered.start(i), end: buffered.end(i) });
-      }
-
-      dispatch(setBufferedRanges(bufferedRanges));
-    };
-    const interval = setInterval(updateBufferedRanges, 500);
-
     // 새로고침 시 비디오 로드
     // - 브라우저는 첫 방문때만 웹페이지의 자원을 로드하고 새로고침 시 캐시를 사용하려고 함
     // - 따라서 수동으로 비디오를 로드하거나 video tag에 매번 다른 key값을 할당하면 해결됨
@@ -97,17 +96,31 @@ const VideoPlayer = () => {
       videoElement.removeEventListener('playing', handlePlaying);
       videoElement.removeEventListener('waiting', handleWaiting);
       window.removeEventListener('resize', handleVideoResize);
-      clearInterval(interval);
 
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     };
   }, [dispatch, src, updateProgress]);
 
+  // 버퍼링 상태를 저장하는 이벤트 등록
   useEffect(() => {
     const videoElement = videoRef.current;
     if (!videoElement) return;
-  }, []);
+    // 버퍼링 조각 정보를 리덕스에 저장하는 함수
+    const updateBufferedRanges = () => {
+      const buffered = videoElement.buffered;
+      const bufferedRanges: { start: number; end: number }[] = [];
+      for (let i = 0; i < buffered.length; ++i) {
+        bufferedRanges.push({ start: buffered.start(i), end: buffered.end(i) });
+      }
+      dispatch(setBufferedRanges(bufferedRanges));
+    };
+    videoElement.addEventListener('progress', updateBufferedRanges);
+
+    return () => {
+      videoElement.removeEventListener('progress', updateBufferedRanges);
+    };
+  }, [dispatch]);
 
   return (
     <div className="relative flex items-center justify-center w-full max-h-[720px] bg-black">

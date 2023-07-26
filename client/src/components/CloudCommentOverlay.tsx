@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useMockClouds } from '../hooks/useMockClouds';
 import { useAppSelector } from '../store/store';
 import CloudComment from './CloudComment';
@@ -8,27 +9,30 @@ const CloudCommentOverlay = () => {
     (state) => state.video
   );
 
-  // 하나의 댓글이 지나가는 시간을 2초로 잡고 미리 overlay의 길이를 계산
-  const overlayWidth = videoWidth * (duration / 2);
+  // 하나의 댓글이 지나가는 시간을 5초로 잡고 미리 overlay의 길이를 계산
+  const overlayWidth = useMemo(
+    () => videoWidth * (duration / 5),
+    [videoWidth, duration]
+  );
 
   // 현재 재생시점을 기준으로 오버레이가 지나간 px를 구함
-  const calculateOverlayTranslateX = () => {
-    const x = (currentTime / duration) * overlayWidth;
-    return x;
-  };
+  const calculatedOverlayTranslateX = useMemo(() => {
+    return (currentTime / duration) * overlayWidth;
+  }, [currentTime, duration, overlayWidth]);
+
   return (
     <div
-      className="text-lg pointer-events-none"
+      className="top-0 text-lg pointer-events-none min-w-full"
       style={{
         position: 'absolute',
         width: `${overlayWidth}px`,
         height: `${videoHeight}px`,
-        transform: `translateX(-${calculateOverlayTranslateX()}px)`,
+        transform: `translateX(${-calculatedOverlayTranslateX}px)`,
       }}
     >
       {clouds.map((cloud, idx) => {
         const left = `calc(100% * ${
-          (cloud.displayTime / duration) * 2
+          cloud.displayTime / duration
         } + ${videoWidth}px)`;
         return <CloudComment cloudComment={cloud} key={idx} left={left} />;
       })}

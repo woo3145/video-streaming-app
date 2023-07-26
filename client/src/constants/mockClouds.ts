@@ -15,4 +15,20 @@ export const mockClouds: ICloudComment[] = [
     displayHeight: 20,
     displaySize: 20,
   },
+  {
+    id: 3,
+    content: 'ㅎㅇㅎㅇ 🐬🐬🐬',
+    createAt: new Date(),
+    displayTime: 6,
+    displayHeight: 60,
+    displaySize: 24,
+  },
+  {
+    id: 4,
+    content: '안녕하세요',
+    createAt: new Date(),
+    displayTime: 3,
+    displayHeight: 80,
+    displaySize: 16,
+  },
 ];

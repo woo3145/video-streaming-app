@@ -10,7 +10,7 @@ const CloudComment = React.memo(({ cloudComment, left }: Props) => {
   return (
     <div
       key={id}
-      className="text-white"
+      className="text-white font-bold"
       style={{
         fontSize: displaySize,
         position: 'absolute',
