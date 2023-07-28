@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMockVideo } from '../hooks/useMockVideo';
 import { useAppDispatch } from '../store/store';
@@ -11,6 +11,7 @@ import CloudCommentOverlay from '../components/CloudCommentOverlay';
 const Watch = () => {
   const { videoId } = useParams();
   const { data: video } = useMockVideo(videoId);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const dispatch = useAppDispatch();
 
   // videoSrc 리덕스에 저장
@@ -26,7 +27,7 @@ const Watch = () => {
         {/* Left */}
         <div className="w-full">
           <div className="relative overflow-hidden">
-            <VideoPlayer />
+            <VideoPlayer videoRef={videoRef} />
             {/* Overlay */}
             <CloudCommentOverlay />
           </div>
@@ -35,7 +36,7 @@ const Watch = () => {
 
         {/* Right */}
         <div className="w-[400px] h-[70vh] shrink-0 border rounded-lg">
-          <CommentsSection />
+          <CommentsSection videoRef={videoRef} />
         </div>
       </div>
     </div>
