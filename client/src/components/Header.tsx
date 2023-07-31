@@ -15,7 +15,7 @@ const LoginButton = () => {
 const Header = () => {
   return (
     <>
-      <div className="fixed top-0 w-full bg-white">
+      <div className="fixed top-0 w-full bg-white z-40">
         <div className="flex items-center justify-between w-full h-16 px-4">
           <Logo />
           <LoginButton />

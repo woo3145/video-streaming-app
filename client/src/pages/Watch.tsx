@@ -5,8 +5,8 @@ import { useAppDispatch } from '../store/store';
 import { setVideoSrc } from '../store/modules/videoSlice';
 import VideoPlayer from '../components/VideoPlayer';
 import VideoMetadata from '../components/VideoMetadata';
-import CommentsSection from '../components/CommentsSection/CommentsSection';
 import CloudCommentOverlay from '../components/CloudCommentOverlay';
+import CommentsSection from '../components/CommentsSection/CommentsSection';
 
 const Watch = () => {
   const { videoId } = useParams();
@@ -23,7 +23,7 @@ const Watch = () => {
 
   return (
     <div>
-      <div className="flex gap-6 p-6">
+      <div className="flex flex-wrap gap-6 p-6 2xl:flex-nowrap pb-20">
         {/* Left */}
         <div className="w-full">
           <div className="relative overflow-hidden">
@@ -35,7 +35,7 @@ const Watch = () => {
         </div>
 
         {/* Right */}
-        <div className="w-[400px] h-[70vh] shrink-0 border rounded-lg">
+        <div className="w-full h-auto 2xl:w-[400px] 2xl:h-[70vh] shrink-0 border rounded-lg">
           <CommentsSection videoRef={videoRef} />
         </div>
       </div>
