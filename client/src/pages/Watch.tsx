@@ -35,7 +35,7 @@ const Watch = () => {
         </div>
 
         {/* Right */}
-        <div className="w-full h-auto 2xl:w-[400px] 2xl:h-[70vh] shrink-0 border rounded-lg">
+        <div className="w-full h-auto 2xl:w-[600px] shrink-0 border rounded-lg">
           <CommentsSection videoRef={videoRef} />
         </div>
       </div>

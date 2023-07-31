@@ -5,7 +5,7 @@ interface Props {
 
 const CloudCommentList = ({ clouds, setCurrentVideoTime }: Props) => {
   return (
-    <ul className="text-lg">
+    <ul className="text-lg 2xl:max-h-[400px] overflow-y-scroll">
       {clouds.map((cloud, idx) => {
         return (
           <li

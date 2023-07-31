@@ -48,7 +48,7 @@ const InputField = ({
     'peer-focus:text-xs peer-focus:-translate-y-4 peer-focus:w-auto peer-focus:text-purple-600';
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center w-full">
       {type === 'textarea' ? (
         <textarea
           name={name}

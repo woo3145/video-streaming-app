@@ -4,7 +4,7 @@ interface Props {
 
 const CommentList = ({ comments }: Props) => {
   return (
-    <ul className="text-lg">
+    <ul className="text-lg 2xl:max-h-[400px] overflow-y-scroll">
       {comments.map((comment, idx) => {
         return (
           <li

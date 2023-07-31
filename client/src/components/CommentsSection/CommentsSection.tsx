@@ -6,6 +6,7 @@ import { useMockClouds } from '../../hooks/useMockClouds';
 import CloudCommentList from './CloudCommentList';
 import { useVideoSeek } from '../../hooks/video/useVideoSeek';
 import CommentWriter from './CommentWriter';
+import CloudWriter from './CloudWriter';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;
@@ -22,6 +23,7 @@ const CommentsSection = ({ videoRef }: Props) => {
     <div>
       <CommentTabs tab={tab} setTab={setTab} />
       <div>{tab === 'Comment' && <CommentWriter />}</div>
+      <div>{tab === 'Cloud' && <CloudWriter />}</div>
       <div>
         {tab === 'Comment' && <CommentList comments={comments} />}
         {tab === 'Cloud' && (
