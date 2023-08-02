@@ -24,10 +24,10 @@ const useFetchVideoData = (videoTitle: string) => {
         requestClouds,
       ]);
       if (videoComments) {
-        dispatch(setComments({ comments: videoComments }));
+        dispatch(setComments(videoComments));
       }
       if (videoClouds) {
-        dispatch(setClouds({ clouds: videoClouds }));
+        dispatch(setClouds(videoClouds));
       }
     };
 

@@ -12,13 +12,17 @@ const cloudsSlice = createSlice({
   name: 'clouds',
   initialState,
   reducers: {
-    setClouds: (state, action: PayloadAction<{ clouds: ICloudComment[] }>) => {
-      const { clouds } = action.payload;
+    setClouds: (state, action: PayloadAction<ICloudComment[]>) => {
+      const clouds = action.payload;
       state.clouds = clouds;
+    },
+    addCloud: (state, action: PayloadAction<ICloudComment>) => {
+      const cloud = action.payload;
+      state.clouds = [...state.clouds, cloud];
     },
   },
 });
 
-export const { setClouds } = cloudsSlice.actions;
+export const { setClouds, addCloud } = cloudsSlice.actions;
 
 export default cloudsSlice.reducer;

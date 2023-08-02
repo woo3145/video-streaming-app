@@ -10,6 +10,7 @@ type SelectProps = {
     >
   ) => void;
   defaultValue?: string;
+  value: string;
 };
 
 const SelectField = ({
@@ -18,6 +19,7 @@ const SelectField = ({
   options,
   onChange,
   defaultValue,
+  value,
 }: SelectProps) => {
   return (
     <div className="flex flex-col gap-1">
@@ -29,6 +31,7 @@ const SelectField = ({
         id={name}
         onChange={onChange}
         defaultValue={defaultValue}
+        value={value}
         className="w-full py-2 px-2 text-lg border rounded-lg border-purple-600 outline-purple-600"
       >
         {options.map((option) => (

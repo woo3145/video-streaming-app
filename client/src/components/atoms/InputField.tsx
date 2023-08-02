@@ -10,6 +10,7 @@ interface Props {
   onChange: (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  value: string;
 }
 
 const InputField = ({
@@ -20,6 +21,7 @@ const InputField = ({
   required,
   type = 'text',
   onChange,
+  value,
 }: Props) => {
   const [isValid, setIsValid] = useState(false);
   const [isInValid, setIsInValid] = useState(false);
@@ -53,6 +55,7 @@ const InputField = ({
         <textarea
           name={name}
           onChange={handleInput}
+          value={value}
           className={`peer py-2 px-4 border rounded-lg outline-purple-600 w-full resize-none
       ${isInValid ? 'outline-red-600 border-red-600' : ''} 
       ${isValid ? 'border-purple-600' : ''}
@@ -67,6 +70,7 @@ const InputField = ({
         <input
           name={name}
           onChange={handleInput}
+          value={value}
           type={type}
           className={`peer py-2 px-4 border rounded-lg outline-purple-600 w-full
       ${isInValid ? 'outline-red-600 border-red-600' : ''} 

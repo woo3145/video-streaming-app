@@ -2,34 +2,58 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import InputField from '../atoms/InputField';
 import SubmitButton from '../atoms/SubmitButton';
 import SelectField from '../atoms/SelectField';
-
-type TCloudSize = 'small' | 'medium' | 'large';
-type TCloud = 'high' | 'medium' | 'low';
+import { saveCloud } from '../../utils/services/clouds';
+import { addCloud } from '../../store/modules/cloudSlice';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 
 interface CloudInput {
-  username: string;
+  nickname: string;
   password: string;
   content: string;
-  size: TCloudSize;
+  size: TCloudCommentSize;
   speed: TCloudCommentSpeed;
-  height: TCloud;
+  height: TCloudCommentHeight;
 }
 
-const CloudWriter = () => {
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [inputs, setInputs] = useState<CloudInput>({
-    username: '',
-    password: '',
-    content: '',
-    size: 'medium',
-    speed: 'medium',
-    height: 'medium',
-  });
+const initialInput: CloudInput = {
+  nickname: '',
+  password: '',
+  content: '',
+  size: 'medium',
+  speed: 'medium',
+  height: 'medium',
+};
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+const CloudWriter = () => {
+  const dispatch = useAppDispatch();
+  const currentTime = useAppSelector((state) => state.video.currentTime);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [inputs, setInputs] = useState<CloudInput>(initialInput);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { username, password, content, size, speed, height } = inputs;
-    console.log(username, password, content, size, speed, height);
+    const { nickname, password, content, size, speed, height } = inputs;
+
+    try {
+      const newComment = await saveCloud({
+        videoTitle: '',
+        nickname,
+        password,
+        content,
+
+        size,
+        speed,
+        height,
+        time: currentTime,
+      });
+      if (newComment) {
+        dispatch(addCloud(newComment));
+        setInputs(initialInput);
+        setIsFormValid(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleValidation = (event: FormEvent<HTMLFormElement>) => {
@@ -53,12 +77,13 @@ const CloudWriter = () => {
       >
         <div className="w-full flex gap-4">
           <InputField
-            name="username"
+            name="nickname"
             label="닉네임"
             required
             minLength={2}
             maxLength={10}
             onChange={handleInput}
+            value={inputs.nickname}
           />
           <InputField
             name="password"
@@ -68,6 +93,7 @@ const CloudWriter = () => {
             minLength={5}
             maxLength={16}
             onChange={handleInput}
+            value={inputs.password}
           />
         </div>
         <InputField
@@ -78,6 +104,7 @@ const CloudWriter = () => {
           minLength={0}
           maxLength={30}
           onChange={handleInput}
+          value={inputs.content}
         />
         <div className="flex flex-col gap-1 w-full">
           <SelectField
@@ -90,6 +117,7 @@ const CloudWriter = () => {
             ]}
             onChange={handleInput}
             defaultValue="medium"
+            value={inputs.size}
           />
           <SelectField
             name="speed"
@@ -101,6 +129,7 @@ const CloudWriter = () => {
             ]}
             onChange={handleInput}
             defaultValue="medium"
+            value={inputs.speed}
           />
           <SelectField
             name="height"
@@ -112,6 +141,7 @@ const CloudWriter = () => {
             ]}
             onChange={handleInput}
             defaultValue="medium"
+            value={inputs.height}
           />
         </div>
         <SubmitButton isValid={isFormValid} text="구름작성" />
