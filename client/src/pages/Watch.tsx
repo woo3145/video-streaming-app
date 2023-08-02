@@ -7,6 +7,7 @@ import VideoPlayer from '../components/VideoPlayer';
 import VideoMetadata from '../components/VideoMetadata';
 import CloudCommentOverlay from '../components/CloudCommentOverlay';
 import CommentsSection from '../components/CommentsSection/CommentsSection';
+import useFetchVideoData from '../hooks/useFetchVideoData';
 
 const Watch = () => {
   const { videoId } = useParams();
@@ -20,6 +21,8 @@ const Watch = () => {
       dispatch(setVideoSrc(video.src));
     }
   }, [dispatch, video?.src]);
+
+  useFetchVideoData('');
 
   return (
     <div>

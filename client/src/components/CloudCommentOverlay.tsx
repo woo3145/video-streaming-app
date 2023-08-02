@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
-import { useMockClouds } from '../hooks/useMockClouds';
 import { useAppSelector } from '../store/store';
 import CloudComment from './CloudComment';
 
 const CloudCommentOverlay = () => {
-  const { data: clouds } = useMockClouds();
+  const { clouds } = useAppSelector((state) => state.clouds);
   const { videoWidth, videoHeight, duration, currentTime } = useAppSelector(
     (state) => state.video
   );

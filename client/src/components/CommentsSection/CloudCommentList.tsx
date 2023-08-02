@@ -1,9 +1,12 @@
+import { useAppSelector } from '../../store/store';
+
 interface Props {
-  clouds: ICloudComment[];
   setCurrentVideoTime: (newTime: number) => void;
 }
 
-const CloudCommentList = ({ clouds, setCurrentVideoTime }: Props) => {
+const CloudCommentList = ({ setCurrentVideoTime }: Props) => {
+  const { clouds } = useAppSelector((state) => state.clouds);
+
   return (
     <ul className="text-lg 2xl:max-h-[400px] overflow-y-scroll">
       {clouds.map((cloud, idx) => {

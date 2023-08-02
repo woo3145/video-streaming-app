@@ -1,8 +1,8 @@
-interface Props {
-  comments: IComment[];
-}
+import { useAppSelector } from '../../store/store';
 
-const CommentList = ({ comments }: Props) => {
+const CommentList = () => {
+  const { comments } = useAppSelector((state) => state.comments);
+
   return (
     <ul className="text-lg 2xl:max-h-[400px] overflow-y-scroll">
       {comments.map((comment, idx) => {
