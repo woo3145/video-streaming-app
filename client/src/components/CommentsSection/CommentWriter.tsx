@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import InputField from '../atoms/InputField';
 import SubmitButton from '../atoms/SubmitButton';
 import { saveComment } from '../../utils/services/comments';
-import { useAppDispatch } from '../../store/store';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 import { addComment } from '../../store/modules/commentsSlice';
 
 interface CommentInput {
@@ -21,13 +21,14 @@ const CommentWriter = () => {
   const dispatch = useAppDispatch();
   const [isFormValid, setIsFormValid] = useState(false);
   const [inputs, setInputs] = useState<CommentInput>(initialInput);
+  const videoId = useAppSelector((state) => state.video.id);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { nickname, password, content } = inputs;
     try {
       const newComment = await saveComment({
-        videoTitle: '',
+        videoId: videoId,
         nickname,
         password,
         content,

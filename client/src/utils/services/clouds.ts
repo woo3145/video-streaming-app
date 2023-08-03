@@ -9,12 +9,12 @@ import {
 import { db } from '../firebase';
 
 export const fetchClouds = async (
-  videoTitle: string
+  videoId: number
 ): Promise<ICloudComment[] | null> => {
   try {
     const q = query(
       collection(db, 'clouds'),
-      where('videoTitle', '==', videoTitle),
+      where('videoId', '==', videoId),
       orderBy('createdAt', 'asc')
     );
     const querySnapshot = await getDocs(q);
@@ -36,7 +36,7 @@ export const fetchClouds = async (
 };
 
 export const saveCloud = async ({
-  videoTitle,
+  videoId,
   nickname,
   password,
   content,
@@ -46,7 +46,7 @@ export const saveCloud = async ({
   height,
   time,
 }: {
-  videoTitle: string;
+  videoId: number;
   nickname: string;
   password: string;
   content: string;
@@ -73,7 +73,7 @@ export const saveCloud = async ({
     password,
     content,
     createdAt: new Date(),
-    videoTitle,
+    videoId,
     displaySize: size,
     displayHeight: heights[height],
     displayTime: time,
@@ -85,7 +85,7 @@ export const saveCloud = async ({
     nickname,
     content,
     createdAt: new Date().toISOString(),
-    videoTitle,
+    videoId,
     displaySize: size,
     displayHeight: heights[height],
     displayTime: time,

@@ -27,6 +27,7 @@ const initialInput: CloudInput = {
 const CloudWriter = () => {
   const dispatch = useAppDispatch();
   const currentTime = useAppSelector((state) => state.video.currentTime);
+  const videoId = useAppSelector((state) => state.video.id);
   const [isFormValid, setIsFormValid] = useState(false);
   const [inputs, setInputs] = useState<CloudInput>(initialInput);
 
@@ -36,7 +37,7 @@ const CloudWriter = () => {
 
     try {
       const newComment = await saveCloud({
-        videoTitle: '',
+        videoId: videoId,
         nickname,
         password,
         content,
@@ -116,7 +117,6 @@ const CloudWriter = () => {
               { value: 'large', label: '크게' },
             ]}
             onChange={handleInput}
-            defaultValue="medium"
             value={inputs.size}
           />
           <SelectField
@@ -128,7 +128,6 @@ const CloudWriter = () => {
               // { value: 'fast', label: '빠르게' },
             ]}
             onChange={handleInput}
-            defaultValue="medium"
             value={inputs.speed}
           />
           <SelectField
@@ -140,7 +139,6 @@ const CloudWriter = () => {
               { value: 'low', label: '하 (61% ~ 90%)' },
             ]}
             onChange={handleInput}
-            defaultValue="medium"
             value={inputs.height}
           />
         </div>

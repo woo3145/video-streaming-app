@@ -9,7 +9,6 @@ type SelectProps = {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => void;
-  defaultValue?: string;
   value: string;
 };
 
@@ -18,7 +17,6 @@ const SelectField = ({
   placeholder,
   options,
   onChange,
-  defaultValue,
   value,
 }: SelectProps) => {
   return (
@@ -30,7 +28,6 @@ const SelectField = ({
         name={name}
         id={name}
         onChange={onChange}
-        defaultValue={defaultValue}
         value={value}
         className="w-full py-2 px-2 text-lg border rounded-lg border-purple-600 outline-purple-600"
       >

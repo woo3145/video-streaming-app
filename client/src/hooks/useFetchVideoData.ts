@@ -6,16 +6,17 @@ import { setComments } from '../store/modules/commentsSlice';
 import { setClouds } from '../store/modules/cloudSlice';
 
 /** Video의 댓글과 구름을 요청하고 redux에 저장합니다. */
-const useFetchVideoData = (videoTitle: string) => {
+const useFetchVideoData = (videoId: number | undefined) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (videoId === undefined) return;
     const fetch = async () => {
-      const requsetComments = fetchComments(videoTitle).catch((e) => {
+      const requsetComments = fetchComments(videoId).catch((e) => {
         console.log('Failed to fetch Comments');
         return null;
       });
-      const requestClouds = fetchClouds(videoTitle).catch((e) => {
+      const requestClouds = fetchClouds(videoId).catch((e) => {
         console.log('Failed to fetch Clouds');
         return null;
       });
@@ -32,7 +33,7 @@ const useFetchVideoData = (videoTitle: string) => {
     };
 
     fetch();
-  }, [dispatch, videoTitle]);
+  }, [dispatch, videoId]);
 };
 
 export default useFetchVideoData;

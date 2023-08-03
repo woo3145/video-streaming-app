@@ -1,7 +1,7 @@
 interface IComment {
   id: string;
   createdAt: string;
-  videoTitle: string;
+  videoId: number;
   content: string;
   nickname: string;
 }

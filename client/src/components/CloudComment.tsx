@@ -7,15 +7,16 @@ interface Props {
 
 const CloudComment = React.memo(({ cloudComment, left }: Props) => {
   const { id, content, displaySize, displayHeight } = cloudComment;
+
   const sizes = {
-    small: 16,
-    medium: 20,
-    large: 24,
+    small: 20,
+    medium: 28,
+    large: 36,
   };
   return (
     <div
       key={id}
-      className="text-white font-bold"
+      className={`text-white font-bold`}
       style={{
         fontSize: sizes[displaySize],
         position: 'absolute',

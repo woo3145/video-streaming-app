@@ -9,12 +9,12 @@ import {
 import { db } from '../firebase';
 
 export const fetchComments = async (
-  videoTitle: string
+  videoId: number
 ): Promise<IComment[] | null> => {
   try {
     const q = query(
       collection(db, 'comments'),
-      where('videoTitle', '==', videoTitle),
+      where('videoId', '==', videoId),
       orderBy('createdAt', 'asc')
     );
     const querySnapshot = await getDocs(q);
@@ -36,12 +36,12 @@ export const fetchComments = async (
 };
 
 export const saveComment = async ({
-  videoTitle,
+  videoId,
   nickname,
   password,
   content,
 }: {
-  videoTitle: string;
+  videoId: number;
   nickname: string;
   password: string;
   content: string;
@@ -55,7 +55,7 @@ export const saveComment = async ({
     password,
     content,
     createdAt: new Date(),
-    videoTitle,
+    videoId,
   });
 
   const newComment = {
@@ -63,7 +63,7 @@ export const saveComment = async ({
     nickname,
     content,
     createdAt: new Date().toISOString(),
-    videoTitle,
+    videoId,
   } as IComment;
 
   return newComment;

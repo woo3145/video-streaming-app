@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMockVideo } from '../hooks/useMockVideo';
 import { useAppDispatch } from '../store/store';
-import { setVideoSrc } from '../store/modules/videoSlice';
+import { setVideoId, setVideoSrc } from '../store/modules/videoSlice';
 import VideoPlayer from '../components/VideoPlayer';
 import VideoMetadata from '../components/VideoMetadata';
 import CloudCommentOverlay from '../components/CloudCommentOverlay';
@@ -20,9 +20,12 @@ const Watch = () => {
     if (video?.src) {
       dispatch(setVideoSrc(video.src));
     }
-  }, [dispatch, video?.src]);
+    if (video?.id) {
+      dispatch(setVideoId(video.id));
+    }
+  }, [dispatch, video]);
 
-  useFetchVideoData('');
+  useFetchVideoData(video?.id);
 
   return (
     <div>
