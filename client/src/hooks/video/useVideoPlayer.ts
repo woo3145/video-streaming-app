@@ -9,11 +9,25 @@ import {
   setVideoSize,
 } from '../../store/modules/videoSlice';
 
-const useVideoPlayer = (videoRef: RefObject<HTMLVideoElement>, src: string) => {
+const useVideoPlayer = (
+  videoRef: RefObject<HTMLVideoElement>,
+  videoId: number,
+  videoQuality: 'low' | 'medium' | 'high'
+) => {
+  const videoSrc = `http://localhost:4000/videos/${videoQuality}/${videoId}`;
+
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false); // 비디오 로딩중 or 버퍼링중 상태
 
   const rafRef = useRef<number | null>(null); // currentTime을 업데이트 하는 requestAnimationFrame의 참조
+  const [currentPosition, setCurrentPosition] = useState(0); // 비디오의 품질이 변경 될 경우 상태 유지
+
+  useEffect(() => {
+    if (videoRef.current) {
+      // 비디오 재생위치 저장해놓기
+      setCurrentPosition(videoRef.current.currentTime);
+    }
+  }, [videoQuality, videoRef]);
 
   // 동영상의 currentTime을 리덕스에 저장하는 함수
   const updateProgress = useCallback(() => {
@@ -34,7 +48,10 @@ const useVideoPlayer = (videoRef: RefObject<HTMLVideoElement>, src: string) => {
     if (!videoElement) return;
     setIsLoading(true); // 비디오 메타데이터가 로드되기 전에 로딩중 표시
 
+    videoElement.currentTime = currentPosition;
+
     // 리덕스 저장: Video Size
+    // 구름 오버레이를 위해 브라우저의 크기에 따른 video태그의 크기를 추적
     const handleVideoResize = () => {
       const { width, height } = videoElement.getBoundingClientRect();
       dispatch(setVideoSize({ width, height }));
@@ -85,9 +102,15 @@ const useVideoPlayer = (videoRef: RefObject<HTMLVideoElement>, src: string) => {
     // 새로고침 시 비디오 로드
     // - 브라우저는 첫 방문때만 웹페이지의 자원을 로드하고 새로고침 시 캐시를 사용하려고 함
     // - 따라서 수동으로 비디오를 로드하거나 video tag에 매번 다른 key값을 할당하면 해결됨
-    if (src) {
-      videoElement.load();
+    // 비디오 로드와 재생
+    if (videoSrc) {
+      videoElement.src = videoSrc;
+      videoElement.play().catch((error) => {
+        // document 첫 로드 시에는 정책으로 인해 play()를 막아둠
+        console.error('Error playing video:', error);
+      });
     }
+
     return () => {
       window.removeEventListener('resize', handleVideoResize);
       videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
@@ -99,7 +122,7 @@ const useVideoPlayer = (videoRef: RefObject<HTMLVideoElement>, src: string) => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     };
-  }, [dispatch, src, updateProgress, videoRef]);
+  }, [dispatch, videoSrc, updateProgress, videoRef, currentPosition]);
 
   // 버퍼링 상태를 저장하는 이벤트 등록
   useEffect(() => {
@@ -121,7 +144,7 @@ const useVideoPlayer = (videoRef: RefObject<HTMLVideoElement>, src: string) => {
     };
   }, [dispatch, videoRef]);
 
-  return { isLoading };
+  return { src: videoSrc, isLoading };
 };
 
 export default useVideoPlayer;
