@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "thumbnail": "node ./scripts/thumbnail.js"
+    "thumbnail": "node ./scripts/thumbnail.js",
+    "encode": "node ./scripts/encodeVideo.js"
   },
   "author": "",
   "license": "ISC",

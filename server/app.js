@@ -42,7 +42,12 @@ app.get('/videos/:quality/:videoId', (req, res) => {
     return res.status(404).send('Not Found');
   }
 
-  const videoPath = path.join(__dirname, 'videos', quality, videoInfo.src);
+  const videoPath = path.join(
+    __dirname,
+    'encodedVideos',
+    quality,
+    videoInfo.src
+  );
   const stat = fs.statSync(videoPath);
   const fileSize = stat.size;
   const range = req.headers.range;
@@ -76,4 +81,8 @@ app.get('/videos/:quality/:videoId', (req, res) => {
     res.writeHead(200, head);
     fs.createReadStream(videoPath).pipe(res);
   }
+});
+
+app.get('/videos', (req, res) => {
+  res.send(videos);
 });
