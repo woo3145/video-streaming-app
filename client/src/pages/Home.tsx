@@ -1,9 +1,9 @@
 import React from 'react';
-import { useMockVideos } from '../hooks/useMockVideos';
 import VideoCard from '../components/VideoCard';
+import useFetchVideos from '../hooks/useFetchVideos';
 
 const Home = () => {
-  const { data } = useMockVideos();
+  const { videos } = useFetchVideos();
 
   return (
     <div className="pt-8">
@@ -11,12 +11,12 @@ const Home = () => {
         className="flex flex-col gap-4
       md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6"
       >
-        {data.map((video, idx) => {
+        {videos.map((video, idx) => {
           return (
             <VideoCard
               key={idx}
               id={video.id.toString()}
-              thumbnailUrl={video.thumbnailUrl}
+              thumbnailUrl={video.thumbnail}
               title={video.title}
             />
           );
