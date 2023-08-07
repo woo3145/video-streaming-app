@@ -32,9 +32,9 @@ const VideoVolumeController = ({ onClickVolume, onClickMute }: Props) => {
   const volumeWidth = `${volume * 100}%`;
 
   return (
-    <div className="group flex items-center">
+    <div className="group flex items-center gap-2">
       <div
-        className="flex items-center justify-center shrink-0 w-8 h-8 text-xl cursor-pointer duration-300 hover:bg-gray-900"
+        className="flex items-center justify-center shrink-0 w-8 h-8 rounded-md text-xl cursor-pointer duration-300 hover:bg-gray-700"
         onClick={onClickMuteHandler}
       >
         {isMuted ? <BsVolumeMuteFill /> : <BsVolumeUpFill />}

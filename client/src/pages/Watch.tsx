@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useMockVideo } from '../hooks/useMockVideo';
 import { useAppDispatch } from '../store/store';
 import { setVideoId, setVideoSrc } from '../store/modules/videoSlice';
 import VideoPlayer from '../components/VideoPlayer';
@@ -8,10 +7,20 @@ import VideoMetadata from '../components/VideoMetadata';
 import CloudCommentOverlay from '../components/CloudCommentOverlay';
 import CommentsSection from '../components/CommentsSection/CommentsSection';
 import useFetchVideoData from '../hooks/useFetchVideoData';
+import useFetchVideos from '../hooks/useFetchVideos';
 
 const Watch = () => {
   const { videoId } = useParams();
-  const { data: video } = useMockVideo(videoId);
+  const { videos } = useFetchVideos();
+  const video = useMemo(() => {
+    const filteredVideo = videos.filter(
+      (v) => v.id === parseInt(videoId || '')
+    );
+    if (!filteredVideo.length) {
+      return null;
+    }
+    return filteredVideo[0];
+  }, [videos, videoId]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const dispatch = useAppDispatch();
 
@@ -26,6 +35,10 @@ const Watch = () => {
   }, [dispatch, video]);
 
   useFetchVideoData(video?.id);
+
+  if (!video) {
+    return <div>Not Found</div>;
+  }
 
   return (
     <div>

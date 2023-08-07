@@ -5,6 +5,7 @@ import pageSizeSlice from './modules/pageSizeSlice';
 import videoSlice from './modules/videoSlice';
 import commentsSlice from './modules/commentsSlice';
 import cloudSlice from './modules/cloudSlice';
+import videoQualitySlice from './modules/videoQualitySlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     pageSize: pageSizeSlice,
     comments: commentsSlice,
     clouds: cloudSlice,
+    videoQuality: videoQualitySlice,
   },
 });
 

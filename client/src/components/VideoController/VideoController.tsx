@@ -5,6 +5,7 @@ import VideoVolumeController from './VideoVolumeController';
 import VideoFullscreenButton from './VideoFullScreenButton';
 import VideoTimeDisplay from './VideoTimeDisplay';
 import { useVideoController } from '../../hooks/video/useVideoController';
+import VideoQualityButton from './VideoQualityButton';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;
@@ -26,7 +27,10 @@ const VideoController = ({ videoRef }: Props) => {
           />
           <VideoTimeDisplay />
         </div>
-        <VideoFullscreenButton videoRef={videoRef} />
+        <div className="flex items-center gap-2">
+          <VideoQualityButton />
+          <VideoFullscreenButton videoRef={videoRef} />
+        </div>
       </div>
     </div>
   );

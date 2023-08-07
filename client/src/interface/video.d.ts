@@ -7,3 +7,5 @@ interface IVideo {
 interface IVideoWithThumbnail extends IVideo {
   thumbnail: string;
 }
+
+type TVideoQuality = 'low' | 'medium' | 'high';
