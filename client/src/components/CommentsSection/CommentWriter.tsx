@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import InputField from '../atoms/InputField';
 import { saveComment } from '../../utils/services/comments';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { addComment } from '../../store/modules/commentsSlice';
 import { Button } from '../atoms/Button';
 import { TextInputField } from '../atoms/TextInputField';
+import { TextAreaField } from '../atoms/TextAreaField';
 
 interface CommentInput {
   nickname: string;
@@ -84,13 +84,13 @@ const CommentWriter = () => {
             value={inputs.password}
           />
         </div>
-        <InputField
+        <TextAreaField
           name="content"
-          label="내용"
+          label="내용 *"
           required
-          type="textarea"
-          minLength={0}
-          maxLength={200}
+          minLength={2}
+          maxLength={20}
+          placeholder="2 - 20글자"
           onChange={handleInput}
           value={inputs.content}
         />

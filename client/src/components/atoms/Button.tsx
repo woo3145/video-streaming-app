@@ -3,18 +3,25 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from 'src/utils/twUtils';
 
 const buttonVariants = cva(
-  // Layout & Position & Size
-  'flex items-center justify-center ' +
+  [
+    // Layout & Position & Size
+    'flex items-center justify-center',
     // Border & Shape
-    'ring-offset-background ' +
+    'ring-offset-background',
     // Background
-    'rounded-md ' +
+    'rounded-md',
     // Text
-    'text-sm font-medium ' +
+    'text-sm font-medium',
     // Interaction
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ' +
+    [
+      // 탭키로 포커스 되었을때
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+      // disabled 상태일때
+      'disabled:pointer-events-none disabled:opacity-50',
+    ],
     // Transition
     'transition-colors',
+  ],
   {
     variants: {
       variant: {
@@ -64,4 +71,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 Button.displayName = 'Button';
 
-export { Button, buttonVariants };
+export { Button };

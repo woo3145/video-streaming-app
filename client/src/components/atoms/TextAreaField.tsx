@@ -33,14 +33,18 @@ const labelVariants = cva(
   }
 );
 
-const inputVariants = cva(
+const textareaVariants = cva(
   [
     // Layout & Position & Size
-    'py-2 px-4 w-full',
+    'flex min-h-[80px] w-full px-4 py-2',
     // Border & Shape
-    'border outline-primary rounded-md',
+    'border border-input outline-primary rounded-md',
+    // Background
+    'bg-background',
+    // Text
+    'text-base font-sans',
     // Interaction
-    'peer',
+    'peer resize-none',
   ],
   {
     variants: {
@@ -61,16 +65,16 @@ const inputVariants = cva(
 );
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+  extends React.InputHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
 }
 
-const TextInputField = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, onChange, ...props }, ref) => {
+const TextAreaField = React.forwardRef<HTMLTextAreaElement, InputProps>(
+  ({ className, label, onChange, ...props }, ref) => {
     // label
     const [isValid, setIsValid] = React.useState(false);
     const [isEmpty, setIsEmpty] = React.useState(true);
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const { value, validity } = e.target;
       if (value === '') {
         setIsValid(true);
@@ -84,10 +88,9 @@ const TextInputField = React.forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className="relative flex items-center w-full">
-        <input
-          type={type}
+        <textarea
           onChange={handleInput}
-          className={cn(inputVariants({ isValid, isEmpty, className }))}
+          className={cn(textareaVariants({ isValid, isEmpty, className }))}
           ref={ref}
           {...props}
         />
@@ -100,6 +103,6 @@ const TextInputField = React.forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
-TextInputField.displayName = 'TextInputField';
+TextAreaField.displayName = 'TextAreaInputField';
 
-export { TextInputField };
+export { TextAreaField };
