@@ -1,10 +1,11 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import InputField from '../atoms/InputField';
-import SubmitButton from '../atoms/SubmitButton';
 import SelectField from '../atoms/SelectField';
 import { saveCloud } from '../../utils/services/clouds';
 import { addCloud } from '../../store/modules/cloudSlice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
+import { Button } from '../atoms/Button';
+import { TextInputField } from '../atoms/TextInputField';
 
 interface CloudInput {
   nickname: string;
@@ -77,24 +78,23 @@ const CloudWriter = () => {
         onInput={handleValidation}
       >
         <div className="w-full flex gap-4">
-          <InputField
+          <TextInputField
             name="nickname"
-            label="닉네임"
+            label="닉네임 *"
             required
             minLength={2}
             maxLength={10}
+            placeholder="2 - 10글자"
             onChange={handleInput}
             value={inputs.nickname}
           />
-          <InputField
-            name="password"
-            label="비밀번호"
-            required
+          <TextInputField
             type="password"
+            name="password2"
+            placeholder="5 - 16글자"
+            label="비밀번호 *"
             minLength={5}
             maxLength={16}
-            onChange={handleInput}
-            value={inputs.password}
           />
         </div>
         <InputField
@@ -142,7 +142,9 @@ const CloudWriter = () => {
             value={inputs.height}
           />
         </div>
-        <SubmitButton isValid={isFormValid} text="구름작성" />
+        <Button variant="default" disabled={!isFormValid} size="lg" fullWidth>
+          구름 작성
+        </Button>
       </form>
     </div>
   );

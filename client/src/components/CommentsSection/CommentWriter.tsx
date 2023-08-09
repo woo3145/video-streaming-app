@@ -1,9 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import InputField from '../atoms/InputField';
-import SubmitButton from '../atoms/SubmitButton';
 import { saveComment } from '../../utils/services/comments';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { addComment } from '../../store/modules/commentsSlice';
+import { Button } from '../atoms/Button';
+import { TextInputField } from '../atoms/TextInputField';
 
 interface CommentInput {
   nickname: string;
@@ -61,22 +62,24 @@ const CommentWriter = () => {
         onInput={handleValidation}
       >
         <div className="w-full flex gap-4">
-          <InputField
+          <TextInputField
             name="nickname"
-            label="닉네임"
+            label="닉네임 *"
             required
             minLength={2}
             maxLength={10}
+            placeholder="2 - 10글자"
             onChange={handleInput}
             value={inputs.nickname}
           />
-          <InputField
-            name="password"
-            label="비밀번호"
-            required
+          <TextInputField
             type="password"
-            minLength={5}
+            name="password"
+            label="비밀번호 *"
+            required
+            minLength={2}
             maxLength={16}
+            placeholder="2 - 16글자"
             onChange={handleInput}
             value={inputs.password}
           />
@@ -91,7 +94,9 @@ const CommentWriter = () => {
           onChange={handleInput}
           value={inputs.content}
         />
-        <SubmitButton isValid={isFormValid} text="댓글작성" />
+        <Button variant="default" disabled={!isFormValid} size="lg" fullWidth>
+          댓글 작성
+        </Button>
       </form>
     </div>
   );
