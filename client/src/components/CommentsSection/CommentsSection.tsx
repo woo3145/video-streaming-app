@@ -1,33 +1,30 @@
-import { RefObject, useState } from 'react';
-import CommentTabs from './CommentTab';
+import { RefObject } from 'react';
 import CommentList from './CommentList';
 import CloudCommentList from './CloudCommentList';
-import { useVideoSeek } from '../../hooks/video/useVideoSeek';
 import CommentWriter from './CommentWriter';
 import CloudWriter from './CloudWriter';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/Tabs';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;
 }
 
-export type CommentTabType = 'Comment' | 'Cloud';
-
 const CommentsSection = ({ videoRef }: Props) => {
-  const [tab, setTab] = useState<CommentTabType>('Cloud');
-  const { setCurrentVideoTime } = useVideoSeek(videoRef);
-
   return (
-    <div>
-      <CommentTabs tab={tab} setTab={setTab} />
-      <div>{tab === 'Comment' && <CommentWriter />}</div>
-      <div>{tab === 'Cloud' && <CloudWriter />}</div>
-      <div>
-        {tab === 'Comment' && <CommentList />}
-        {tab === 'Cloud' && (
-          <CloudCommentList setCurrentVideoTime={setCurrentVideoTime} />
-        )}
-      </div>
-    </div>
+    <Tabs defaultValue="cloud" className="">
+      <TabsList className="flex items-center justify-center">
+        <TabsTrigger value="comment">💬 댓글</TabsTrigger>
+        <TabsTrigger value="cloud">☁️ 구름</TabsTrigger>
+      </TabsList>
+      <TabsContent value="comment">
+        <CommentWriter />
+        <CommentList />
+      </TabsContent>
+      <TabsContent value="cloud">
+        <CloudWriter />
+        <CloudCommentList videoRef={videoRef} />
+      </TabsContent>
+    </Tabs>
   );
 };
 
