@@ -17,7 +17,10 @@ const Controller = ({ videoRef }: Props) => {
 
   return (
     <div className="absolute bottom-0 left-0 flex flex-col w-full text-white">
-      <ProgressBar onClick={setCurrentVideoTime} />
+      <ProgressBar
+        onClick={setCurrentVideoTime}
+        togglePlayPause={togglePlayPause}
+      />
       <div className="flex items-center justify-between py-1 px-2">
         <div className="flex items-center gap-2">
           <PlayButton onClick={togglePlayPause} />
