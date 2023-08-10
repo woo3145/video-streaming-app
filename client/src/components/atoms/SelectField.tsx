@@ -69,9 +69,7 @@ interface FieldLabelProps {
 //** 필드위에 표시 할 label을 렌더링함 */
 const FieldLabel = ({ children, className }: FieldLabelProps) => {
   return (
-    <p className={cn('text-sm text-secondary-foreground/50', className)}>
-      {children}
-    </p>
+    <p className={cn('text-sm text-foreground/50', className)}>{children}</p>
   );
 };
 
@@ -96,7 +94,7 @@ const SelectTrigger = ({ children, className }: SelectTriggerProps) => {
       type="button"
       onClick={handleClick}
       className={cn(
-        'flex items-center justify-between px-4 py-2 border border-input rounded-md outline-primary outline-1 text-base hover:border-primary focus:border-primary focus:outline',
+        'flex items-center justify-between px-4 py-2 border border-input rounded-md text-base hover:border-primary focus:border-primary focus:ring-1 ring-ring',
         value && 'border-primary',
         className
       )}
@@ -119,7 +117,9 @@ const SelectValue = ({ placeholder }: SelectValueProps) => {
   const { selectedItemLabel } = selectContext;
 
   return (
-    <span className={cn(!selectedItemLabel && 'text-secondary-foreground/50')}>
+    <span
+      className={cn(selectedItemLabel ? '' : 'text-secondary-foreground/50')}
+    >
       {selectedItemLabel || placeholder}
     </span>
   );
@@ -140,7 +140,7 @@ const SelectContent = ({ children }: SelectContentProps) => {
 
   return isOpen ? (
     <div
-      className="absolute z-10 left-0 mt-2 w-full rounded-md shadow-lg bg-white"
+      className="absolute z-10 left-0 mt-2 w-full rounded-md border shadow-lg bg-popover text-popover-foreground"
       ref={selectRef}
     >
       {children}
@@ -173,7 +173,7 @@ const SelectItem = ({ children, value }: SelectItemProps) => {
 
   return (
     <div
-      className="py-2 px-4 text-base hover:bg-gray-200 cursor-pointer"
+      className="py-2 px-4 text-sm hover:bg-accent hover:text-accent-foreground cursor-pointer"
       onClick={handleClick}
     >
       {children ? children : value}

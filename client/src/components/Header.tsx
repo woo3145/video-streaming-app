@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import DarkModeToggle from './DarkModeToggle';
 
 const Logo = () => {
   return (
@@ -11,11 +12,12 @@ const Logo = () => {
 const Header = () => {
   return (
     <>
-      <div className="fixed top-0 w-full bg-white z-40">
+      <header className="fixed top-0 w-full border-b z-40 bg-background">
         <div className="flex items-center justify-between w-full h-16 px-4">
           <Logo />
+          <DarkModeToggle />
         </div>
-      </div>
+      </header>
       <div className="h-16" />
     </>
   );

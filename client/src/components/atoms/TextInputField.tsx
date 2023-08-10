@@ -7,23 +7,23 @@ const labelVariants = cva(
     // Layout & Position & Size
     'absolute top-2 left-4',
     // Background
-    'bg-white',
+    'bg-input',
     // Text
-    'peer-placeholder-shown:text-secondary-foreground/50',
+    'peer-placeholder-shown:text-foreground/50',
     // Interaction
     'pointer-events-none',
     // Transition
-    'duration-200',
+    'duration-200 transition-transform',
   ],
   {
     variants: {
       isValid: {
         false: 'text-destructive',
-        true: 'text-primary',
+        true: 'text-primary dark:text-foreground',
       },
       isEmpty: {
-        false: 'w-auto text-xs -translate-y-4',
-        true: 'w-4/5 text-base translate-y-0 peer-focus:w-auto peer-focus:text-primary peer-focus:text-xs peer-focus:-translate-y-4',
+        false: 'w-auto bg-inherit text-xs -translate-y-5',
+        true: 'w-4/5 text-base translate-y-0 peer-focus:w-auto peer-focus:bg-inherit peer-focus:text-primary peer-focus:dark:text-foreground peer-focus:text-xs peer-focus:-translate-y-5',
       },
     },
     defaultVariants: {
@@ -38,19 +38,21 @@ const inputVariants = cva(
     // Layout & Position & Size
     'py-2 px-4 w-full',
     // Border & Shape
-    'border outline-primary rounded-md',
+    'border focus:outline-none focus:ring-1 ring-ring rounded-md',
+    // Background
+    'bg-input',
     // Interaction
     'peer',
   ],
   {
     variants: {
       isValid: {
-        false: 'outline-destructive border-destructive',
-        true: 'border-primary',
+        false: 'border-destructive ring-destructive',
+        true: 'border-primary dark:border-primary/80',
       },
       isEmpty: {
         false: '',
-        true: 'outline-primary border-input text-secondary-foreground',
+        true: 'border-input focus:border focus:border-primary focus:ring-1 focus:ring-ring text-secondary-foreground',
       },
     },
     defaultVariants: {
