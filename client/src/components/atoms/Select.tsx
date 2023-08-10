@@ -10,6 +10,7 @@ import {
 } from 'react';
 import { cn } from 'src/utils/twUtils';
 import { BiChevronDown } from 'react-icons/bi';
+import { useOnClickOutside } from 'src/hooks/useOnClickOutside';
 
 interface SelectContextProps {
   isOpen: boolean;
@@ -51,7 +52,9 @@ const Select = ({ children, value, onChange, ...props }: SelectProps) => {
   );
 
   // Ref가 아닌 요소 클릭 시 드롭다운 닫기위한 이벤트 등록
-  // 예정
+  useOnClickOutside(selectRef, () => {
+    setIsOpen(false);
+  });
 
   return (
     <SelectContext.Provider value={contextValue}>
