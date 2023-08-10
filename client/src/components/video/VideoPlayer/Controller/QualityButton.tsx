@@ -14,7 +14,7 @@ const QualityButton = () => {
   return (
     <div
       onClick={() => {}}
-      className="flex items-center justify-center py-2 px-4 rounded-md text-md cursor-pointer duration-300 hover:bg-gray-700"
+      className="flex items-center justify-center py-2 px-4 text-sm font-bold rounded-md text-md cursor-pointer duration-300 hover:bg-accent hover:text-accent-foreground"
     >
       {text[quality]}
     </div>

@@ -74,7 +74,7 @@ const VolumeController = ({ onClickVolume, onClickMute }: Props) => {
   return (
     <div className="group flex items-center">
       <div
-        className="flex items-center justify-center shrink-0 w-8 h-8 rounded-md text-xl cursor-pointer hover:bg-background/50 duration-300"
+        className="flex items-center justify-center shrink-0 w-8 h-8 rounded-md text-xl cursor-pointer hover:bg-accent hover:text-accent-foreground duration-300"
         onClick={onClickMuteHandler}
       >
         {isMuted || volume === 0 ? <BsVolumeMuteFill /> : <BsVolumeUpFill />}
@@ -83,15 +83,16 @@ const VolumeController = ({ onClickVolume, onClickMute }: Props) => {
       {/* 호버시 볼륨 슬라이드 보임 */}
       <div
         className={cn(
-          'relative w-0 h-1 bg-gray-300 rounded-lg cursor-pointer group-hover:w-24 group-hover:mx-4 duration-200',
+          'relative flex items-center w-0 h-8 cursor-pointer group-hover:w-24 group-hover:mx-4 duration-200',
           isDragging && 'w-24 mx-4'
         )}
         ref={progressBarRef}
         onMouseDown={mouseDownHandler}
       >
+        <div className="absolute left-0 w-full h-1 bg-white rounded-full" />
         <div
           style={{ width: isMuted ? 0 : volumeWidth }}
-          className="absolute top-0 left-0 h-1 bg-primary rounded-full"
+          className="absolute left-0 h-1 bg-primary rounded-full"
         />
         <div
           style={{

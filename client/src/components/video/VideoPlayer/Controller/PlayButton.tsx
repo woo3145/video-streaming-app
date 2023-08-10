@@ -18,7 +18,7 @@ const PlayButton = ({ onClick }: Props) => {
   return (
     <div
       onClick={onClickHandler}
-      className="flex items-center justify-center w-8 h-8 rounded-md text-xl cursor-pointer duration-300 hover:bg-gray-700"
+      className="flex items-center justify-center w-8 h-8 rounded-md text-xl cursor-pointer duration-300 hover:bg-accent hover:text-accent-foreground"
     >
       {isPlaying ? <BsPauseFill /> : <BsFillPlayFill />}
     </div>

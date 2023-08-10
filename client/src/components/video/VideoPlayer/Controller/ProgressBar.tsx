@@ -77,14 +77,14 @@ const ProgressBar = ({ onClick, togglePlayPause }: Props) => {
 
   return (
     <div
-      className="relative w-full h-2 bg-gray-700 cursor-pointer"
+      className="relative w-full h-2 bg-white/20 cursor-pointer"
       ref={progressBarRef}
       onMouseDown={mouseDownHandler}
     >
       <VideoBufferedBar />
       <div
         style={{ width: `${(currentTime / duration) * 100}%` }}
-        className="absolute top-0 left-0 h-2 bg-purple-500"
+        className="absolute top-0 left-0 h-2 bg-primary"
       />
     </div>
   );

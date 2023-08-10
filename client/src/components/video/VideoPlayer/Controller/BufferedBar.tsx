@@ -21,7 +21,7 @@ const BufferedBar = () => {
               left: `${startPosition}%`,
               width: `${width}%`,
             }}
-            className="absolute top-0 h-2 bg-gray-500  "
+            className="absolute top-0 h-2 bg-white/40"
           />
         );
       })}
