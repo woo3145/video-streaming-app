@@ -1,14 +1,14 @@
 import { MouseEvent, useCallback } from 'react';
 import { BsVolumeMuteFill, BsVolumeUpFill } from 'react-icons/bs';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import { setIsMuted } from '../../store/modules/videoSlice';
+import { useAppDispatch, useAppSelector } from '../../../../store/store';
+import { setIsMuted } from '../../../../store/modules/videoSlice';
 
 interface Props {
   onClickVolume: (newVolume: number) => void;
   onClickMute: (isMuted: boolean) => void;
 }
 
-const VideoVolumeController = ({ onClickVolume, onClickMute }: Props) => {
+const VolumeController = ({ onClickVolume, onClickMute }: Props) => {
   const { volume, isMuted } = useAppSelector((state) => state.video);
   const dispatch = useAppDispatch();
 
@@ -54,4 +54,4 @@ const VideoVolumeController = ({ onClickVolume, onClickMute }: Props) => {
   );
 };
 
-export default VideoVolumeController;
+export default VolumeController;

@@ -1,12 +1,12 @@
 import { MouseEvent, useCallback } from 'react';
-import { useAppSelector } from '../../store/store';
-import VideoBufferedBar from './VideoBufferedBar';
+import { useAppSelector } from '../../../../store/store';
+import VideoBufferedBar from './BufferedBar';
 
 interface Props {
   onClick: (time: number) => void;
 }
 
-const VideoProgressBar = ({ onClick }: Props) => {
+const ProgressBar = ({ onClick }: Props) => {
   const { duration, currentTime } = useAppSelector((state) => state.video);
 
   // 클릭한 지점을 계산하여 외부에서 들어온 onClick 함수에 계산된 newTime값으로 콜백
@@ -39,4 +39,4 @@ const VideoProgressBar = ({ onClick }: Props) => {
   );
 };
 
-export default VideoProgressBar;
+export default ProgressBar;

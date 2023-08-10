@@ -1,6 +1,6 @@
-import { useAppSelector } from '../../store/store';
+import { useAppSelector } from '../../../../store/store';
 
-const VideoBufferedBar = () => {
+const BufferedBar = () => {
   const { bufferedRanges, duration, currentTime } = useAppSelector(
     (state) => state.video
   );
@@ -29,4 +29,4 @@ const VideoBufferedBar = () => {
   );
 };
 
-export default VideoBufferedBar;
+export default BufferedBar;

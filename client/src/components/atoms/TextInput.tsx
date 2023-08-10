@@ -33,18 +33,16 @@ const labelVariants = cva(
   }
 );
 
-const textareaVariants = cva(
+const inputVariants = cva(
   [
     // Layout & Position & Size
-    'flex min-h-[80px] w-full px-4 py-2',
+    'py-2 px-4 w-full',
     // Border & Shape
     'border focus:outline-none focus:ring-1 ring-ring rounded-md',
     // Background
     'bg-input',
-    // Text
-    'text-base font-sans',
     // Interaction
-    'peer resize-none',
+    'peer',
   ],
   {
     variants: {
@@ -65,16 +63,16 @@ const textareaVariants = cva(
 );
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLTextAreaElement> {
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
-const TextAreaField = React.forwardRef<HTMLTextAreaElement, InputProps>(
-  ({ className, label, onChange, ...props }, ref) => {
+const TextInput = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, label, onChange, ...props }, ref) => {
     // label
     const [isValid, setIsValid] = React.useState(false);
     const [isEmpty, setIsEmpty] = React.useState(true);
-    const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value, validity } = e.target;
       if (value === '') {
         setIsValid(true);
@@ -88,9 +86,10 @@ const TextAreaField = React.forwardRef<HTMLTextAreaElement, InputProps>(
 
     return (
       <div className="relative flex items-center w-full">
-        <textarea
+        <input
+          type={type}
           onChange={handleInput}
-          className={cn(textareaVariants({ isValid, isEmpty, className }))}
+          className={cn(inputVariants({ isValid, isEmpty, className }))}
           ref={ref}
           {...props}
         />
@@ -103,6 +102,6 @@ const TextAreaField = React.forwardRef<HTMLTextAreaElement, InputProps>(
     );
   }
 );
-TextAreaField.displayName = 'TextAreaInputField';
+TextInput.displayName = 'TextInput';
 
-export { TextAreaField };
+export { TextInput };

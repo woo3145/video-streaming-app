@@ -6,7 +6,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from './router';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-import PageSizeListener from './components/PageSizeListener';
+import PageSizeListener from './components/layouts/PageSizeListener';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

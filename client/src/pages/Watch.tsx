@@ -2,12 +2,12 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../store/store';
 import { setVideoId, setVideoSrc } from '../store/modules/videoSlice';
-import VideoPlayer from '../components/VideoPlayer';
-import VideoMetadata from '../components/VideoMetadata';
-import CloudCommentOverlay from '../components/CloudCommentOverlay';
-import CommentsSection from '../components/CommentsSection/CommentsSection';
+import Player from '../components/video/VideoPlayer/Player';
+import Metadata from '../components/video/VideoPlayer/Metadata';
+import CommentTabs from '../components/video/CommentTabs/CommentTabs';
 import useFetchVideoData from '../hooks/useFetchVideoData';
 import useFetchVideos from '../hooks/useFetchVideos';
+import CloudOverlay from 'src/components/cloudOverlay/CloudOverlay';
 
 const Watch = () => {
   const { videoId } = useParams();
@@ -46,16 +46,16 @@ const Watch = () => {
         {/* Left */}
         <div className="w-full">
           <div className="relative overflow-hidden">
-            <VideoPlayer videoRef={videoRef} />
+            <Player videoRef={videoRef} />
             {/* Overlay */}
-            <CloudCommentOverlay />
+            <CloudOverlay />
           </div>
-          <VideoMetadata title={video?.title || ''} />
+          <Metadata title={video?.title || ''} />
         </div>
 
         {/* Right */}
         <div className="w-full h-auto 2xl:w-[600px] shrink-0 border rounded-lg">
-          <CommentsSection videoRef={videoRef} />
+          <CommentTabs videoRef={videoRef} />
         </div>
       </div>
     </div>

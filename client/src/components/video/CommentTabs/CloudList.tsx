@@ -1,12 +1,12 @@
 import { RefObject } from 'react';
-import { useAppSelector } from '../../store/store';
+import { useAppSelector } from '../../../store/store';
 import { useVideoSeek } from 'src/hooks/video/useVideoSeek';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;
 }
 
-const CloudCommentList = ({ videoRef }: Props) => {
+const CloudList = ({ videoRef }: Props) => {
   const { setCurrentVideoTime } = useVideoSeek(videoRef);
   const { clouds } = useAppSelector((state) => state.clouds);
 
@@ -27,4 +27,4 @@ const CloudCommentList = ({ videoRef }: Props) => {
   );
 };
 
-export default CloudCommentList;
+export default CloudList;

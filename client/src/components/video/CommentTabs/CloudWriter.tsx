@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { saveCloud } from '../../utils/services/clouds';
-import { addCloud } from '../../store/modules/cloudSlice';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import { Button } from '../atoms/Button';
-import { TextInputField } from '../atoms/TextInputField';
-import { TextAreaField } from '../atoms/TextAreaField';
+import { saveCloud } from '../../../utils/services/clouds';
+import { addCloud } from '../../../store/modules/cloudSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/store';
+import { Button } from '../../atoms/Button';
+import { TextInput } from '../../atoms/TextInput';
+import { TextArea } from '../../atoms/TextArea';
 import {
   FieldLabel,
   Select,
@@ -12,7 +12,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../atoms/SelectField';
+} from '../../atoms/Select';
 
 interface CloudInput {
   nickname: string;
@@ -96,7 +96,7 @@ const CloudWriter = () => {
         onInput={handleValidation}
       >
         <div className="w-full flex gap-4">
-          <TextInputField
+          <TextInput
             name="nickname"
             label="닉네임 *"
             required
@@ -106,7 +106,7 @@ const CloudWriter = () => {
             onChange={handleInput}
             value={inputs.nickname}
           />
-          <TextInputField
+          <TextInput
             type="password"
             name="password"
             label="비밀번호 *"
@@ -118,7 +118,7 @@ const CloudWriter = () => {
             value={inputs.password}
           />
         </div>
-        <TextAreaField
+        <TextArea
           name="content"
           label="내용 *"
           required

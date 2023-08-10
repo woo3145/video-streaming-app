@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button } from './atoms/Button';
+import { Button } from '../atoms/Button';
 import { BsMoon, BsSun } from 'react-icons/bs';
 
 const DarkModeToggle = () => {

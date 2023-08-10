@@ -1,7 +1,7 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/store';
+import { useAppDispatch, useAppSelector } from '../../../../store/store';
 
-const VideoQualityButton = () => {
+const QualityButton = () => {
   const dispatch = useAppDispatch();
   const quality = useAppSelector((state) => state.videoQuality.quality);
 
@@ -21,4 +21,4 @@ const VideoQualityButton = () => {
   );
 };
 
-export default VideoQualityButton;
+export default QualityButton;

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import { useAppSelector } from '../../store/store';
+import { useAppSelector } from '../../../../store/store';
 
-const VideoTimeDisplay = () => {
+const TimeDisplay = () => {
   const { duration, currentTime } = useAppSelector((state) => state.video);
 
   const format = useCallback((time: number) => {
@@ -18,4 +18,4 @@ const VideoTimeDisplay = () => {
   );
 };
 
-export default VideoTimeDisplay;
+export default TimeDisplay;

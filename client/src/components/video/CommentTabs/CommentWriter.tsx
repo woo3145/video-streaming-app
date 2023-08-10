@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { saveComment } from '../../utils/services/comments';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import { addComment } from '../../store/modules/commentsSlice';
-import { Button } from '../atoms/Button';
-import { TextInputField } from '../atoms/TextInputField';
-import { TextAreaField } from '../atoms/TextAreaField';
+import { saveComment } from '../../../utils/services/comments';
+import { useAppDispatch, useAppSelector } from '../../../store/store';
+import { addComment } from '../../../store/modules/commentsSlice';
+import { Button } from '../../atoms/Button';
+import { TextInput } from '../../atoms/TextInput';
+import { TextArea } from '../../atoms/TextArea';
 
 interface CommentInput {
   nickname: string;
@@ -62,7 +62,7 @@ const CommentWriter = () => {
         onInput={handleValidation}
       >
         <div className="w-full flex gap-4">
-          <TextInputField
+          <TextInput
             name="nickname"
             label="닉네임 *"
             required
@@ -72,7 +72,7 @@ const CommentWriter = () => {
             onChange={handleInput}
             value={inputs.nickname}
           />
-          <TextInputField
+          <TextInput
             type="password"
             name="password"
             label="비밀번호 *"
@@ -84,7 +84,7 @@ const CommentWriter = () => {
             value={inputs.password}
           />
         </div>
-        <TextAreaField
+        <TextArea
           name="content"
           label="내용 *"
           required

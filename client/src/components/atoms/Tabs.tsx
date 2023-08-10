@@ -29,7 +29,7 @@ interface TabsListProps {
   className?: string;
 }
 const TabsList = ({ children, className }: TabsListProps) => (
-  <div className={cn(className)}>{children}</div>
+  <div className={cn('flex items-center', className)}>{children}</div>
 );
 
 interface TabsTriggerProps {

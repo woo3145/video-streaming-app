@@ -1,13 +1,13 @@
 import { BsFillPlayFill, BsPauseFill } from 'react-icons/bs';
 
-import { setIsPlaying } from '../../store/modules/videoSlice';
-import { useAppDispatch, useAppSelector } from '../../store/store';
+import { setIsPlaying } from '../../../../store/modules/videoSlice';
+import { useAppDispatch, useAppSelector } from '../../../../store/store';
 
 interface Props {
   onClick: (isPlaying: boolean) => void;
 }
 
-const VideoPlayButton = ({ onClick }: Props) => {
+const PlayButton = ({ onClick }: Props) => {
   const dispatch = useAppDispatch();
   const { isPlaying } = useAppSelector((state) => state.video);
 
@@ -25,4 +25,4 @@ const VideoPlayButton = ({ onClick }: Props) => {
   );
 };
 
-export default VideoPlayButton;
+export default PlayButton;

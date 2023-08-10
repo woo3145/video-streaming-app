@@ -5,7 +5,7 @@ interface Props {
   left: string;
 }
 
-const CloudComment = React.memo(({ cloudComment, left }: Props) => {
+const CloudOverlayItem = React.memo(({ cloudComment, left }: Props) => {
   const { id, content, displaySize, displayHeight } = cloudComment;
 
   const sizes = {
@@ -30,4 +30,4 @@ const CloudComment = React.memo(({ cloudComment, left }: Props) => {
   );
 });
 
-export default CloudComment;
+export default CloudOverlayItem;

@@ -10,7 +10,7 @@ interface Props {
   videoRef: MutableRefObject<HTMLVideoElement | null>;
 }
 
-const VideoFullscreenButton = ({ videoRef }: Props) => {
+const FullScreenButton = ({ videoRef }: Props) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   // 풀스크린 토글
@@ -66,4 +66,4 @@ const VideoFullscreenButton = ({ videoRef }: Props) => {
   );
 };
 
-export default VideoFullscreenButton;
+export default FullScreenButton;

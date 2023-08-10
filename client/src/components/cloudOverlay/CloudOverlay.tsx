@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { useAppSelector } from '../store/store';
-import CloudComment from './CloudComment';
+import { useAppSelector } from '../../store/store';
+import CloudOverlayItem from './CloudOverlayItem';
 
-const CloudCommentOverlay = () => {
+const CloudOverlay = () => {
   const { clouds } = useAppSelector((state) => state.clouds);
   const { videoWidth, videoHeight, duration, currentTime } = useAppSelector(
     (state) => state.video
@@ -33,10 +33,10 @@ const CloudCommentOverlay = () => {
         const left = `calc(100% * ${
           cloud.displayTime / duration
         } + ${videoWidth}px)`;
-        return <CloudComment cloudComment={cloud} key={idx} left={left} />;
+        return <CloudOverlayItem cloudComment={cloud} key={idx} left={left} />;
       })}
     </div>
   );
 };
 
-export default CloudCommentOverlay;
+export default CloudOverlay;
