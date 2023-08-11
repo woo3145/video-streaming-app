@@ -34,6 +34,7 @@ const Controller = ({ videoRef }: Props) => {
   const handleControlClick = (event: React.MouseEvent) => {
     event.stopPropagation();
   };
+
   return (
     <div
       className={cn(

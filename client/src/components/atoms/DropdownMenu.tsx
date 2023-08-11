@@ -2,6 +2,7 @@ import React, {
   ReactElement,
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useMemo,
   useRef,
@@ -160,17 +161,28 @@ const DropdownMenuRadioItem = ({
   children,
 }: DropdownMenuRadioItemProps) => {
   const dropdownMenuRadioContext = useContext(DropdownMenuRadioContext);
-  if (!dropdownMenuRadioContext) {
+  const dropdownMenuContext = useContext(DropdownMenuContext);
+  if (!dropdownMenuRadioContext || !dropdownMenuContext) {
     throw new Error(
-      'DropdownMenuRadio 컴포넌트 내부에 위치하고 있지 않습니다.'
+      'dropdownMenu 또는 DropdownMenuRadio 컴포넌트 내부에 위치하고 있지 않습니다.'
     );
   }
   const { value: _value, setValue } = dropdownMenuRadioContext;
+  const { setIsOpen } = dropdownMenuContext;
+
+  // 항목 클릭 시 onChange를 호출하고 선택한 값을 전달 후 드롭다운을 닫음
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      setValue(value);
+      setIsOpen(false);
+    },
+    [setValue, setIsOpen, value]
+  );
 
   const isActive = _value === value;
   return (
     <div
-      onClick={() => setValue(value)}
+      onClick={handleClick}
       className={cn(
         'py-2 px-4 rounded-md text-sm hover:bg-white/20 hover:text-white cursor-pointer',
         isActive && 'bg-white/40 hover:bg-white/40 font-bold',
