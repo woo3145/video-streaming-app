@@ -10,7 +10,7 @@ const useFetchVideoData = (videoId: number | undefined) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (videoId === undefined) return;
+    if (videoId === undefined || videoId === 0) return;
     const fetch = async () => {
       const requsetComments = fetchComments(videoId).catch((e) => {
         console.log('Failed to fetch Comments');

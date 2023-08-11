@@ -1,11 +1,11 @@
 import { RefObject, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { setVolume } from '../../store/modules/videoSlice';
+import { setIsPlaying, setVolume } from '../../store/modules/videoSlice';
 import { useVideoSeek } from '../../hooks/video/useVideoSeek';
 
 export const useVideoController = (videoRef: RefObject<HTMLVideoElement>) => {
   const dispatch = useAppDispatch();
-  const volume = useAppSelector((state) => state.video.volume);
+  const { volume, src } = useAppSelector((state) => state.video);
   const { setCurrentVideoTime } = useVideoSeek(videoRef);
 
   // 비디오 로드 or 리덕스 볼륨 변경 시 비디오 볼륨 조절
@@ -13,7 +13,7 @@ export const useVideoController = (videoRef: RefObject<HTMLVideoElement>) => {
     const videoElement = videoRef.current;
     if (!videoElement) return;
     videoElement.volume = volume;
-  }, [videoRef, volume]);
+  }, [videoRef, volume, src]);
 
   // 볼륨 변경
   const changeVolume = (newVolume: number) => {
@@ -35,9 +35,20 @@ export const useVideoController = (videoRef: RefObject<HTMLVideoElement>) => {
     if (!videoElement) return;
 
     if (isPlaying) {
-      videoElement.play();
-    } else {
+      const playPromise = videoElement.play();
+
+      if (playPromise !== undefined) {
+        playPromise
+          .then((_) => {
+            dispatch(setIsPlaying(true));
+          })
+          .catch((error) => {
+            console.error('Playback error:', error);
+          });
+      }
+    } else if (!isPlaying) {
       videoElement.pause();
+      dispatch(setIsPlaying(false));
     }
   };
 
