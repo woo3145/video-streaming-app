@@ -1,9 +1,8 @@
 import { RefObject } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../store/store';
+import { useAppSelector } from '../../../store/store';
 import Controller from './Controller/Controller';
 import { BeatLoader } from 'react-spinners';
 import useVideoPlayer from '../../../hooks/video/useVideoPlayer';
-import { setVideoQuality } from '../../../store/modules/videoQualitySlice';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;
@@ -12,7 +11,6 @@ interface Props {
 const Player = ({ videoRef }: Props) => {
   const { id: videoId } = useAppSelector((state) => state.video);
   const videoQuality = useAppSelector((state) => state.videoQuality.quality);
-  const dispatch = useAppDispatch();
   const { src, isLoading } = useVideoPlayer(videoRef, videoId, videoQuality);
 
   return (
@@ -37,12 +35,6 @@ const Player = ({ videoRef }: Props) => {
         </div>
         <Controller videoRef={videoRef} />
       </div>
-      {/* 임시 품질 변환 */}
-      <div onClick={() => dispatch(setVideoQuality('low'))}>Change Low</div>
-      <div onClick={() => dispatch(setVideoQuality('medium'))}>
-        Change Medium
-      </div>
-      <div onClick={() => dispatch(setVideoQuality('high'))}>Change High</div>
     </div>
   );
 };

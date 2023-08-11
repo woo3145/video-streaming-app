@@ -1,5 +1,14 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../store/store';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadio,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from 'src/components/atoms/DropdownMenu';
+import { Button } from 'src/components/atoms/Button';
+import { setVideoQuality } from 'src/store/modules/videoQualitySlice';
 
 const QualityButton = () => {
   const dispatch = useAppDispatch();
@@ -12,12 +21,25 @@ const QualityButton = () => {
   };
 
   return (
-    <div
-      onClick={() => {}}
-      className="flex items-center justify-center py-2 px-4 text-sm font-bold rounded-md text-md cursor-pointer duration-300 hover:bg-accent hover:text-accent-foreground"
-    >
-      {text[quality]}
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <Button type="button" variant="ghost">
+          {text[quality]}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-40">
+        <DropdownMenuRadio
+          value={quality}
+          setValue={(value: string) =>
+            dispatch(setVideoQuality(value as TVideoQuality))
+          }
+        >
+          <DropdownMenuRadioItem value="low">320p</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="medium">640p</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="high">720p</DropdownMenuRadioItem>
+        </DropdownMenuRadio>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

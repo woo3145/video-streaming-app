@@ -12,7 +12,7 @@ import {
 const useVideoPlayer = (
   videoRef: RefObject<HTMLVideoElement>,
   videoId: number,
-  videoQuality: 'low' | 'medium' | 'high'
+  videoQuality: TVideoQuality
 ) => {
   const videoSrc = `http://localhost:4000/videos/${videoQuality}/${videoId}`;
 
