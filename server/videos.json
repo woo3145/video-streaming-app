@@ -1,12 +1,12 @@
 [
   {
     "id": 1,
-    "title": "샘플 비디오 1",
+    "title": "woo's blues",
     "src": "sample-1.mp4"
   },
   {
     "id": 2,
-    "title": "샘플 비디오 2",
+    "title": "woo's jazz",
     "src": "sample-2.mp4"
   }
 ]
