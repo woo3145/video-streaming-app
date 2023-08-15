@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react';
 import { BiChevronDown } from 'react-icons/bi';
-import { useOnClickOutside } from 'hooks/useOnClickOutside';
+import { useOnClickOutside } from 'hooks/utilsHooks/useOnClickOutside';
 import { cn } from 'utils/twUtils';
 
 interface SelectContextProps {

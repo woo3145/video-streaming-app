@@ -1,32 +1,39 @@
 import { RefObject, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/store';
 import { useVideoSeek } from './useVideoSeek';
-import { setIsPlaying, setVolume } from 'store/modules/videoSlice';
+import { setIsMuted, setVolume } from 'store/modules/videoSlice';
 
+/**
+ * 역할: 비디오 컨트롤을 위한 커스텀 훅
+ * (재생, 일시정지, 음소거, 볼륨 조절)
+ *  - 구간이동은 useVideoSeek로 분리
+ */
 export const useVideoController = (videoRef: RefObject<HTMLVideoElement>) => {
   const dispatch = useAppDispatch();
-  const { volume, src } = useAppSelector((state) => state.video);
+  const { volume, isMuted } = useAppSelector((state) => state.video);
   const { setCurrentVideoTime } = useVideoSeek(videoRef);
 
-  // 비디오 로드 or 리덕스 볼륨 변경 시 비디오 볼륨 조절
+  // 리덕스 볼륨 변경 & 음소거 시 실제 비디오 상태 변경
+  // 새로 비디오 로드 시 이전 상태 적용
   useEffect(() => {
     const videoElement = videoRef.current;
     if (!videoElement) return;
     videoElement.volume = volume;
-  }, [videoRef, volume, src]);
+    videoElement.muted = isMuted;
+  }, [videoRef, volume, isMuted]);
 
-  // 볼륨 변경
+  // 볼륨 변경(Redux 변경)
   const changeVolume = (newVolume: number) => {
     const videoElement = videoRef.current;
     if (!videoElement) return;
     dispatch(setVolume(newVolume));
   };
 
-  // 음소거 토글
+  // 음소거 토글(Redux 변경)
   const toggleMute = (isMuted: boolean) => {
     const videoElement = videoRef.current;
     if (!videoElement) return;
-    videoElement.muted = isMuted;
+    dispatch(setIsMuted(isMuted));
   };
 
   // 영상 재생 & 일시정지
@@ -38,17 +45,12 @@ export const useVideoController = (videoRef: RefObject<HTMLVideoElement>) => {
       const playPromise = videoElement.play();
 
       if (playPromise !== undefined) {
-        playPromise
-          .then((_) => {
-            dispatch(setIsPlaying(true));
-          })
-          .catch((error) => {
-            console.error('Playback error:', error);
-          });
+        playPromise.catch((error) => {
+          console.error('Playback error:', error);
+        });
       }
-    } else if (!isPlaying) {
+    } else {
       videoElement.pause();
-      dispatch(setIsPlaying(false));
     }
   };
 

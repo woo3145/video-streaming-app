@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { BsVolumeMuteFill, BsVolumeUpFill } from 'react-icons/bs';
-import { setIsMuted } from 'store/modules/videoSlice';
-import { useAppDispatch, useAppSelector } from 'store/store';
+import { useAppSelector } from 'store/store';
 import { cn } from 'utils/twUtils';
 
 interface Props {
@@ -11,13 +10,11 @@ interface Props {
 
 const VolumeController = ({ onClickVolume, onClickMute }: Props) => {
   const { volume, isMuted } = useAppSelector((state) => state.video);
-  const dispatch = useAppDispatch();
   const [isDragging, setIsDragging] = useState(false); // 드래그중인 상태인지 기록
 
   const progressBarRef = useRef<HTMLDivElement>(null);
 
   const onClickMuteHandler = () => {
-    dispatch(setIsMuted(!isMuted));
     onClickMute(!isMuted);
   };
 

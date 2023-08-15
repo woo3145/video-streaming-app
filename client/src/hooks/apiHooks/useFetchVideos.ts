@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchVideos } from 'utils/services/videos';
 
-/** 비디오 목록을 요청합니다. */
+/** Video 목록을 요청하는 커스텀 훅 */
 const useFetchVideos = () => {
   const [videos, setVideos] = useState<IVideoWithThumbnail[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,7 +17,7 @@ const useFetchVideos = () => {
         if (isMounted) {
           setVideos(
             videos.map((video) => {
-              const thumbnail = `http://localhost:4000/thumbnail/thumbnail-${video.id}.jpg`;
+              const thumbnail = `${process.env.REACT_APP_API_URL}/thumbnail/thumbnail-${video.id}.jpg`;
               return {
                 ...video,
                 thumbnail,

@@ -1,10 +1,13 @@
 import VideoCard from 'components/video/VideoPlayer/VideoCard';
-import useFetchVideos from 'hooks/useFetchVideos';
+import useFetchVideos from 'hooks/apiHooks/useFetchVideos';
 import React from 'react';
 
 const Home = () => {
-  const { videos } = useFetchVideos();
+  const { videos, isLoading } = useFetchVideos();
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="pt-8">
       <div

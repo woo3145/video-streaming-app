@@ -4,14 +4,15 @@ import CloudOverlay from 'components/cloudOverlay/CloudOverlay';
 import CommentTabs from 'components/video/CommentTabs/CommentTabs';
 import Metadata from 'components/video/VideoPlayer/Metadata';
 import Player from 'components/video/VideoPlayer/Player';
-import useFetchVideoData from 'hooks/useFetchVideoData';
-import useFetchVideos from 'hooks/useFetchVideos';
-import { setVideoId, setVideoSrc } from 'store/modules/videoSlice';
+import { setVideoId } from 'store/modules/videoSlice';
 import { useAppDispatch } from 'store/store';
+import useFetchVideos from 'hooks/apiHooks/useFetchVideos';
+import useFetchComments from 'hooks/apiHooks/useFetchComments';
+import useFetchClouds from 'hooks/apiHooks/useFetchClouds';
 
 const Watch = () => {
   const { videoId } = useParams();
-  const { videos } = useFetchVideos();
+  const { videos, isLoading } = useFetchVideos();
   const video = useMemo(() => {
     const filteredVideo = videos.filter(
       (v) => v.id === parseInt(videoId || '')
@@ -21,22 +22,24 @@ const Watch = () => {
     }
     return filteredVideo[0];
   }, [videos, videoId]);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const dispatch = useAppDispatch();
 
-  // videoSrc 리덕스에 저장
+  // videoId 리덕스에 저장
   useEffect(() => {
     if (!video) return;
-    if (video.src) {
-      dispatch(setVideoSrc(video.src));
-    }
-    if (video.id) {
+    if (video.id !== 0) {
       dispatch(setVideoId(video.id));
     }
   }, [dispatch, video]);
 
-  useFetchVideoData(video?.id);
+  useFetchComments(video?.id);
+  useFetchClouds(video?.id);
 
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
   if (!video) {
     return <div>Not Found</div>;
   }

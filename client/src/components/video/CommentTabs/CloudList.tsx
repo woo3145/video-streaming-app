@@ -1,5 +1,5 @@
+import { useVideoSeek } from 'hooks/videoHooks/useVideoSeek';
 import { RefObject } from 'react';
-import { useVideoSeek } from 'hooks/video/useVideoSeek';
 import { useAppSelector } from 'store/store';
 
 interface Props {

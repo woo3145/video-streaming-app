@@ -8,6 +8,7 @@ import cloudSlice from './modules/cloudSlice';
 import videoQualitySlice from './modules/videoQualitySlice';
 
 export const store = configureStore({
+  devTools: true,
   reducer: {
     video: videoSlice,
     pageSize: pageSizeSlice,

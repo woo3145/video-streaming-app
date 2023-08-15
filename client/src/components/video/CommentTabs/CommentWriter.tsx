@@ -1,7 +1,7 @@
 import { Button } from 'components/atoms/Button';
 import { TextArea } from 'components/atoms/TextArea';
 import { TextInput } from 'components/atoms/TextInput';
-import { useCreateComment } from 'hooks/custom/useCreateComment';
+import { useCreateComment } from 'hooks/apiHooks/useCreateComment';
 
 const CommentWriter = () => {
   const { handleInput, handleSubmit, handleValidation, isFormValid, inputs } =

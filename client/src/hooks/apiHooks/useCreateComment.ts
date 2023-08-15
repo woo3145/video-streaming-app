@@ -15,6 +15,7 @@ const initialInput: CommentInput = {
   content: '',
 };
 
+//** 댓글 생성을 위한 커스텀 훅 */
 export const useCreateComment = () => {
   const dispatch = useAppDispatch();
   const videoId = useAppSelector((state) => state.video.id);

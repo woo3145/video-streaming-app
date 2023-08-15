@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 
-//** ref의 outside를 클릭하면 callback을 실행하는 이벤트핸들러 등록 */
+//** ref의 외부를 클릭할 때 주어진 콜백 함수 호출 */
 export const useOnClickOutside = (
   ref: React.RefObject<HTMLElement>,
   callback: () => void

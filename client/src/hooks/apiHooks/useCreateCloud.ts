@@ -21,6 +21,7 @@ const initialInput: CloudInput = {
   height: null,
 };
 
+//** 구름댓글 생성을 위한 커스텀 훅 */
 export const useCreateCloud = () => {
   const dispatch = useAppDispatch();
   const { id: videoId, currentTime } = useAppSelector((state) => state.video);

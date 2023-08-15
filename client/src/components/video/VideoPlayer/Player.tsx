@@ -1,17 +1,17 @@
 import { RefObject } from 'react';
 import Controller from './Controller/Controller';
 import { BeatLoader } from 'react-spinners';
-import useVideoPlayer from 'hooks/video/useVideoPlayer';
 import { useAppSelector } from 'store/store';
+import useVideoPlayer from 'hooks/videoHooks/useVideoPlayer';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;
 }
 
 const Player = ({ videoRef }: Props) => {
-  const { id: videoId } = useAppSelector((state) => state.video);
-  const videoQuality = useAppSelector((state) => state.videoQuality.quality);
-  const { src, isLoading } = useVideoPlayer(videoRef, videoId, videoQuality);
+  const { id: videoId, src } = useAppSelector((state) => state.video);
+  const { quality } = useAppSelector((state) => state.videoQuality);
+  const { isLoading } = useVideoPlayer(videoRef, videoId, quality);
 
   return (
     <div>

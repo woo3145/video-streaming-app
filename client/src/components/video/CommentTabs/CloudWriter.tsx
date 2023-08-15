@@ -9,7 +9,7 @@ import {
 } from 'components/atoms/Select';
 import { TextArea } from 'components/atoms/TextArea';
 import { TextInput } from 'components/atoms/TextInput';
-import { useCreateCloud } from 'hooks/custom/useCreateCloud';
+import { useCreateCloud } from 'hooks/apiHooks/useCreateCloud';
 
 const CloudWriter = () => {
   const {
