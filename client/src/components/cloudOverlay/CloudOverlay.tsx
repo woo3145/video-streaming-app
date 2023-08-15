@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useAppSelector } from '../../store/store';
+import { useAppSelector } from 'store/store';
 import CloudOverlayItem from './CloudOverlayItem';
 
 const CloudOverlay = () => {

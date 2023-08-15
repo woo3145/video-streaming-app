@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { useAppDispatch } from '../store/store';
-import { fetchComments } from '../utils/services/comments';
-import { fetchClouds } from '../utils/services/clouds';
-import { setComments } from '../store/modules/commentsSlice';
-import { setClouds } from '../store/modules/cloudSlice';
+import { setClouds } from 'store/modules/cloudSlice';
+import { setComments } from 'store/modules/commentsSlice';
+import { useAppDispatch } from 'store/store';
+import { fetchClouds } from 'utils/services/clouds';
+import { fetchComments } from 'utils/services/comments';
 
 /** Video의 댓글과 구름을 요청하고 redux에 저장합니다. */
 const useFetchVideoData = (videoId: number | undefined) => {

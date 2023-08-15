@@ -1,10 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { saveCloud } from '../../../utils/services/clouds';
-import { addCloud } from '../../../store/modules/cloudSlice';
-import { useAppDispatch, useAppSelector } from '../../../store/store';
-import { Button } from '../../atoms/Button';
-import { TextInput } from '../../atoms/TextInput';
-import { TextArea } from '../../atoms/TextArea';
+import { Button } from 'components/atoms/Button';
 import {
   FieldLabel,
   Select,
@@ -12,81 +6,20 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../../atoms/Select';
-
-interface CloudInput {
-  nickname: string;
-  password: string;
-  content: string;
-  size: TCloudCommentSize | null;
-  speed: TCloudCommentSpeed | null;
-  height: TCloudCommentHeight | null;
-}
-
-const initialInput: CloudInput = {
-  nickname: '',
-  password: '',
-  content: '',
-  size: null,
-  speed: null,
-  height: null,
-};
+} from 'components/atoms/Select';
+import { TextArea } from 'components/atoms/TextArea';
+import { TextInput } from 'components/atoms/TextInput';
+import { useCreateCloud } from 'hooks/custom/useCreateCloud';
 
 const CloudWriter = () => {
-  const dispatch = useAppDispatch();
-  const currentTime = useAppSelector((state) => state.video.currentTime);
-  const videoId = useAppSelector((state) => state.video.id);
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [inputs, setInputs] = useState<CloudInput>(initialInput);
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const { nickname, password, content, size, speed, height } = inputs;
-    if (!size) {
-      window.alert('사이즈를 선택해주세요.');
-      return;
-    }
-    if (!speed) {
-      window.alert('속도를 선택해주세요.');
-      return;
-    }
-    if (!height) {
-      window.alert('높이를 선택해주세요.');
-      return;
-    }
-    try {
-      const newComment = await saveCloud({
-        videoId: videoId,
-        nickname,
-        password,
-        content,
-
-        size,
-        speed,
-        height,
-        time: currentTime,
-      });
-      if (newComment) {
-        dispatch(addCloud(newComment));
-        setInputs(initialInput);
-        setIsFormValid(false);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const handleValidation = (event: FormEvent<HTMLFormElement>) => {
-    setIsFormValid(event.currentTarget.checkValidity());
-  };
-
-  const handleInput = (
-    event: ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    setInputs({ ...inputs, [event.target.name]: event.target.value });
-  };
+  const {
+    inputs,
+    handleSelectInput,
+    handleInput,
+    handleSubmit,
+    handleValidation,
+    isFormValid,
+  } = useCreateCloud();
 
   return (
     <div className="flex justify-between py-4 px-4 border-b">
@@ -132,7 +65,7 @@ const CloudWriter = () => {
           <Select
             value={inputs.size}
             onChange={(value: string) => {
-              setInputs({ ...inputs, size: value as TCloudCommentSize });
+              handleSelectInput('size', value);
             }}
           >
             <FieldLabel className="mb-1">크기 *</FieldLabel>
@@ -149,7 +82,7 @@ const CloudWriter = () => {
           <Select
             value={inputs.speed}
             onChange={(value: string) => {
-              setInputs({ ...inputs, speed: value as TCloudCommentSpeed });
+              handleSelectInput('speed', value);
             }}
           >
             <FieldLabel className="mb-1">속도 *</FieldLabel>
@@ -166,7 +99,7 @@ const CloudWriter = () => {
           <Select
             value={inputs.height}
             onChange={(value: string) => {
-              setInputs({ ...inputs, height: value as TCloudCommentHeight });
+              handleSelectInput('height', value);
             }}
           >
             <FieldLabel className="mb-1">높이 *</FieldLabel>

@@ -1,14 +1,14 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../store/store';
+import { Button } from 'components/atoms/Button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuRadio,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
-} from 'src/components/atoms/DropdownMenu';
-import { Button } from 'src/components/atoms/Button';
-import { setVideoQuality } from 'src/store/modules/videoQualitySlice';
+} from 'components/atoms/DropdownMenu';
+import { setVideoQuality } from 'store/modules/videoQualitySlice';
+import { useAppDispatch, useAppSelector } from 'store/store';
 
 const QualityButton = () => {
   const dispatch = useAppDispatch();

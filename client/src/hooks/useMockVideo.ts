@@ -1,4 +1,4 @@
-import { mockVideos } from '../constants/mockVideos';
+import { mockVideos } from 'constants/mockVideos';
 
 export const useMockVideo = (id?: string) => {
   const video = mockVideos.filter((video) => {

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { cn } from 'src/utils/twUtils';
+import { cn } from 'utils/twUtils';
 
 interface TabsContextProps {
   activeTabValue: string;

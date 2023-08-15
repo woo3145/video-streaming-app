@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
-import { useAppSelector } from '../../../store/store';
-import { useVideoSeek } from 'src/hooks/video/useVideoSeek';
+import { useVideoSeek } from 'hooks/video/useVideoSeek';
+import { useAppSelector } from 'store/store';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;

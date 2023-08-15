@@ -1,58 +1,11 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { saveComment } from '../../../utils/services/comments';
-import { useAppDispatch, useAppSelector } from '../../../store/store';
-import { addComment } from '../../../store/modules/commentsSlice';
-import { Button } from '../../atoms/Button';
-import { TextInput } from '../../atoms/TextInput';
-import { TextArea } from '../../atoms/TextArea';
-
-interface CommentInput {
-  nickname: string;
-  password: string;
-  content: string;
-}
-
-const initialInput: CommentInput = {
-  nickname: '',
-  password: '',
-  content: '',
-};
+import { Button } from 'components/atoms/Button';
+import { TextArea } from 'components/atoms/TextArea';
+import { TextInput } from 'components/atoms/TextInput';
+import { useCreateComment } from 'hooks/custom/useCreateComment';
 
 const CommentWriter = () => {
-  const dispatch = useAppDispatch();
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [inputs, setInputs] = useState<CommentInput>(initialInput);
-  const videoId = useAppSelector((state) => state.video.id);
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const { nickname, password, content } = inputs;
-    try {
-      const newComment = await saveComment({
-        videoId: videoId,
-        nickname,
-        password,
-        content,
-      });
-      if (newComment) {
-        dispatch(addComment(newComment));
-        setInputs(initialInput);
-        setIsFormValid(false);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const handleValidation = (event: FormEvent<HTMLFormElement>) => {
-    setIsFormValid(event.currentTarget.checkValidity());
-  };
-
-  const handleInput = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setInputs({ ...inputs, [event.target.name]: event.target.value });
-  };
+  const { handleInput, handleSubmit, handleValidation, isFormValid, inputs } =
+    useCreateComment();
 
   return (
     <div className="flex justify-between py-4 px-4 border-b">

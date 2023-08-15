@@ -1,7 +1,7 @@
 import { RefObject, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import { setIsPlaying, setVolume } from '../../store/modules/videoSlice';
-import { useVideoSeek } from '../../hooks/video/useVideoSeek';
+import { useAppDispatch, useAppSelector } from 'store/store';
+import { useVideoSeek } from './useVideoSeek';
+import { setIsPlaying, setVolume } from 'store/modules/videoSlice';
 
 export const useVideoController = (videoRef: RefObject<HTMLVideoElement>) => {
   const dispatch = useAppDispatch();

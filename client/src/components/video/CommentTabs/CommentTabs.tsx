@@ -3,7 +3,12 @@ import CommentList from './CommentList';
 import CloudList from './CloudList';
 import CommentWriter from './CommentWriter';
 import CloudWriter from './CloudWriter';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../atoms/Tabs';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from 'components/atoms/Tabs';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;

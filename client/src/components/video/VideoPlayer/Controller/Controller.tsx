@@ -5,8 +5,8 @@ import VolumeController from './VolumeController';
 import FullScreenButton from './FullScreenButton';
 import TimeDisplay from './TimeDisplay';
 import QualityButton from './QualityButton';
-import { useVideoController } from '../../../../hooks/video/useVideoController';
-import { cn } from 'src/utils/twUtils';
+import { useVideoController } from 'hooks/video/useVideoController';
+import { cn } from 'utils/twUtils';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;

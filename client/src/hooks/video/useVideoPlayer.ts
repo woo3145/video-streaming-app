@@ -1,13 +1,13 @@
 // hooks/useVideoPlayer.ts
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
-import { useAppDispatch } from '../../store/store';
 import {
   setBufferedRanges,
   setCurrentTime,
   setDuration,
   setIsPlaying,
   setVideoSize,
-} from '../../store/modules/videoSlice';
+} from 'store/modules/videoSlice';
+import { useAppDispatch } from 'store/store';
 
 const useVideoPlayer = (
   videoRef: RefObject<HTMLVideoElement>,

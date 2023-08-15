@@ -1,6 +1,6 @@
-import { cva } from 'class-variance-authority';
 import * as React from 'react';
-import { cn } from 'src/utils/twUtils';
+import { cva } from 'class-variance-authority';
+import { cn } from 'utils/twUtils';
 
 const labelVariants = cva(
   [

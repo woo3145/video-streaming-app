@@ -1,6 +1,6 @@
+import VideoCard from 'components/video/VideoPlayer/VideoCard';
+import useFetchVideos from 'hooks/useFetchVideos';
 import React from 'react';
-import VideoCard from '../components/video/VideoPlayer/VideoCard';
-import useFetchVideos from '../hooks/useFetchVideos';
 
 const Home = () => {
   const { videos } = useFetchVideos();

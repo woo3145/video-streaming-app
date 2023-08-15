@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch } from '../store/store';
-import { setVideoId, setVideoSrc } from '../store/modules/videoSlice';
-import Metadata from '../components/video/VideoPlayer/Metadata';
-import CommentTabs from '../components/video/CommentTabs/CommentTabs';
-import useFetchVideoData from '../hooks/useFetchVideoData';
-import useFetchVideos from '../hooks/useFetchVideos';
-import CloudOverlay from 'src/components/cloudOverlay/CloudOverlay';
-import Player from '../components/video/VideoPlayer/Player';
+import CloudOverlay from 'components/cloudOverlay/CloudOverlay';
+import CommentTabs from 'components/video/CommentTabs/CommentTabs';
+import Metadata from 'components/video/VideoPlayer/Metadata';
+import Player from 'components/video/VideoPlayer/Player';
+import useFetchVideoData from 'hooks/useFetchVideoData';
+import useFetchVideos from 'hooks/useFetchVideos';
+import { setVideoId, setVideoSrc } from 'store/modules/videoSlice';
+import { useAppDispatch } from 'store/store';
 
 const Watch = () => {
   const { videoId } = useParams();

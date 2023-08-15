@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchVideos } from '../utils/services/videos';
+import { fetchVideos } from 'utils/services/videos';
 
 /** 비디오 목록을 요청합니다. */
 const useFetchVideos = () => {

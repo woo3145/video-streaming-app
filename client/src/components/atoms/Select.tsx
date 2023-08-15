@@ -8,9 +8,9 @@ import {
   useRef,
   useState,
 } from 'react';
-import { cn } from 'src/utils/twUtils';
 import { BiChevronDown } from 'react-icons/bi';
-import { useOnClickOutside } from 'src/hooks/useOnClickOutside';
+import { useOnClickOutside } from 'hooks/useOnClickOutside';
+import { cn } from 'utils/twUtils';
 
 interface SelectContextProps {
   isOpen: boolean;

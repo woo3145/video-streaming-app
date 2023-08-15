@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useAppDispatch } from '../../store/store';
-import { setPageSize } from '../../store/modules/pageSizeSlice';
+import { setPageSize } from 'store/modules/pageSizeSlice';
+import { useAppDispatch } from 'store/store';
 
 const PageSizeListener = () => {
   const dispatch = useAppDispatch();

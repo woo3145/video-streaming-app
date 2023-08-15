@@ -1,8 +1,8 @@
 import { RefObject } from 'react';
-import { useAppSelector } from '../../../store/store';
 import Controller from './Controller/Controller';
 import { BeatLoader } from 'react-spinners';
-import useVideoPlayer from '../../../hooks/video/useVideoPlayer';
+import useVideoPlayer from 'hooks/video/useVideoPlayer';
+import { useAppSelector } from 'store/store';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;

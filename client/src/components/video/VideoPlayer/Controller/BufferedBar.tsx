@@ -1,4 +1,4 @@
-import { useAppSelector } from '../../../../store/store';
+import { useAppSelector } from 'store/store';
 
 const BufferedBar = () => {
   const { bufferedRanges, duration, currentTime } = useAppSelector(

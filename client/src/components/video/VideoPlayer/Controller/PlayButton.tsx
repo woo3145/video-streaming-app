@@ -1,7 +1,6 @@
 import { BsFillPlayFill, BsPauseFill } from 'react-icons/bs';
-
-import { setIsPlaying } from '../../../../store/modules/videoSlice';
-import { useAppDispatch, useAppSelector } from '../../../../store/store';
+import { setIsPlaying } from 'store/modules/videoSlice';
+import { useAppDispatch, useAppSelector } from 'store/store';
 
 interface Props {
   onClick: (isPlaying: boolean) => void;

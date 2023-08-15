@@ -1,4 +1,4 @@
-import { useAppSelector } from '../../../store/store';
+import { useAppSelector } from 'store/store';
 
 const CommentList = () => {
   const { comments } = useAppSelector((state) => state.comments);

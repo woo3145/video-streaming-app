@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { BsVolumeMuteFill, BsVolumeUpFill } from 'react-icons/bs';
-import { useAppDispatch, useAppSelector } from '../../../../store/store';
-import { setIsMuted } from '../../../../store/modules/videoSlice';
-import { cn } from 'src/utils/twUtils';
+import { setIsMuted } from 'store/modules/videoSlice';
+import { useAppDispatch, useAppSelector } from 'store/store';
+import { cn } from 'utils/twUtils';
 
 interface Props {
   onClickVolume: (newVolume: number) => void;

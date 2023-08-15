@@ -8,8 +8,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useOnClickOutside } from 'src/hooks/useOnClickOutside';
-import { cn } from 'src/utils/twUtils';
+import { cn } from 'utils/twUtils';
+import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
 interface DropdownMenuContextProps {
   isOpen: boolean;

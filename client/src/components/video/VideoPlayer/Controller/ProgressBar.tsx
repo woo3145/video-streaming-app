@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useAppSelector } from '../../../../store/store';
 import VideoBufferedBar from './BufferedBar';
+import { useAppSelector } from 'store/store';
 
 interface Props {
   onClick: (time: number) => void;
