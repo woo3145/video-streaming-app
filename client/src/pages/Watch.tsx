@@ -13,7 +13,7 @@ import useFetchClouds from 'hooks/apiHooks/useFetchClouds';
 const Watch = () => {
   const { videoId } = useParams();
   const { videos, isLoading } = useFetchVideos();
-  const { clouds } = useAppSelector((state) => state.clouds);
+  const { clouds, isVisible } = useAppSelector((state) => state.clouds);
 
   const video = useMemo(() => {
     const filteredVideo = videos.filter(
@@ -72,15 +72,16 @@ const Watch = () => {
             <Player videoRef={videoRef} />
             {/* Overlay */}
 
-            {cloudOverlays.map((overlay) => {
-              return (
-                <CloudOverlay
-                  key={overlay.speed}
-                  clouds={overlay.clouds}
-                  speed={overlay.speed}
-                />
-              );
-            })}
+            {isVisible &&
+              cloudOverlays.map((overlay) => {
+                return (
+                  <CloudOverlay
+                    key={overlay.speed}
+                    clouds={overlay.clouds}
+                    speed={overlay.speed}
+                  />
+                );
+              })}
           </div>
           <Metadata title={video?.title || ''} />
         </div>

@@ -7,6 +7,7 @@ import TimeDisplay from './TimeDisplay';
 import QualityButton from './QualityButton';
 import { cn } from 'utils/twUtils';
 import { useVideoController } from 'hooks/videoHooks/useVideoController';
+import CloudsToggleButton from './CloudsToggleButton';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;
@@ -66,6 +67,7 @@ const Controller = ({ videoRef }: Props) => {
             <TimeDisplay />
           </div>
           <div className="flex items-center gap-2">
+            <CloudsToggleButton />
             <QualityButton />
             <FullScreenButton videoRef={videoRef} />
           </div>

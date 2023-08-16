@@ -2,10 +2,12 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface CloudsState {
   clouds: ICloudComment[];
+  isVisible: boolean;
 }
 
 const initialState: CloudsState = {
   clouds: [],
+  isVisible: true,
 };
 
 const cloudsSlice = createSlice({
@@ -20,9 +22,12 @@ const cloudsSlice = createSlice({
       const cloud = action.payload;
       state.clouds = [...state.clouds, cloud];
     },
+    setCloudsIsVisible: (state, action: PayloadAction<boolean>) => {
+      state.isVisible = action.payload;
+    },
   },
 });
 
-export const { setClouds, addCloud } = cloudsSlice.actions;
+export const { setClouds, addCloud, setCloudsIsVisible } = cloudsSlice.actions;
 
 export default cloudsSlice.reducer;
