@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -50,7 +51,12 @@ const Select = ({ children, value, onChange, ...props }: SelectProps) => {
     }),
     [isOpen, setIsOpen, value, onChange, selectRef, selectedItemLabel]
   );
-
+  // value 초기화 시 selectedItemLabel도 초기화
+  useEffect(() => {
+    if (value === null) {
+      setSelectedItemLabel('');
+    }
+  }, [value]);
   // Ref가 아닌 요소 클릭 시 드롭다운 닫기위한 이벤트 등록
   useOnClickOutside(selectRef, () => {
     setIsOpen(false);

@@ -2,16 +2,20 @@ import { useMemo } from 'react';
 import { useAppSelector } from 'store/store';
 import CloudOverlayItem from './CloudOverlayItem';
 
-const CloudOverlay = () => {
-  const { clouds } = useAppSelector((state) => state.clouds);
+interface Props {
+  speed?: number;
+  clouds: ICloudComment[];
+}
+
+const CloudOverlay = ({ speed = 5, clouds }: Props) => {
   const { videoWidth, videoHeight, duration, currentTime } = useAppSelector(
     (state) => state.video
   );
 
   // 하나의 댓글이 지나가는 시간을 5초로 잡고 미리 overlay의 길이를 계산
   const overlayWidth = useMemo(
-    () => videoWidth * (duration / 5),
-    [videoWidth, duration]
+    () => videoWidth * (duration / speed),
+    [videoWidth, duration, speed]
   );
 
   // 현재 재생시점을 기준으로 오버레이가 지나간 px를 구함

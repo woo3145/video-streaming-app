@@ -5,7 +5,7 @@ import CommentTabs from 'components/video/CommentTabs/CommentTabs';
 import Metadata from 'components/video/VideoPlayer/Metadata';
 import Player from 'components/video/VideoPlayer/Player';
 import { setVideoId } from 'store/modules/videoSlice';
-import { useAppDispatch } from 'store/store';
+import { useAppDispatch, useAppSelector } from 'store/store';
 import useFetchVideos from 'hooks/apiHooks/useFetchVideos';
 import useFetchComments from 'hooks/apiHooks/useFetchComments';
 import useFetchClouds from 'hooks/apiHooks/useFetchClouds';
@@ -13,6 +13,8 @@ import useFetchClouds from 'hooks/apiHooks/useFetchClouds';
 const Watch = () => {
   const { videoId } = useParams();
   const { videos, isLoading } = useFetchVideos();
+  const { clouds } = useAppSelector((state) => state.clouds);
+
   const video = useMemo(() => {
     const filteredVideo = videos.filter(
       (v) => v.id === parseInt(videoId || '')
@@ -37,6 +39,24 @@ const Watch = () => {
   useFetchComments(video?.id);
   useFetchClouds(video?.id);
 
+  const cloudOverlays = useMemo(
+    () => [
+      {
+        speed: 3, // 댓글이 3초만에 지나감
+        clouds: clouds.filter((cloud) => cloud.displaySpeed === 'fast'),
+      },
+      {
+        speed: 5, // 댓글이 5초만에 지나감
+        clouds: clouds.filter((cloud) => cloud.displaySpeed === 'medium'),
+      },
+      {
+        speed: 7, // 댓글이 7초만에 지나감
+        clouds: clouds.filter((cloud) => cloud.displaySpeed === 'slow'),
+      },
+    ],
+    [clouds]
+  );
+
   if (isLoading) {
     return <div>Loading ...</div>;
   }
@@ -51,7 +71,16 @@ const Watch = () => {
           <div className="relative overflow-hidden">
             <Player videoRef={videoRef} />
             {/* Overlay */}
-            <CloudOverlay />
+
+            {cloudOverlays.map((overlay) => {
+              return (
+                <CloudOverlay
+                  key={overlay.speed}
+                  clouds={overlay.clouds}
+                  speed={overlay.speed}
+                />
+              );
+            })}
           </div>
           <Metadata title={video?.title || ''} />
         </div>

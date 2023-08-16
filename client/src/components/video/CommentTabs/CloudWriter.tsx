@@ -90,9 +90,9 @@ const CloudWriter = () => {
               <SelectValue placeholder="구름이 지나가는 속도를 선택해주세요." />
             </SelectTrigger>
             <SelectContent>
-              {/* <SelectItem value="slow">느리게</SelectItem> */}
+              <SelectItem value="slow">느리게</SelectItem>
               <SelectItem value="medium">중간</SelectItem>
-              {/* <SelectItem value="fast">빠르게</SelectItem> */}
+              <SelectItem value="fast">빠르게</SelectItem>
             </SelectContent>
           </Select>
 
