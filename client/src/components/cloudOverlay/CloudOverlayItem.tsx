@@ -1,4 +1,19 @@
 import React from 'react';
+import { cva } from 'class-variance-authority';
+import { cn } from 'utils/twUtils';
+
+const cloudItemVariants = cva('text-white shadow-2xl font-bold', {
+  variants: {
+    size: {
+      small: 'text-md md:text-lg lg:text-xl xl:text-2xl 2xl:text-xl',
+      medium: 'text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-3xl',
+      large: 'text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-4xl',
+    },
+  },
+  defaultVariants: {
+    size: 'medium',
+  },
+});
 
 interface Props {
   cloudComment: ICloudComment;
@@ -6,19 +21,17 @@ interface Props {
 }
 
 const CloudOverlayItem = React.memo(({ cloudComment, left }: Props) => {
-  const { id, content, displaySize, displayHeight } = cloudComment;
+  const { id, content, displaySize, displayHeight, isCreatedLocal } =
+    cloudComment;
 
-  const sizes = {
-    small: 20,
-    medium: 28,
-    large: 36,
-  };
   return (
     <div
       key={id}
-      className={`text-white font-bold`}
+      className={cn(
+        cloudItemVariants({ size: displaySize }),
+        isCreatedLocal && 'text-primary'
+      )}
       style={{
-        fontSize: sizes[displaySize],
         position: 'absolute',
         top: `${displayHeight}%`,
         left: left,

@@ -48,7 +48,9 @@ export const useCreateCloud = () => {
         height,
         time: currentTime,
       });
+
       if (newComment) {
+        newComment.isCreatedLocal = true;
         dispatch(addCloud(newComment));
         setInputs(initialInput);
         setIsFormValid(false);

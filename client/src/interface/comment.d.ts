@@ -4,6 +4,7 @@ interface IComment {
   videoId: number;
   content: string;
   nickname: string;
+  isCreatedLocal?: boolean; // 로컬에서 추가 된 댓글 또는 구름 (색칠하기 위함)
 }
 
 type TCloudCommentSpeed = 'slow' | 'medium' | 'fast';

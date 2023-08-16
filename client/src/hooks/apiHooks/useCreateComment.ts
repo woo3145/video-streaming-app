@@ -33,6 +33,7 @@ export const useCreateComment = () => {
         content,
       });
       if (newComment) {
+        newComment.isCreatedLocal = true;
         dispatch(addComment(newComment));
         setInputs(initialInput);
         setIsFormValid(false);
