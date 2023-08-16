@@ -3,7 +3,7 @@ import DarkModeToggle from './DarkModeToggle';
 
 const Logo = () => {
   return (
-    <Link to="/" className="text-2xl text-purple-600">
+    <Link to="/" className="text-2xl text-primary">
       <b>Woo3145</b> Videos
     </Link>
   );

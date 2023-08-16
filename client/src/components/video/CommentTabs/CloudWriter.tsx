@@ -113,7 +113,7 @@ const CloudWriter = () => {
             </SelectContent>
           </Select>
         </div>
-        <p className="text-sm text-secondary-foreground/50">
+        <p className="text-sm text-secondary-foreground/70">
           현재 영상시점에 구름이 생성됩니다.
         </p>
         <Button variant="default" disabled={!isFormValid} size="lg" fullWidth>

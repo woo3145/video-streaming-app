@@ -78,7 +78,7 @@ interface FieldLabelProps {
 //** 필드위에 표시 할 label을 렌더링함 */
 const FieldLabel = ({ children, className }: FieldLabelProps) => {
   return (
-    <p className={cn('text-sm text-foreground/50', className)}>{children}</p>
+    <p className={cn('text-sm text-foreground/70', className)}>{children}</p>
   );
 };
 
@@ -127,7 +127,7 @@ const SelectValue = ({ placeholder }: SelectValueProps) => {
 
   return (
     <span
-      className={cn(selectedItemLabel ? '' : 'text-secondary-foreground/50')}
+      className={cn(selectedItemLabel ? '' : 'text-secondary-foreground/70')}
     >
       {selectedItemLabel || placeholder}
     </span>

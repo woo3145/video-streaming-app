@@ -7,9 +7,9 @@ const labelVariants = cva(
     // Layout & Position & Size
     'absolute top-2 left-4',
     // Background
-    'bg-input',
+    'bg-background',
     // Text
-    'peer-placeholder-shown:text-foreground/50',
+    'peer-placeholder-shown:text-foreground/70',
     // Interaction
     'pointer-events-none',
     // Transition
@@ -40,7 +40,7 @@ const textareaVariants = cva(
     // Border & Shape
     'border focus:outline-none focus:ring-1 ring-ring rounded-md',
     // Background
-    'bg-input',
+    'bg-background',
     // Text
     'text-base font-sans',
     // Interaction
