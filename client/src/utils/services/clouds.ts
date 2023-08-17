@@ -33,7 +33,7 @@ export const fetchClouds = async (
 
     return clouds;
   } catch (e) {
-    console.log(e);
+    console.log('Firebase Error', e);
     return null;
   }
 };
@@ -59,43 +59,49 @@ export const saveCloud = async ({
   height: TCloudCommentHeight;
   time: number;
 }) => {
-  //   if (!videoTitle) {
-  //     throw new Error('VideoTitle is required');
-  //   }
-  const randomHeight = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-  const heights = {
-    low: randomHeight(61, 90),
-    medium: randomHeight(31, 60),
-    high: randomHeight(0, 30),
-  };
+  try {
+    const randomHeight = (min: number, max: number) => {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+    const heights = {
+      low: randomHeight(61, 90),
+      medium: randomHeight(31, 60),
+      high: randomHeight(0, 30),
+    };
 
-  const result = await addDoc(collection(db, 'clouds'), {
-    nickname,
-    password,
-    content,
-    createdAt: new Date(),
-    videoId,
-    displaySize: size,
-    displayHeight: heights[height],
-    displayTime: time,
-    displaySpeed: speed,
-  });
+    const result = await addDoc(collection(db, 'clouds'), {
+      nickname,
+      password,
+      content,
+      createdAt: new Date(),
+      videoId,
+      displaySize: size,
+      displayHeight: heights[height],
+      displayTime: time,
+      displaySpeed: speed,
+    });
 
-  const newComment = {
-    id: result.id,
-    nickname,
-    content,
-    createdAt: new Date().toISOString(),
-    videoId,
-    displaySize: size,
-    displayHeight: heights[height],
-    displayTime: time,
-    displaySpeed: speed,
-  } as ICloudComment;
+    const newCloud = {
+      id: result.id,
+      nickname,
+      content,
+      createdAt: new Date().toISOString(),
+      videoId,
+      displaySize: size,
+      displayHeight: heights[height],
+      displayTime: time,
+      displaySpeed: speed,
+    } as ICloudComment;
 
-  return newComment;
+    return {
+      success: true,
+      newCloud,
+      message: '성공적으로 구름을 생성했습니다.',
+    };
+  } catch (e) {
+    console.log('Firebase Error', e);
+    return { success: false, message: '예상치 못한 에러' };
+  }
 };
 
 export const deleteCloud = async ({
@@ -110,22 +116,20 @@ export const deleteCloud = async ({
     const cloudSnapshot = await getDoc(cloudRef);
 
     if (!cloudSnapshot.exists()) {
-      throw new Error('구름이 존재하지 않습니다.');
+      return { success: false, message: '구름이 존재하지 않습니다.' };
     }
 
     const cloudData = cloudSnapshot.data();
 
     if (cloudData.password !== password) {
-      throw new Error('비밀번호가 일치하지 않습니다.');
+      return { success: false, message: '비밀번호가 일치하지 않습니다.' };
     }
 
     await deleteDoc(cloudRef);
 
-    return { success: true };
+    return { success: true, message: '성공적으로 구름을 삭제했습니다.' };
   } catch (e) {
-    if (e instanceof Error) {
-      return { success: false, message: e.message };
-    }
+    console.log('Firebase Error', e);
     return { success: false, message: '예상치 못한 에러' };
   }
 };

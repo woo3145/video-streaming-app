@@ -29,8 +29,8 @@ const DeleteCloudModal = ({ isOpen, onRequestClose, cloudId }: Props) => {
             label="비밀번호"
             placeholder="비밀번호를 입력해주세요."
             required
-            min={0}
-            max={100}
+            minLength={2}
+            maxLength={100}
             onChange={handleInput}
           />
           <div className="flex gap-2">

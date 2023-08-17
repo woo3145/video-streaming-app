@@ -83,9 +83,9 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, InputProps>(
 
     useEffect(() => {
       if (value === '') {
-        setIsEmpty(true);
         setIsValid(false);
       }
+      setIsEmpty(value === '');
     }, [value]);
 
     return (

@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { toast } from 'react-toastify';
 import { addCloud } from 'store/modules/cloudSlice';
 import { useAppDispatch, useAppSelector } from 'store/store';
 import { saveCloud } from 'utils/services/clouds';
@@ -33,12 +34,12 @@ export const useCreateCloud = () => {
     const { nickname, password, content, size, speed, height } = inputs;
 
     if (!(size && speed && height)) {
-      window.alert('사이즈, 속도, 높이를 선택해주세요.');
+      toast.error('사이즈, 속도, 높이를 선택해주세요.');
       return;
     }
 
     try {
-      const newComment = await saveCloud({
+      const { success, newCloud, message } = await saveCloud({
         videoId: videoId,
         nickname,
         password,
@@ -49,14 +50,21 @@ export const useCreateCloud = () => {
         time: currentTime,
       });
 
-      if (newComment) {
-        newComment.isCreatedLocal = true;
-        dispatch(addCloud(newComment));
+      if (!success) {
+        toast.error(message);
+        throw new Error();
+      }
+
+      if (newCloud) {
+        newCloud.isCreatedLocal = true;
+        dispatch(addCloud(newCloud));
         setInputs(initialInput);
         setIsFormValid(false);
+        toast.success(message);
       }
     } catch (e) {
-      console.log(e);
+      setInputs(initialInput);
+      setIsFormValid(false);
     }
   };
 

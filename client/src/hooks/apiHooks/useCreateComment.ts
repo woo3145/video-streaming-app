@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { toast } from 'react-toastify';
 import { addComment } from 'store/modules/commentsSlice';
 import { useAppDispatch, useAppSelector } from 'store/store';
 import { saveComment } from 'utils/services/comments';
@@ -26,20 +27,26 @@ export const useCreateComment = () => {
     event.preventDefault();
     const { nickname, password, content } = inputs;
     try {
-      const newComment = await saveComment({
+      const { success, newComment, message } = await saveComment({
         videoId: videoId,
         nickname,
         password,
         content,
       });
+      if (!success) {
+        toast.error(message);
+        throw new Error();
+      }
       if (newComment) {
         newComment.isCreatedLocal = true;
         dispatch(addComment(newComment));
         setInputs(initialInput);
         setIsFormValid(false);
+        toast.success(message);
       }
     } catch (e) {
-      console.log(e);
+      setInputs(initialInput);
+      setIsFormValid(false);
     }
   };
 

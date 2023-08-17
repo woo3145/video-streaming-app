@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { toast } from 'react-toastify';
 import { removeCloud } from 'store/modules/cloudSlice';
 import { useAppDispatch } from 'store/store';
 import { deleteCloud } from 'utils/services/clouds';
@@ -27,13 +28,16 @@ export const useDeleteCloud = (cloudId: string) => {
         cloudId,
         password: password,
       });
-      if (!success) throw new Error(message);
+      if (!success) {
+        toast.error(message);
+        throw new Error();
+      }
 
       dispatch(removeCloud(cloudId));
       setInputs(initialInput);
       setIsFormValid(false);
+      toast.success(message);
     } catch (e) {
-      console.log(e);
       setInputs(initialInput);
       setIsFormValid(false);
     }

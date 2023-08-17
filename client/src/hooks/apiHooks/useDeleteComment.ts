@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { toast } from 'react-toastify';
 import { removeComment } from 'store/modules/commentsSlice';
 import { useAppDispatch } from 'store/store';
 import { deleteComment } from 'utils/services/comments';
@@ -27,13 +28,16 @@ export const useDeleteComment = (commentId: string) => {
         commentId,
         password: password,
       });
-      if (!success) throw new Error(message);
+      if (!success) {
+        toast.error(message);
+        throw new Error();
+      }
 
       dispatch(removeComment(commentId));
       setInputs(initialInput);
       setIsFormValid(false);
+      toast.success(message);
     } catch (e) {
-      console.log(e);
       setInputs(initialInput);
       setIsFormValid(false);
     }

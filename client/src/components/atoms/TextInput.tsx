@@ -79,9 +79,9 @@ const TextInput = React.forwardRef<HTMLInputElement, InputProps>(
     };
     useEffect(() => {
       if (value === '') {
-        setIsEmpty(true);
         setIsValid(false);
       }
+      setIsEmpty(value === '');
     }, [value]);
 
     return (
