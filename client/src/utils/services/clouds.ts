@@ -110,7 +110,7 @@ export const deleteCloud = async ({
     const cloudSnapshot = await getDoc(cloudRef);
 
     if (!cloudSnapshot.exists()) {
-      throw new Error('댓글이 존재하지 않습니다.');
+      throw new Error('구름이 존재하지 않습니다.');
     }
 
     const cloudData = cloudSnapshot.data();

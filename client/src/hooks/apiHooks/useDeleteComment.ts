@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { removeCloud } from 'store/modules/cloudSlice';
+import { removeComment } from 'store/modules/commentsSlice';
 import { useAppDispatch } from 'store/store';
-import { deleteCloud } from 'utils/services/clouds';
+import { deleteComment } from 'utils/services/comments';
 
 interface CloudDeleteInput {
   password: string;
@@ -11,8 +11,8 @@ const initialInput = {
   password: '',
 };
 
-//** 구름댓글 삭제을 위한 커스텀 훅 */
-export const useDeleteCloud = (cloudId: string) => {
+//** 댓글 삭제을 위한 커스텀 훅 */
+export const useDeleteComment = (commentId: string) => {
   const dispatch = useAppDispatch();
   const [isFormValid, setIsFormValid] = useState(false);
   const [inputs, setInputs] = useState<CloudDeleteInput>(initialInput);
@@ -23,13 +23,13 @@ export const useDeleteCloud = (cloudId: string) => {
 
     try {
       // 삭제
-      const { success, message } = await deleteCloud({
-        cloudId,
+      const { success, message } = await deleteComment({
+        commentId,
         password: password,
       });
       if (!success) throw new Error(message);
 
-      dispatch(removeCloud(cloudId));
+      dispatch(removeComment(commentId));
       setInputs(initialInput);
       setIsFormValid(false);
     } catch (e) {

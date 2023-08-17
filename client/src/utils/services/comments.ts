@@ -1,6 +1,9 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
+  getDoc,
   getDocs,
   orderBy,
   query,
@@ -67,4 +70,36 @@ export const saveComment = async ({
   } as IComment;
 
   return newComment;
+};
+
+export const deleteComment = async ({
+  commentId,
+  password,
+}: {
+  commentId: string;
+  password: string;
+}) => {
+  try {
+    const commentRef = doc(db, 'comments', commentId);
+    const commentSnapshot = await getDoc(commentRef);
+
+    if (!commentSnapshot.exists()) {
+      throw new Error('댓글이 존재하지 않습니다.');
+    }
+
+    const commentData = commentSnapshot.data();
+
+    if (commentData.password !== password) {
+      throw new Error('비밀번호가 일치하지 않습니다.');
+    }
+
+    await deleteDoc(commentRef);
+
+    return { success: true };
+  } catch (e) {
+    if (e instanceof Error) {
+      return { success: false, message: e.message };
+    }
+    return { success: false, message: '예상치 못한 에러' };
+  }
 };
