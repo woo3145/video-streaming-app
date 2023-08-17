@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { cva } from 'class-variance-authority';
 import { cn } from 'utils/twUtils';
 
@@ -68,21 +68,21 @@ export interface InputProps
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, onChange, ...props }, ref) => {
+  ({ className, type, label, onChange, value, ...props }, ref) => {
     // label
-    const [isValid, setIsValid] = React.useState(false);
-    const [isEmpty, setIsEmpty] = React.useState(true);
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value, validity } = e.target;
-      if (value === '') {
-        setIsValid(true);
-        setIsEmpty(true);
-      } else {
-        setIsValid(validity.valid);
-        setIsEmpty(false);
-      }
+    const [isValid, setIsValid] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(true);
+    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+      const { validity } = e.target;
+      setIsValid(validity.valid);
       if (onChange) onChange(e);
     };
+    useEffect(() => {
+      if (value === '') {
+        setIsEmpty(true);
+        setIsValid(false);
+      }
+    }, [value]);
 
     return (
       <div className="relative flex items-center w-full">
@@ -91,6 +91,7 @@ const TextInput = React.forwardRef<HTMLInputElement, InputProps>(
           onChange={handleInput}
           className={cn(inputVariants({ isValid, isEmpty, className }))}
           ref={ref}
+          value={value}
           {...props}
         />
         {label && (
