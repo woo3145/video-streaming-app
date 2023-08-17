@@ -1,6 +1,9 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
+  getDoc,
   getDocs,
   orderBy,
   query,
@@ -93,4 +96,36 @@ export const saveCloud = async ({
   } as ICloudComment;
 
   return newComment;
+};
+
+export const deleteCloud = async ({
+  cloudId,
+  password,
+}: {
+  cloudId: string;
+  password: string;
+}) => {
+  try {
+    const cloudRef = doc(db, 'clouds', cloudId);
+    const cloudSnapshot = await getDoc(cloudRef);
+
+    if (!cloudSnapshot.exists()) {
+      throw new Error('댓글이 존재하지 않습니다.');
+    }
+
+    const cloudData = cloudSnapshot.data();
+
+    if (cloudData.password !== password) {
+      throw new Error('비밀번호가 일치하지 않습니다.');
+    }
+
+    await deleteDoc(cloudRef);
+
+    return { success: true };
+  } catch (e) {
+    if (e instanceof Error) {
+      return { success: false, message: e.message };
+    }
+    return { success: false, message: '예상치 못한 에러' };
+  }
 };

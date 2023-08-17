@@ -22,12 +22,18 @@ const cloudsSlice = createSlice({
       const cloud = action.payload;
       state.clouds = [...state.clouds, cloud];
     },
+    removeCloud: (state, action: PayloadAction<string>) => {
+      state.clouds = state.clouds.filter(
+        (cloud) => cloud.id !== action.payload
+      );
+    },
     setCloudsIsVisible: (state, action: PayloadAction<boolean>) => {
       state.isVisible = action.payload;
     },
   },
 });
 
-export const { setClouds, addCloud, setCloudsIsVisible } = cloudsSlice.actions;
+export const { setClouds, addCloud, setCloudsIsVisible, removeCloud } =
+  cloudsSlice.actions;
 
 export default cloudsSlice.reducer;

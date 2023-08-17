@@ -5,7 +5,7 @@ import { cn } from 'utils/twUtils';
 const labelVariants = cva(
   [
     // Layout & Position & Size
-    'absolute top-2 left-4',
+    'absolute left-4',
     // Background
     'bg-background',
     // Text
@@ -22,8 +22,8 @@ const labelVariants = cva(
         true: 'text-primary dark:text-foreground',
       },
       isEmpty: {
-        false: 'w-auto bg-inherit text-xs -translate-y-5',
-        true: 'w-4/5 text-base translate-y-0 peer-focus:w-auto peer-focus:bg-inherit peer-focus:text-primary peer-focus:dark:text-foreground peer-focus:text-xs peer-focus:-translate-y-5',
+        false: 'top-2 w-auto bg-inherit text-xs -translate-y-5',
+        true: 'w-11/12 text-base translate-y-0 peer-focus:w-auto peer-focus:top-2 peer-focus:bg-inherit peer-focus:text-primary peer-focus:dark:text-foreground peer-focus:text-xs peer-focus:-translate-y-5',
       },
     },
     defaultVariants: {
