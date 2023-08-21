@@ -9,6 +9,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
+import bcrypt from 'bcryptjs';
 import { db } from 'utils/firebase';
 
 export const fetchComments = async (
@@ -50,9 +51,12 @@ export const saveComment = async ({
   content: string;
 }) => {
   try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
+
     const result = await addDoc(collection(db, 'comments'), {
       nickname,
-      password,
+      password: hashedPassword,
       content,
       createdAt: new Date(),
       videoId,
@@ -93,8 +97,9 @@ export const deleteComment = async ({
     }
 
     const commentData = commentSnapshot.data();
-
-    if (commentData.password !== password) {
+    console.log(commentData.password);
+    const passwordMatch = await bcrypt.compare(password, commentData.password);
+    if (!passwordMatch) {
       return { success: false, message: '비밀번호가 일치하지 않습니다.' };
     }
 

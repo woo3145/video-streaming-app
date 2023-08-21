@@ -9,6 +9,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
+import bcrypt from 'bcryptjs';
 import { db } from 'utils/firebase';
 
 export const fetchClouds = async (
@@ -69,9 +70,10 @@ export const saveCloud = async ({
       high: randomHeight(0, 30),
     };
 
+    const hashedPassword = await bcrypt.hash(password, 10);
     const result = await addDoc(collection(db, 'clouds'), {
       nickname,
-      password,
+      password: hashedPassword,
       content,
       createdAt: new Date(),
       videoId,
@@ -121,7 +123,8 @@ export const deleteCloud = async ({
 
     const cloudData = cloudSnapshot.data();
 
-    if (cloudData.password !== password) {
+    const passwordMatch = await bcrypt.compare(password, cloudData.password);
+    if (!passwordMatch) {
       return { success: false, message: '비밀번호가 일치하지 않습니다.' };
     }
 
