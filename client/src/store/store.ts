@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import pageSizeSlice from './modules/pageSizeSlice';
 import videoSlice from './modules/videoSlice';
 import commentsSlice from './modules/commentsSlice';
 import cloudSlice from './modules/cloudSlice';
@@ -11,7 +10,6 @@ export const store = configureStore({
   devTools: true,
   reducer: {
     video: videoSlice,
-    pageSize: pageSizeSlice,
     comments: commentsSlice,
     clouds: cloudSlice,
     videoQuality: videoQualitySlice,

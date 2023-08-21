@@ -6,7 +6,6 @@ import { RouterProvider } from 'react-router-dom';
 import router from './router';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-import PageSizeListener from './components/layouts/PageSizeListener';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
@@ -17,7 +16,6 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
-      <PageSizeListener /> {/* 페이지 사이즈 추적 */}
       <ToastContainer />
     </Provider>
   </React.StrictMode>
