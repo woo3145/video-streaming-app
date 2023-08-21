@@ -12,7 +12,7 @@ const CloudOverlay = ({ speed = 5, clouds }: Props) => {
     (state) => state.video
   );
 
-  // 하나의 댓글이 지나가는 시간을 5초로 잡고 미리 overlay의 길이를 계산
+  // 하나의 댓글이 지나가는 시간을 {speed}초로 잡고 미리 overlay의 길이를 계산
   const overlayWidth = useMemo(
     () => videoWidth * (duration / speed),
     [videoWidth, duration, speed]

@@ -65,7 +65,7 @@ const Watch = () => {
   }
   return (
     <div>
-      <div className="flex flex-wrap gap-6 p-6 2xl:flex-nowrap pb-20">
+      <div className="flex flex-wrap gap-6 xl:p-6 xl:flex-nowrap pb-20">
         {/* Left */}
         <div className="w-full">
           <div className="relative overflow-hidden">
@@ -87,7 +87,7 @@ const Watch = () => {
         </div>
 
         {/* Right */}
-        <div className="w-full h-auto 2xl:w-[600px] shrink-0 border rounded-lg">
+        <div className="w-full h-auto xl:w-[600px] shrink-0 border rounded-lg">
           <CommentTabs videoRef={videoRef} />
         </div>
       </div>

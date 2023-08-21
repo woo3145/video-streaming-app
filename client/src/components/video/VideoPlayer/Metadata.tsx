@@ -4,8 +4,8 @@ interface Props {
 
 const Metadata = ({ title }: Props) => {
   return (
-    <div className="pt-4">
-      <h1 className="text-3xl font-semibold">{title}</h1>
+    <div className="pt-4 px-4 2xl:px-0">
+      <h1 className="text-3xl font-semibold text-white">{title}</h1>
     </div>
   );
 };

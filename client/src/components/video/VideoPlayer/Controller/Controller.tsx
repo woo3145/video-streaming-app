@@ -39,7 +39,7 @@ const Controller = ({ videoRef }: Props) => {
   return (
     <div
       className={cn(
-        'absolute top-0 left-0 w-full h-full flex flex-col justify-end text-white transition-opacity duration-300',
+        'absolute top-0 left-0 z-40 w-full h-full flex flex-col justify-end text-white transition-opacity duration-300',
         'bg-gradient-to-r from-white to-black from-80% to-100%',
         isControllerVisible ? 'opacity-100' : 'opacity-0'
       )}

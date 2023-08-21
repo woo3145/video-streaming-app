@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { cn } from 'utils/twUtils';
 
 interface Props {
   id: string;
@@ -10,7 +11,7 @@ const VideoCard = ({ thumbnailUrl, title, id }: Props) => {
   return (
     <Link
       to={`/watch/${id}`}
-      className="flex flex-col w-full cursor-pointer transition-transform duration-200 hover:-translate-y-2"
+      className="flex flex-col mx-auto w-full max-w-lg cursor-pointer transition-transform duration-200 hover:-translate-y-2"
     >
       <Thumbnail src={thumbnailUrl} alt={title} />
       <Title title={title} />
@@ -23,8 +24,7 @@ function Thumbnail({ src, alt }: { src: string; alt: string }) {
     <img
       src={src}
       alt={alt}
-      className="object-cover object-center h-80 max-h-72 rounded-lg
-  md:h-64 xl:h-60"
+      className={cn('object-cover object-center w-full h-auto rounded-md')}
     />
   );
 }
