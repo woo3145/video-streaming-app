@@ -1,8 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
+import { saveCloud } from 'services/cloudService';
 import { addCloud } from 'store/modules/cloudSlice';
 import { useAppDispatch, useAppSelector } from 'store/store';
-import { saveCloud } from 'utils/services/clouds';
+import { handleErrorWithToast } from 'utils/errorHandlers';
 
 interface CloudInput {
   nickname: string;
@@ -39,7 +40,7 @@ export const useCreateCloud = () => {
     }
 
     try {
-      const { success, newCloud, message } = await saveCloud({
+      const newCloud = await saveCloud({
         videoId: videoId,
         nickname,
         password,
@@ -50,19 +51,14 @@ export const useCreateCloud = () => {
         time: currentTime,
       });
 
-      if (!success) {
-        toast.error(message);
-        throw new Error();
-      }
-
       if (newCloud) {
         newCloud.isCreatedLocal = true;
         dispatch(addCloud(newCloud));
-        setInputs(initialInput);
-        setIsFormValid(false);
-        toast.success(message);
+        toast.success('구름이 생성되었습니다.');
       }
     } catch (e) {
+      handleErrorWithToast(e);
+    } finally {
       setInputs(initialInput);
       setIsFormValid(false);
     }

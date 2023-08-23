@@ -1,8 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
+import { deleteComment } from 'services/comments';
 import { removeComment } from 'store/modules/commentsSlice';
 import { useAppDispatch } from 'store/store';
-import { deleteComment } from 'utils/services/comments';
 
 interface CloudDeleteInput {
   password: string;

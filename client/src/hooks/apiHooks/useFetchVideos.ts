@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchVideos } from 'utils/services/videos';
+import { fetchVideos } from 'services/videos';
 
 /** Video 목록을 요청하는 커스텀 훅 */
 const useFetchVideos = () => {

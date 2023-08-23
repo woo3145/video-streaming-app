@@ -1,8 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
+import { saveComment } from 'services/comments';
 import { addComment } from 'store/modules/commentsSlice';
 import { useAppDispatch, useAppSelector } from 'store/store';
-import { saveComment } from 'utils/services/comments';
 
 interface CommentInput {
   nickname: string;

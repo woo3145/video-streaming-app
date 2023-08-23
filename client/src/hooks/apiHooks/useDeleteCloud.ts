@@ -1,8 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
+import { deleteCloud } from 'services/cloudService';
 import { removeCloud } from 'store/modules/cloudSlice';
 import { useAppDispatch } from 'store/store';
-import { deleteCloud } from 'utils/services/clouds';
+import { handleErrorWithToast } from 'utils/errorHandlers';
 
 interface CloudDeleteInput {
   password: string;
@@ -24,20 +25,13 @@ export const useDeleteCloud = (cloudId: string) => {
 
     try {
       // 삭제
-      const { success, message } = await deleteCloud({
-        cloudId,
-        password: password,
-      });
-      if (!success) {
-        toast.error(message);
-        throw new Error();
-      }
+      await deleteCloud(cloudId, password);
 
       dispatch(removeCloud(cloudId));
-      setInputs(initialInput);
-      setIsFormValid(false);
-      toast.success(message);
+      toast.success('댓글이 삭제되었습니다.');
     } catch (e) {
+      handleErrorWithToast(e);
+    } finally {
       setInputs(initialInput);
       setIsFormValid(false);
     }

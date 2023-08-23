@@ -17,3 +17,7 @@ interface ICloudComment extends IComment {
   displaySize: TCloudCommentSize; // 크기 (font)
   displaySpeed: TCloudCommentSpeed;
 }
+
+interface ICloudCommentWithPassword extends ICloudComment {
+  password: string;
+}

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
+import { fetchComments } from 'services/comments';
 import { setComments } from 'store/modules/commentsSlice';
 import { useAppDispatch } from 'store/store';
-import { fetchComments } from 'utils/services/comments';
 
 /** Video의 댓글을 요청하고 redux에 저장하는 훅 */
 const useFetchComments = (videoId: number | undefined) => {

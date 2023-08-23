@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
+import { fetchClouds } from 'services/cloudService';
 import { setClouds } from 'store/modules/cloudSlice';
 import { useAppDispatch } from 'store/store';
-import { fetchClouds } from 'utils/services/clouds';
 
 /** Video의 구름댓글을 요청하고 redux에 저장하는 훅 */
 const useFetchClouds = (videoId: number | undefined) => {
