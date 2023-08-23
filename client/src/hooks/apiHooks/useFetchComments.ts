@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { fetchComments } from 'services/comments';
+import { fetchComments } from 'services/commentService';
 import { setComments } from 'store/modules/commentsSlice';
 import { useAppDispatch } from 'store/store';
 

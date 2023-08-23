@@ -21,3 +21,6 @@ interface ICloudComment extends IComment {
 interface ICloudCommentWithPassword extends ICloudComment {
   password: string;
 }
+interface ICommentWithPassword extends IComment {
+  password: string;
+}

@@ -24,7 +24,6 @@ export const useDeleteCloud = (cloudId: string) => {
     const { password } = inputs;
 
     try {
-      // 삭제
       await deleteCloud(cloudId, password);
 
       dispatch(removeCloud(cloudId));

@@ -1,8 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
-import { saveComment } from 'services/comments';
+import { saveComment } from 'services/commentService';
 import { addComment } from 'store/modules/commentsSlice';
 import { useAppDispatch, useAppSelector } from 'store/store';
+import { handleErrorWithToast } from 'utils/errorHandlers';
 
 interface CommentInput {
   nickname: string;
@@ -27,24 +28,22 @@ export const useCreateComment = () => {
     event.preventDefault();
     const { nickname, password, content } = inputs;
     try {
-      const { success, newComment, message } = await saveComment({
+      const newComment = await saveComment({
         videoId: videoId,
         nickname,
         password,
         content,
       });
-      if (!success) {
-        toast.error(message);
-        throw new Error();
-      }
+
       if (newComment) {
         newComment.isCreatedLocal = true;
         dispatch(addComment(newComment));
-        setInputs(initialInput);
-        setIsFormValid(false);
-        toast.success(message);
+
+        toast.success('댓글이 생성되었습니다.');
       }
     } catch (e) {
+      handleErrorWithToast(e);
+    } finally {
       setInputs(initialInput);
       setIsFormValid(false);
     }

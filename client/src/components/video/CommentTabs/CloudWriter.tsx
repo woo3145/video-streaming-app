@@ -40,6 +40,7 @@ const CloudWriter = () => {
           <TextInput
             name="nickname"
             label="닉네임 *"
+            autoComplete="off"
             required
             minLength={NICKNAME_MIN_LENGTH}
             maxLength={NICKNAME_MAX_LENGTH}
@@ -51,6 +52,7 @@ const CloudWriter = () => {
             type="password"
             name="password"
             label="비밀번호 *"
+            autoComplete="off"
             required
             minLength={PASSWORD_MIN_LENGTH}
             maxLength={PASSWORD_MAX_LENGTH}

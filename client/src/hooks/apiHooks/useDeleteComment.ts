@@ -1,8 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
-import { deleteComment } from 'services/comments';
+import { deleteComment } from 'services/commentService';
 import { removeComment } from 'store/modules/commentsSlice';
 import { useAppDispatch } from 'store/store';
+import { handleErrorWithToast } from 'utils/errorHandlers';
 
 interface CloudDeleteInput {
   password: string;
@@ -23,21 +24,13 @@ export const useDeleteComment = (commentId: string) => {
     const { password } = inputs;
 
     try {
-      // 삭제
-      const { success, message } = await deleteComment({
-        commentId,
-        password: password,
-      });
-      if (!success) {
-        toast.error(message);
-        throw new Error();
-      }
+      await deleteComment(commentId, password);
 
       dispatch(removeComment(commentId));
-      setInputs(initialInput);
-      setIsFormValid(false);
-      toast.success(message);
+      toast.success('댓글이 삭제되었습니다.');
     } catch (e) {
+      handleErrorWithToast(e);
+    } finally {
       setInputs(initialInput);
       setIsFormValid(false);
     }
