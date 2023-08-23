@@ -48,7 +48,7 @@ const inputVariants = cva(
     variants: {
       isValid: {
         false: 'border-destructive ring-destructive',
-        true: 'border-primary dark:border-primary/80',
+        true: 'border-primary dark:border-primary',
       },
       isEmpty: {
         false: '',
