@@ -11,9 +11,10 @@ import CloudsToggleButton from './CloudsToggleButton';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;
+  playerRef: RefObject<HTMLDivElement>;
 }
 
-const Controller = ({ videoRef }: Props) => {
+const Controller = ({ videoRef, playerRef }: Props) => {
   const { setCurrentVideoTime, togglePlayPause, changeVolume, toggleMute } =
     useVideoController(videoRef);
 
@@ -69,7 +70,7 @@ const Controller = ({ videoRef }: Props) => {
           <div className="flex items-center gap-2">
             <CloudsToggleButton />
             <QualityButton />
-            <FullScreenButton videoRef={videoRef} />
+            <FullScreenButton playerRef={playerRef} videoRef={videoRef} />
           </div>
         </div>
       </div>

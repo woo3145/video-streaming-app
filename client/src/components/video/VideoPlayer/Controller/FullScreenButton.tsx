@@ -1,33 +1,36 @@
 import React, {
   MutableRefObject,
+  RefObject,
   useCallback,
   useEffect,
-  useState,
 } from 'react';
 import { BsFullscreen, BsFullscreenExit } from 'react-icons/bs';
+import { setIsFullScreen, setVideoSize } from 'store/modules/videoSlice';
+import { useAppDispatch, useAppSelector } from 'store/store';
 
 interface Props {
-  videoRef: MutableRefObject<HTMLVideoElement | null>;
+  playerRef: MutableRefObject<HTMLDivElement | null>;
+  videoRef: RefObject<HTMLVideoElement>;
 }
 
-const FullScreenButton = ({ videoRef }: Props) => {
-  const [isFullScreen, setIsFullScreen] = useState(false);
+const FullScreenButton = ({ playerRef, videoRef }: Props) => {
+  const dispatch = useAppDispatch();
+  const { isFullScreen } = useAppSelector((state) => state.video);
 
-  // 풀스크린 토글
-  // 추후에 requestFullscreen 대체 필요(Custom Controller UI를 사용하기 위해)
+  // 풀스크린 document에 요청
   const handleFullscreen = useCallback(() => {
-    if (!document.fullscreenElement && videoRef.current) {
-      if (videoRef.current.requestFullscreen) {
-        videoRef.current.requestFullscreen();
-      } else if ((videoRef.current as any).mozRequestFullScreen) {
+    if (!document.fullscreenElement && playerRef.current) {
+      if (playerRef.current.requestFullscreen) {
+        playerRef.current.requestFullscreen();
+      } else if ((playerRef.current as any).mozRequestFullScreen) {
         /* Firefox */
-        (videoRef.current as any).mozRequestFullScreen();
-      } else if ((videoRef.current as any).webkitRequestFullscreen) {
+        (playerRef.current as any).mozRequestFullScreen();
+      } else if ((playerRef.current as any).webkitRequestFullscreen) {
         /* Chrome, Safari and Opera */
-        (videoRef.current as any).webkitRequestFullscreen();
-      } else if ((videoRef.current as any).msRequestFullscreen) {
+        (playerRef.current as any).webkitRequestFullscreen();
+      } else if ((playerRef.current as any).msRequestFullscreen) {
         /* IE/Edge */
-        (videoRef.current as any).msRequestFullscreen();
+        (playerRef.current as any).msRequestFullscreen();
       }
     } else if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -38,18 +41,28 @@ const FullScreenButton = ({ videoRef }: Props) => {
     } else if ((document as any).msExitFullscreen) {
       (document as any).msExitFullscreen();
     }
-  }, [videoRef]);
+  }, [playerRef]);
 
   // 풀스크린 변화 시 지역상태 업데이트
   const handleFullscreenChange = useCallback(() => {
     if (document.fullscreenElement) {
-      setIsFullScreen(true);
+      dispatch(setIsFullScreen(true));
     } else {
-      setIsFullScreen(false);
+      dispatch(setIsFullScreen(false));
     }
-  }, []);
+    // 리덕스 비디오 사이즈 수정
+    setTimeout(() => {
+      // fullscreenchange 완료 후에 실행하되록 setTimeout 사용
+      if (videoRef.current) {
+        const { width, height } = videoRef.current.getBoundingClientRect();
+        dispatch(setVideoSize({ width, height }));
+      }
+    }, 100);
+  }, [dispatch, videoRef]);
+
   useEffect(() => {
     //Esc에도 반응하도록 fullscreenchange 이벤트 사용
+    // *** 주의점: fullscreenchange가 완료되는 시점에 실행되는게 아님 ***
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);

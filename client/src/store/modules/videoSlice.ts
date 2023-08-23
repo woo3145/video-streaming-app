@@ -12,6 +12,7 @@ export interface VideoState {
 
   videoWidth: number;
   videoHeight: number;
+  isFullScreen: boolean;
 }
 
 const initialState: VideoState = {
@@ -26,6 +27,7 @@ const initialState: VideoState = {
 
   videoWidth: 0,
   videoHeight: 0,
+  isFullScreen: false,
 };
 
 export const videoSlice = createSlice({
@@ -70,6 +72,10 @@ export const videoSlice = createSlice({
       state.videoWidth = action.payload.width;
       state.videoHeight = action.payload.height;
     },
+
+    setIsFullScreen: (state, action: PayloadAction<boolean>) => {
+      state.isFullScreen = action.payload;
+    },
   },
 });
 
@@ -83,6 +89,7 @@ export const {
   setIsMuted,
   setBufferedRanges,
   setVideoSize,
+  setIsFullScreen,
 } = videoSlice.actions;
 
 export default videoSlice.reducer;

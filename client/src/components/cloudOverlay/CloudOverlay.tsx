@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useAppSelector } from 'store/store';
 import CloudOverlayItem from './CloudOverlayItem';
+import { cn } from 'utils/twUtils';
 
 interface Props {
   speed?: number;
@@ -25,9 +26,10 @@ const CloudOverlay = ({ speed = 5, clouds }: Props) => {
 
   return (
     <div
-      className="top-0 text-lg pointer-events-none min-w-full"
+      className={cn(
+        'absolute top-0 left-0 text-lg pointer-events-none min-w-full'
+      )}
       style={{
-        position: 'absolute',
         width: `${overlayWidth}px`,
         height: `${videoHeight}px`,
         transform: `translateX(${-calculatedOverlayTranslateX}px)`,
