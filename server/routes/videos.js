@@ -31,8 +31,6 @@ router.get('/:quality/:videoId', (req, res) => {
   const fileSize = stat.size;
   const range = req.headers.range;
 
-  console.log(range);
-
   // 브라우저의 video 태그가 네트워크 상태 및 동영상 크기에 따라 range범위를 자동으로 조절함
   // 보통 첫 요청에 0부터 끝까지 요청하고, 추가요청이 있으면 해당부분만 받아옴(ex. 건너뛰기 시 현재 재생중인 부분 - (끝 or 일정 크기) )
   if (range) {

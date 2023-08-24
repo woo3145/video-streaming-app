@@ -2,9 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const ffmpeg = require('fluent-ffmpeg');
 
-// 사용자 컴퓨터에 설치된 ffmpeg의 ffprobe위치
-ffmpeg.setFfprobePath('/opt/homebrew/Cellar/ffmpeg/6.0/bin/ffprobe');
-
 const thumbnailDir = path.resolve(__dirname, '../thumbnail');
 if (!fs.existsSync(thumbnailDir)) {
   fs.mkdirSync(thumbnailDir);
@@ -14,7 +11,7 @@ const videosPath = path.resolve(__dirname, '../videos.json');
 const videos = require(videosPath);
 
 videos.forEach((video, index) => {
-  const videoPath = path.join(__dirname, `../videos/high/${video.src}`);
+  const videoPath = path.join(__dirname, `../videos/${video.src}`);
   const thumbnailName = `thumbnail-${video.id}.jpg`;
 
   // 이미 추출 된 썸네일은 건너뜀

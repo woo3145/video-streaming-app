@@ -2,9 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const ffmpeg = require('fluent-ffmpeg');
 
-// 사용자 컴퓨터에 설치된 ffmpeg의 ffprobe위치
-ffmpeg.setFfprobePath('/opt/homebrew/Cellar/ffmpeg/6.0/bin/ffprobe');
-
 // 인코딩 후 저장될 폴더 경로
 const encodingDir = path.resolve(__dirname, '../encodedVideos');
 if (!fs.existsSync(encodingDir)) {

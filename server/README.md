@@ -2,7 +2,14 @@
 
 #### 동영상 넣기 && 썸네일 생성
 
-**사전에 ffmpeg 설치 및 scripts/thumbnail.js의 ffprobe 위치 설정 필수**
+**사전에 ffmpeg 설치 및 env 설정 필수**
+
+```
+.env // 예시
+FFPROBE_PATH=/opt/homebrew/Cellar/ffmpeg/6.0/bin/ffprobe
+PORT=4000
+CLIENT_URL=http://localhost:3000
+```
 
 1. videos/ 폴더 내부에 업로드 할 영상 넣기
 2. 동영상 정보를 videos.json 파일에 입력 (**파일명과 src가 일치해야함**)
