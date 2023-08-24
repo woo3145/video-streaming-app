@@ -44,7 +44,7 @@ export const useCreateComment = () => {
     } catch (e) {
       handleErrorWithToast(e);
     } finally {
-      setInputs(initialInput);
+      setInputs({ ...inputs, content: '' });
       setIsFormValid(false);
     }
   };

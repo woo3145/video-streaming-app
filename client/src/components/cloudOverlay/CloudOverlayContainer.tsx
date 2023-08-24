@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useAppSelector } from 'store/store';
 import CloudOverlay from './CloudOverlay';
 
+// 구름 댓글 기능 (legacy) (댓글이 displayTime에 오른쪽에서 생성되어 speed초에 왼쪽끝에 닿음)
 const CloudOverlayContainer = () => {
   const { clouds } = useAppSelector((state) => state.clouds);
   const cloudOverlays = useMemo(
