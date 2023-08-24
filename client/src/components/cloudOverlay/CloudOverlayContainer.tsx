@@ -3,7 +3,7 @@ import { useAppSelector } from 'store/store';
 import CloudOverlay from './CloudOverlay';
 
 const CloudOverlayContainer = () => {
-  const { clouds, isVisible } = useAppSelector((state) => state.clouds);
+  const { clouds } = useAppSelector((state) => state.clouds);
   const cloudOverlays = useMemo(
     () => [
       {
@@ -24,17 +24,15 @@ const CloudOverlayContainer = () => {
 
   return (
     <>
-      {isVisible
-        ? cloudOverlays.map((overlay) => {
-            return (
-              <CloudOverlay
-                key={overlay.speed}
-                clouds={overlay.clouds}
-                speed={overlay.speed}
-              />
-            );
-          })
-        : null}
+      {cloudOverlays.map((overlay) => {
+        return (
+          <CloudOverlay
+            key={overlay.speed}
+            clouds={overlay.clouds}
+            speed={overlay.speed}
+          />
+        );
+      })}
     </>
   );
 };

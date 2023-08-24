@@ -5,6 +5,7 @@ import { useAppSelector } from 'store/store';
 import useVideoPlayer from 'hooks/videoHooks/useVideoPlayer';
 import { cn } from 'utils/twUtils';
 import CloudOverlayContainer from 'components/cloudOverlay/CloudOverlayContainer';
+import { CloudCanvas } from 'components/cloudOverlay/CloudCanvas';
 
 interface Props {
   videoRef: RefObject<HTMLVideoElement>;
@@ -15,8 +16,12 @@ const Player = ({ videoRef }: Props) => {
   const { quality } = useAppSelector((state) => state.videoQuality);
   const { isLoading } = useVideoPlayer(videoRef, videoId, quality);
 
+  const { isVisible } = useAppSelector((state) => state.clouds);
+
   // fullscreen을 위해 video, overlay, loading, controller를 감싼 컴포넌트
   const playerRef = useRef<HTMLDivElement>(null);
+
+  const isLegacy = false;
 
   return (
     <div
@@ -37,7 +42,8 @@ const Player = ({ videoRef }: Props) => {
         </video>
 
         {/* Overlay */}
-        <CloudOverlayContainer />
+        {isVisible && isLegacy && <CloudOverlayContainer />}
+        {isVisible && !isLegacy && <CloudCanvas />}
       </div>
       <div className="absolute">
         <BeatLoader
