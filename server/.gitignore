@@ -19,3 +19,5 @@ encodedVideos/high/*
 encodedVideos/medium/*
 encodedVideos/low/*
 thumbnail/*
+
+.env
