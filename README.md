@@ -19,6 +19,10 @@
 
 ##### 서버
 
-1. 동영상 부분 요청 처리 API
-2. 댓글 API
-3. 적응형 비트레이트 스트리밍 구현
+- 동영상 부분 요청 처리 API (legacy)
+
+  - [ ] AWS - S3 + Lambda + MediaConvert로 동영상 인코딩 및 썸네일 추출 후 CloudFront로 배포 (improved)
+
+- 댓글 및 구름은 클라이언트에서 Firebase의 Firestore 사용하여 구현됨
+
+[서버 문서](./server/README.md)
