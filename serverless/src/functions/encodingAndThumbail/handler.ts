@@ -13,10 +13,12 @@ const handler = async (event: any, context: Context) => {
     );
 
     const inputLocation = `s3://${bucketName}/${objectKey}`;
-    const outputLocation = `s3://${bucketName}/thumbnails/`;
+
+    const thumbnailOutputLocation = `s3://${bucketName}/thumbnails/`;
+    const videoOutputLocation = `s3://${bucketName}/encodedVideos/`;
 
     const params = {
-      JobTemplate: 'thumbnails-template',
+      JobTemplate: 'encodingAndThumbnailTemplate',
       Role: process.env.MEDIA_CONVERT_IAM_ROLE,
       Settings: {
         Inputs: [
@@ -26,17 +28,30 @@ const handler = async (event: any, context: Context) => {
         ],
         OutputGroups: [
           {
-            Name: 'File Group',
+            Name: 'File Group - encodedVideos',
             Outputs: [
               {
-                Extension: 'jpg',
-                NameModifier: '_thumbnail',
+                Extension: 'mp4',
               },
             ],
             OutputGroupSettings: {
               Type: 'FILE_GROUP_SETTINGS',
               FileGroupSettings: {
-                Destination: `${outputLocation}`,
+                Destination: `${videoOutputLocation}`,
+              },
+            },
+          },
+          {
+            Name: 'File Group - thumbnail',
+            Outputs: [
+              {
+                Extension: 'jpg',
+              },
+            ],
+            OutputGroupSettings: {
+              Type: 'FILE_GROUP_SETTINGS',
+              FileGroupSettings: {
+                Destination: `${thumbnailOutputLocation}`,
               },
             },
           },
@@ -54,4 +69,4 @@ const handler = async (event: any, context: Context) => {
   }
 };
 
-export const generateThumbnail = handler;
+export const encodingAndThumbail = handler;

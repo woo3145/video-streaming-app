@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 
-import generateThumbnail from '@functions/generateThumbnail';
+import encodingAndThumbail from '@functions/encodingAndThumbail';
 
 const serverlessConfiguration: AWS = {
   service: 'woo3145-serverless',
@@ -20,8 +20,7 @@ const serverlessConfiguration: AWS = {
   },
   // import the function via paths
   functions: {
-    // thumbnail 생성과 encode 한번에 할 예정(MediaConvert가 jpg만 따로 캡쳐할 수 없고 output에 비디오가 최소 하나 존재해야함)
-    generateThumbnail,
+    encodingAndThumbail,
   },
   package: { individually: true },
   custom: {

@@ -1,7 +1,7 @@
 import { handlerPath } from '@libs/handler-resolver';
 
 export default {
-  handler: `${handlerPath(__dirname)}/handler.generateThumbnail`,
+  handler: `${handlerPath(__dirname)}/handler.encodingAndThumbail`,
   events: [
     {
       s3: {
