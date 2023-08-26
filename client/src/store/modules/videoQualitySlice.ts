@@ -5,7 +5,7 @@ export interface PageSizeState {
 }
 
 const initialState: PageSizeState = {
-  quality: 'medium',
+  quality: '480',
 };
 
 const videoQualitySlice = createSlice({

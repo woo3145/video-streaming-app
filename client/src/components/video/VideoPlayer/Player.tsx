@@ -12,9 +12,9 @@ interface Props {
 }
 
 const Player = ({ videoRef }: Props) => {
-  const { id: videoId, src } = useAppSelector((state) => state.video);
+  const { src: videoSrc } = useAppSelector((state) => state.video);
   const { quality } = useAppSelector((state) => state.videoQuality);
-  const { isLoading } = useVideoPlayer(videoRef, videoId, quality);
+  const { isLoading } = useVideoPlayer(videoRef, videoSrc, quality);
 
   const { isVisible } = useAppSelector((state) => state.clouds);
 
@@ -38,7 +38,7 @@ const Player = ({ videoRef }: Props) => {
           ref={videoRef}
           className="absolute top-0 left-0 w-full h-full object-contain"
         >
-          <source src={src} type="video/mp4" />
+          <source type="video/mp4" />
         </video>
 
         {/* Overlay */}

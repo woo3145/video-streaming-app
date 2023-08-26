@@ -8,4 +8,4 @@ interface IVideoWithThumbnail extends IVideo {
   thumbnail: string;
 }
 
-type TVideoQuality = 'low' | 'medium' | 'high';
+type TVideoQuality = '360' | '480' | '720';

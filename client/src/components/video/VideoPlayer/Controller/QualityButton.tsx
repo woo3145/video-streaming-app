@@ -14,29 +14,23 @@ const QualityButton = () => {
   const dispatch = useAppDispatch();
   const quality = useAppSelector((state) => state.videoQuality.quality);
 
-  const text: { [key in TVideoQuality]: string } = {
-    low: '320p',
-    medium: '640p',
-    high: '720p',
-  };
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Button type="button" variant="ghost">
-          {text[quality]}
+          {`${quality}p`}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40">
         <DropdownMenuRadio
-          value={quality}
+          value={`${quality}p`}
           setValue={(value: string) =>
             dispatch(setVideoQuality(value as TVideoQuality))
           }
         >
-          <DropdownMenuRadioItem value="low">320p</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="medium">640p</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="high">720p</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="360">360p</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="480">480p</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="720">720p</DropdownMenuRadioItem>
         </DropdownMenuRadio>
       </DropdownMenuContent>
     </DropdownMenu>

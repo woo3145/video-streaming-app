@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import CommentTabs from 'components/video/CommentTabs/CommentTabs';
 import Metadata from 'components/video/VideoPlayer/Metadata';
 import Player from 'components/video/VideoPlayer/Player';
-import { setVideoId } from 'store/modules/videoSlice';
+import { setVideoId, setVideoSrc } from 'store/modules/videoSlice';
 import { useAppDispatch } from 'store/store';
 import useFetchVideos from 'hooks/apiHooks/useFetchVideos';
 import useFetchComments from 'hooks/apiHooks/useFetchComments';
@@ -31,6 +31,7 @@ const Watch = () => {
     if (!video) return;
     if (video.id !== 0) {
       dispatch(setVideoId(video.id));
+      dispatch(setVideoSrc(video.src));
     }
   }, [dispatch, video]);
 

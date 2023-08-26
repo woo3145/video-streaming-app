@@ -13,14 +13,14 @@ import {
   setIsMuted,
   setIsPlaying,
   setVideoSize,
-  setVideoSrc,
 } from 'store/modules/videoSlice';
 import { useAppDispatch } from 'store/store';
+import { appendQualityToFilename } from 'utils/commonUtils';
 
 /**
  * 역할 : 비디오 재생을 위한 플레이어 관리
  * 
- * 1. videoId와 quality로 비디오 주소를 생성하여 videoSrc에 저장
+ * 1. videoSrc와 quality로 실제 동영상을 요청할 url을 생성하여 videoRef의 src에 설정 후 재생시킴
  * 2. 비디오 로딩 및 버퍼링 상태 관리(isLoading)
  * 3. 비디오 이벤트 핸들러 등록, 필요한 정보를 Redux에 저장
     (비디오 플레이어의 동작 상태 및 메타데이터를 처리하는 핸들러)
@@ -28,14 +28,17 @@ import { useAppDispatch } from 'store/store';
 */
 const useVideoPlayer = (
   videoRef: RefObject<HTMLVideoElement>,
-  videoId: number,
+  videoSrc: string,
   videoQuality: TVideoQuality
 ) => {
-  const videoSrc = useMemo(() => {
-    return videoId !== 0
-      ? `${process.env.REACT_APP_API_URL}/videos/${videoQuality}/${videoId}`
+  // 실제로 video를 요청 할 주소
+  const videoUrl = useMemo(() => {
+    return videoSrc !== ''
+      ? `${
+          process.env.REACT_APP_RESOURCE_URL
+        }/encodedVideos/${appendQualityToFilename(videoSrc, videoQuality)}`
       : '';
-  }, [videoId, videoQuality]);
+  }, [videoSrc, videoQuality]);
 
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false); // 비디오 로딩중 or 버퍼링중 상태
@@ -43,7 +46,7 @@ const useVideoPlayer = (
   const rafRef = useRef<number | null>(null); // currentTime을 업데이트 하는 requestAnimationFrame의 참조
   const [prevPosition, setPrevPosition] = useState(0); // 비디오의 품질이 변경 될 경우 상태 유지
 
-  // 리덕스 저장 : CurrentTime (requestAnimationFrame으로 업데이트)
+  // 리덕스에 저장 하는 함수 : CurrentTime (requestAnimationFrame으로 업데이트)
   const updateProgress = useCallback(() => {
     const videoElement = videoRef.current;
     if (!videoElement) return;
@@ -59,7 +62,7 @@ const useVideoPlayer = (
     }
   }, [dispatch, videoRef]);
 
-  // 리덕스 저장 : Video Display Size
+  // 리덕스에 저장 하는 함수 : Video Display Size
   const updateVideoSize = useCallback(
     (videoElement: HTMLVideoElement) => {
       const { width, height } = videoElement.getBoundingClientRect();
@@ -68,7 +71,7 @@ const useVideoPlayer = (
     [dispatch]
   );
 
-  // 리덕스 저장 : Video Buffered
+  // 리덕스에 저장 하는 함수 : Video Buffered
   const updateBufferedRanges = useCallback(
     (videoElement: HTMLVideoElement) => {
       const buffered = videoElement.buffered;
@@ -81,7 +84,7 @@ const useVideoPlayer = (
     [dispatch]
   );
 
-  // 동영상 로드 후 이벤트 등록 (리덕스 저장, window resize, progress raf)
+  // 동영상 로드 후 이벤트 등록 (리덕스에 저장 하는 함수들, progress raf)
   useEffect(() => {
     const videoElement = videoRef.current;
     if (!videoElement) return;
@@ -164,13 +167,6 @@ const useVideoPlayer = (
     updateBufferedRanges,
   ]);
 
-  // 비디오 src 저장
-  useEffect(() => {
-    if (videoRef.current && videoRef.current.src !== videoSrc) {
-      dispatch(setVideoSrc(videoSrc));
-    }
-  }, [dispatch, videoRef, videoSrc]);
-
   // 비디오 Quality 변경 시 : 현재 재생시점 저장
   useEffect(() => {
     if (videoRef.current) {
@@ -180,19 +176,20 @@ const useVideoPlayer = (
 
   // 비디오 로드 후 자동재생
   useEffect(() => {
-    const isAutoPlay = true;
+    const isAutoPlay = true; // 임시
     const videoElement = videoRef.current;
     if (!videoElement) return;
 
     // - 브라우저는 페이지 로드 후(비디오 로드 시점 x, 페이지 로드 시점 o) 사용자의 인터랙션이 일어나기 전에 미디어의 소리까지 자동재생이 불가능 하도록 막아둠
-    // - 따라서 mute 상태로 구현하거나 일시정지 상태여야함
+    // - 따라서 mute 상태면 자동재생 되고, mute가 아니면 일시정지 상태가 됨 (크롬기준, 브라우저마다 다름)
     // - SPA의 경우 Home -> Watch로 이동 시 이전 상호작용이 기록되어 있어 소리까지 자동 재생 가능
     // - SPA라도 새로고침 등으로 Watch로 첫 접속을 하면 소리까지 재생 X
 
+    // +++ chrome의 경우 사용빈도나 신뢰도에 따라 위 정책이 완화될 수 있음(실제로 개발 하다보면 어느순간 완화되어 자동재생이 됨)
+
     // 비디오 로드와 재생
-    if (videoSrc !== '' && videoElement.src !== videoSrc) {
-      videoElement.src = videoSrc;
-      dispatch(setVideoSrc(videoSrc));
+    if (videoUrl !== '' && videoElement.src !== videoUrl) {
+      videoElement.src = videoUrl;
       if (isAutoPlay) {
         videoElement
           .play()
@@ -210,9 +207,9 @@ const useVideoPlayer = (
           });
       }
     }
-  }, [dispatch, videoRef, videoSrc]);
+  }, [dispatch, videoRef, videoUrl]);
 
-  return { src: videoSrc, isLoading };
+  return { isLoading };
 };
 
 export default useVideoPlayer;

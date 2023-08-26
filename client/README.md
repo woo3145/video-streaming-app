@@ -1,8 +1,20 @@
 # 클라이언트
 
-#### react-router-dom v6.4 이후 버전 사용
+### env
 
-https://reactrouter.com/en/main/start/overview
+```
+// Firebase 관련
+REACT_APP_FIREBASE_APIKEY=
+REACT_APP_FIREBASE_AUTH_DOMAIN=
+REACT_APP_FIREBASE_PROJECTID=
+REACT_APP_FIREBASE_STORAGEBUCKET=
+REACT_APP_FIREBASE_MESSAGINGSENDERID=
+REACT_APP_FIREBASE_APPID=
+
+// REACT_APP_API_URL= // 백엔드 url(Legacy)
+
+REACT_APP_RESOURCE_URL= // s3 또는 cloudfront url
+```
 
 ### 할일
 
@@ -16,7 +28,7 @@ https://reactrouter.com/en/main/start/overview
   - div 태그에도 requestFullscreen가 가능하기 때문에 fullScreen이 필요한 부분을 player로 감싸 requestFullScreen 요청
 - [x] 구름 댓글 구현
 - [x] 구름 댓글 개별 속도 기능
-- [ ] Canvas를 이용한 구름 댓글 구현
+- [x] Canvas를 이용한 구름 댓글 구현
 - [ ] Canvas 기반과 DOM 기반 구름 댓글의 비교
 
 ### ☁️ 구름 댓글 구상
