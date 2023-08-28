@@ -10,12 +10,11 @@ export const useOnClickOutside = (
       // ref의 내부 클릭시
       if (
         refs.every(
-          (ref) => ref.current && ref.current.contains(e.target as Node)
+          (ref) => ref.current && !ref.current.contains(e.target as Node)
         )
       ) {
-        return;
+        callback();
       }
-      callback();
     },
     [callback, refs]
   );
