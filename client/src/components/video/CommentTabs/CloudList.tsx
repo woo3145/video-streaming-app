@@ -16,13 +16,16 @@ const CloudList = ({ videoRef }: Props) => {
   }, [clouds]);
 
   return (
-    <ul className="text-lg 2xl:max-h-[400px] overflow-y-scroll">
+    <ul className="text-lg xl:max-h-[400px] overflow-y-scroll">
       {sortedClouds.map((cloud, idx) => {
         return (
           <CloudListItem
             key={cloud.id}
             cloud={cloud}
-            onClick={() => setCurrentVideoTime(cloud.displayTime)}
+            onClick={() => {
+              setCurrentVideoTime(cloud.displayTime);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
           />
         );
       })}
