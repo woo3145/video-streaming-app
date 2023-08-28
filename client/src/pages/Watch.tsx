@@ -56,7 +56,7 @@ const Watch = () => {
         </div>
 
         {/* Right */}
-        <div className="w-full h-auto xl:w-[600px] shrink-0 border rounded-lg">
+        <div className="w-full h-auto xl:w-[600px] shrink-0 rounded-lg">
           <CommentTabs videoRef={videoRef} />
         </div>
       </div>

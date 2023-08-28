@@ -17,7 +17,7 @@ interface Props {
 const CommentTabs = ({ videoRef }: Props) => {
   return (
     <Tabs defaultValue="cloud" className="">
-      <TabsList>
+      <TabsList className="border border-b-0 rounded-t-lg">
         <TabsTrigger value="comment" className="rounded-tl-md">
           💬 댓글
         </TabsTrigger>
@@ -25,11 +25,11 @@ const CommentTabs = ({ videoRef }: Props) => {
           ☁️ 구름
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="comment">
+      <TabsContent value="comment" className="border rounded-b-lg">
         <CommentWriter />
         <CommentList />
       </TabsContent>
-      <TabsContent value="cloud">
+      <TabsContent value="cloud" className="border rounded-b-lg">
         <CloudWriter />
         <CloudList videoRef={videoRef} />
       </TabsContent>
