@@ -23,23 +23,25 @@ const VideoCard = ({ thumbnailUrl, title, id }: Props) => {
 function Thumbnail({ src, alt }: { src: string; alt: string }) {
   const [isLoading, setIsLoading] = useState(true);
 
-  if (isLoading) {
-    return (
-      <div
-        className={cn(
-          'object-cover object-center w-full h-0 pb-[56.25%] rounded-md bg-foreground/20'
-        )}
-      ></div>
-    );
-  }
-
   return (
-    <img
-      src={src}
-      alt={alt}
-      onLoad={() => setIsLoading(false)}
-      className={cn('object-cover object-center w-full h-auto rounded-md')}
-    />
+    <div>
+      {isLoading && (
+        <div
+          className={cn(
+            'object-cover object-center w-full h-0 pb-[56.25%] rounded-md bg-foreground/20'
+          )}
+        />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        onLoad={() => setIsLoading(false)}
+        className={cn(
+          'object-cover object-center w-full h-auto rounded-md',
+          isLoading ? 'hidden' : 'block'
+        )}
+      />
+    </div>
   );
 }
 
