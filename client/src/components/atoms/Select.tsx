@@ -19,7 +19,8 @@ interface SelectContextProps {
   value: string | null;
   selectedItemLabel: string | null;
   onChange: (value: string, label: string) => void;
-  selectRef: React.RefObject<HTMLDivElement>;
+  triggerRef: React.RefObject<HTMLButtonElement>;
+  contentRef: React.RefObject<HTMLDivElement>;
 }
 
 const SelectContext = createContext<SelectContextProps | null>(null);
@@ -36,7 +37,8 @@ const Select = ({ children, value, onChange, ...props }: SelectProps) => {
   const [selectedItemLabel, setSelectedItemLabel] = useState<string | null>(
     null
   );
-  const selectRef = useRef<HTMLDivElement>(null); // Ref가 아닌 요소 클릭 시 드롭다운 닫기위함
+  const triggerRef = useRef<HTMLButtonElement>(null); // Ref가 아닌 요소 클릭 시 드롭다운 닫기위함
+  const contentRef = useRef<HTMLDivElement>(null); // Ref가 아닌 요소 클릭 시 드롭다운 닫기위함
   const contextValue: SelectContextProps = useMemo(
     () => ({
       isOpen,
@@ -47,9 +49,10 @@ const Select = ({ children, value, onChange, ...props }: SelectProps) => {
         onChange(value);
         setSelectedItemLabel(label);
       },
-      selectRef,
+      triggerRef,
+      contentRef,
     }),
-    [isOpen, setIsOpen, value, onChange, selectRef, selectedItemLabel]
+    [isOpen, setIsOpen, value, onChange, selectedItemLabel]
   );
   // value 초기화 시 selectedItemLabel도 초기화
   useEffect(() => {
@@ -58,13 +61,13 @@ const Select = ({ children, value, onChange, ...props }: SelectProps) => {
     }
   }, [value]);
   // Ref가 아닌 요소 클릭 시 드롭다운 닫기위한 이벤트 등록
-  useOnClickOutside(selectRef, () => {
+  useOnClickOutside([triggerRef, contentRef], () => {
     setIsOpen(false);
   });
 
   return (
     <SelectContext.Provider value={contextValue}>
-      <div ref={selectRef} className="relative" {...props}>
+      <div className="relative" {...props}>
         {children}
       </div>
     </SelectContext.Provider>
@@ -92,7 +95,7 @@ const SelectTrigger = ({ children, className }: SelectTriggerProps) => {
   if (!selectContext) {
     throw new Error('Select 컴포넌트 내부에 위치하고 있지 않습니다.');
   }
-  const { isOpen, setIsOpen, value } = selectContext;
+  const { isOpen, setIsOpen, value, triggerRef } = selectContext;
 
   const handleClick = useCallback(() => {
     setIsOpen(!isOpen);
@@ -102,6 +105,7 @@ const SelectTrigger = ({ children, className }: SelectTriggerProps) => {
     <button
       type="button"
       onClick={handleClick}
+      ref={triggerRef}
       className={cn(
         'flex items-center justify-between px-4 py-2 border border-input rounded-md text-base hover:border-primary focus:border-primary focus:ring-1 ring-ring',
         value && 'border-primary',
@@ -145,12 +149,12 @@ const SelectContent = ({ children }: SelectContentProps) => {
     throw new Error('Select 컴포넌트 내부에 위치하고 있지 않습니다.');
   }
 
-  const { isOpen, selectRef } = selectContext;
+  const { isOpen, contentRef } = selectContext;
 
   return isOpen ? (
     <div
       className="absolute z-10 left-0 mt-2 w-full rounded-md border shadow-lg bg-popover text-popover-foreground"
-      ref={selectRef}
+      ref={contentRef}
     >
       {children}
     </div>

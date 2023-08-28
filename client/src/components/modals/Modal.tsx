@@ -36,7 +36,7 @@ export const Modal = ({
     };
   }, []);
 
-  useOnClickOutside(wrapper, closeModal);
+  useOnClickOutside([wrapper], closeModal);
 
   return (
     <div

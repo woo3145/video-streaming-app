@@ -39,7 +39,7 @@ const DropdownMenu = ({ children, className }: DropdownMenuProps) => {
     [isOpen, setIsOpen, dropdownMenuRef]
   );
 
-  useOnClickOutside(dropdownMenuRef, () => {
+  useOnClickOutside([dropdownMenuRef], () => {
     setIsOpen(false);
   });
   return (
