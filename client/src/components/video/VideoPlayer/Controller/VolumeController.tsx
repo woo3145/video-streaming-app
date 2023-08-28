@@ -69,7 +69,7 @@ const VolumeController = ({ onClickVolume, onClickMute }: Props) => {
   const volumeWidth = `${volume * 100}%`;
 
   return (
-    <div className="group flex items-center">
+    <div className="group hidden md:flex items-center">
       <div
         className="flex items-center justify-center shrink-0 w-8 h-8 rounded-md text-xl cursor-pointer hover:bg-accent hover:text-accent-foreground duration-300"
         onClick={onClickMuteHandler}
