@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface CloudsState {
-  clouds: ICloudComment[];
+  clouds: Record<number, ICloudComment[]>;
   isVisible: boolean;
 }
 
 const initialState: CloudsState = {
-  clouds: [],
+  clouds: {},
   isVisible: true,
 };
 
@@ -14,17 +14,27 @@ const cloudsSlice = createSlice({
   name: 'clouds',
   initialState,
   reducers: {
-    setClouds: (state, action: PayloadAction<ICloudComment[]>) => {
-      const clouds = action.payload;
-      state.clouds = clouds;
+    setClouds: (
+      state,
+      action: PayloadAction<{ videoId: number; clouds: ICloudComment[] }>
+    ) => {
+      const { videoId, clouds } = action.payload;
+      state.clouds[videoId] = clouds;
     },
-    addCloud: (state, action: PayloadAction<ICloudComment>) => {
-      const cloud = action.payload;
-      state.clouds = [...state.clouds, cloud];
+    addCloud: (
+      state,
+      action: PayloadAction<{ videoId: number; cloud: ICloudComment }>
+    ) => {
+      const { videoId, cloud } = action.payload;
+      state.clouds[videoId] = [...state.clouds[videoId], cloud];
     },
-    removeCloud: (state, action: PayloadAction<string>) => {
-      state.clouds = state.clouds.filter(
-        (cloud) => cloud.id !== action.payload
+    removeCloud: (
+      state,
+      action: PayloadAction<{ videoId: number; cloudId: string }>
+    ) => {
+      const { videoId, cloudId } = action.payload;
+      state.clouds[videoId] = state.clouds[videoId].filter(
+        (cloud) => cloud.id !== cloudId
       );
     },
     setCloudsIsVisible: (state, action: PayloadAction<boolean>) => {

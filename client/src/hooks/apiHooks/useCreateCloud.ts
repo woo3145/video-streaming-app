@@ -53,7 +53,7 @@ export const useCreateCloud = () => {
 
       if (newCloud) {
         newCloud.isCreatedLocal = true;
-        dispatch(addCloud(newCloud));
+        dispatch(addCloud({ videoId, cloud: newCloud }));
         toast.success('구름이 생성되었습니다.');
       }
     } catch (e) {

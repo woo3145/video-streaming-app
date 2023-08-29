@@ -20,7 +20,7 @@ const initialInput: CommentInput = {
 //** 댓글 생성을 위한 커스텀 훅 */
 export const useCreateComment = () => {
   const dispatch = useAppDispatch();
-  const videoId = useAppSelector((state) => state.video.id);
+  const { id: videoId } = useAppSelector((state) => state.video);
   const [isFormValid, setIsFormValid] = useState(false);
   const [inputs, setInputs] = useState<CommentInput>(initialInput);
 
@@ -37,7 +37,7 @@ export const useCreateComment = () => {
 
       if (newComment) {
         newComment.isCreatedLocal = true;
-        dispatch(addComment(newComment));
+        dispatch(addComment({ videoId, comment: newComment }));
 
         toast.success('댓글이 생성되었습니다.');
       }

@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { deleteCloud } from 'services/cloudService';
 import { removeCloud } from 'store/modules/cloudSlice';
-import { useAppDispatch } from 'store/store';
+import { useAppDispatch, useAppSelector } from 'store/store';
 import { handleErrorWithToast } from 'utils/errorHandlers';
 
 interface CloudDeleteInput {
@@ -16,6 +16,7 @@ const initialInput = {
 //** 구름댓글 삭제을 위한 커스텀 훅 */
 export const useDeleteCloud = (cloudId: string) => {
   const dispatch = useAppDispatch();
+  const { id: videoId } = useAppSelector((state) => state.video);
   const [isFormValid, setIsFormValid] = useState(false);
   const [inputs, setInputs] = useState<CloudDeleteInput>(initialInput);
 
@@ -26,7 +27,7 @@ export const useDeleteCloud = (cloudId: string) => {
     try {
       await deleteCloud(cloudId, password);
 
-      dispatch(removeCloud(cloudId));
+      dispatch(removeCloud({ videoId, cloudId }));
       toast.success('댓글이 삭제되었습니다.');
     } catch (e) {
       handleErrorWithToast(e);
