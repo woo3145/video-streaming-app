@@ -10,13 +10,15 @@ interface Props {
 const CloudList = ({ videoRef }: Props) => {
   const { setCurrentVideoTime } = useVideoSeek(videoRef);
   const { id: videoId } = useAppSelector((state) => state.video);
-  const { clouds } = useAppSelector((state) => state.clouds);
+  const { clouds: _clouds } = useAppSelector((state) => state.clouds);
+
+  const clouds = useMemo(() => {
+    return _clouds[videoId]?.data || [];
+  }, [_clouds, videoId]);
 
   const sortedClouds = useMemo(() => {
-    return [...(clouds[videoId] || [])].sort(
-      (a, b) => a.displayTime - b.displayTime
-    );
-  }, [clouds, videoId]);
+    return [...clouds].sort((a, b) => a.displayTime - b.displayTime);
+  }, [clouds]);
 
   return (
     <ul className="text-lg xl:max-h-[400px] overflow-y-scroll">

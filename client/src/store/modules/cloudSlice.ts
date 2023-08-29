@@ -1,7 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface CloudsState {
-  clouds: Record<number, ICloudComment[]>;
+  clouds: Record<
+    number,
+    {
+      data: ICloudComment[];
+      lastFetched: number;
+    }
+  >;
   isVisible: boolean;
 }
 
@@ -19,21 +25,29 @@ const cloudsSlice = createSlice({
       action: PayloadAction<{ videoId: number; clouds: ICloudComment[] }>
     ) => {
       const { videoId, clouds } = action.payload;
-      state.clouds[videoId] = clouds;
+      state.clouds[videoId] = {
+        lastFetched: Date.now(),
+        data: clouds,
+      };
     },
     addCloud: (
       state,
       action: PayloadAction<{ videoId: number; cloud: ICloudComment }>
     ) => {
       const { videoId, cloud } = action.payload;
-      state.clouds[videoId] = [...state.clouds[videoId], cloud];
+      if (!state.clouds[videoId]) return;
+      state.clouds[videoId] = {
+        ...state.clouds[videoId],
+        data: [...state.clouds[videoId].data, cloud],
+      };
     },
     removeCloud: (
       state,
       action: PayloadAction<{ videoId: number; cloudId: string }>
     ) => {
       const { videoId, cloudId } = action.payload;
-      state.clouds[videoId] = state.clouds[videoId].filter(
+      if (!state.clouds[videoId]) return;
+      state.clouds[videoId].data = state.clouds[videoId].data.filter(
         (cloud) => cloud.id !== cloudId
       );
     },

@@ -4,13 +4,17 @@ import { cn } from 'utils/twUtils';
 
 // 구름 댓글 기능 (improved) (댓글이 displayTime에 오른쪽에서 생성되어 speed초에 왼쪽끝에 닿음)
 export const CloudCanvas = () => {
-  const { clouds } = useAppSelector((state) => state.clouds);
+  const { clouds: _clouds } = useAppSelector((state) => state.clouds);
   const {
     id: videoId,
     currentTime,
     videoWidth,
     videoHeight,
   } = useAppSelector((state) => state.video);
+
+  const clouds = useMemo(() => {
+    return _clouds[videoId]?.data || [];
+  }, [_clouds, videoId]);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -30,7 +34,7 @@ export const CloudCanvas = () => {
       large: '2em',
     };
   }, []);
-  const visibleClouds = (clouds[videoId] || []).filter((cloud) => {
+  const visibleClouds = clouds.filter((cloud) => {
     return (
       cloud.displayTime <= currentTime &&
       currentTime <= cloud.displayTime + speeds[cloud.displaySpeed] + 3 // 댓글이 사라지기 까지 여유시간

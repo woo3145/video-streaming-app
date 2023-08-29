@@ -11,7 +11,14 @@ const useFetchClouds = (videoId: number | undefined) => {
   useEffect(() => {
     if (videoId === undefined || videoId === 0) return;
 
-    if (clouds[videoId]) return;
+    const currentTime = Date.now();
+    const fiveMinutesInMilliseconds = 5 * 60 * 1000;
+    // 최근 구름 요청시간에서 5분이 안지났다면 요청 X
+    if (
+      clouds[videoId] &&
+      currentTime - clouds[videoId].lastFetched < fiveMinutesInMilliseconds
+    )
+      return;
 
     const fetch = async () => {
       console.log('구름 요청');

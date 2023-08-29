@@ -11,7 +11,14 @@ const useFetchComments = (videoId: number | undefined) => {
   useEffect(() => {
     if (videoId === undefined || videoId === 0) return;
 
-    if (comments[videoId]) return;
+    const currentTime = Date.now();
+    const fiveMinutesInMilliseconds = 5 * 60 * 1000;
+    // 최근 댓글 요청시간에서 5분이 안지났다면 요청 X
+    if (
+      comments[videoId] &&
+      currentTime - comments[videoId].lastFetched < fiveMinutesInMilliseconds
+    )
+      return;
 
     const fetch = async () => {
       console.log('댓글 요청');
