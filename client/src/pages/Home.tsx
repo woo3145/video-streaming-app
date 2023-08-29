@@ -1,10 +1,11 @@
 import VideoCard from 'components/video/VideoPlayer/VideoCard';
 import useFetchVideos from 'hooks/apiHooks/useFetchVideos';
-import React from 'react';
+import { useAppSelector } from 'store/store';
 import { cn } from 'utils/twUtils';
 
 const Home = () => {
-  const { videos, isLoading } = useFetchVideos();
+  const { videos, isLoading } = useAppSelector((state) => state.videoList);
+  useFetchVideos();
 
   if (isLoading) {
     return <div>Loading...</div>;

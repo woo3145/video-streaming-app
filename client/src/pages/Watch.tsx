@@ -4,14 +4,15 @@ import CommentTabs from 'components/video/CommentTabs/CommentTabs';
 import Metadata from 'components/video/VideoPlayer/Metadata';
 import Player from 'components/video/VideoPlayer/Player';
 import { setVideoId, setVideoSrc } from 'store/modules/videoSlice';
-import { useAppDispatch } from 'store/store';
-import useFetchVideos from 'hooks/apiHooks/useFetchVideos';
+import { useAppDispatch, useAppSelector } from 'store/store';
 import useFetchComments from 'hooks/apiHooks/useFetchComments';
 import useFetchClouds from 'hooks/apiHooks/useFetchClouds';
+import useFetchVideos from 'hooks/apiHooks/useFetchVideos';
 
 const Watch = () => {
+  useFetchVideos();
   const { videoId } = useParams();
-  const { videos, isLoading } = useFetchVideos();
+  const { videos, isLoading } = useAppSelector((state) => state.videoList);
 
   const video = useMemo(() => {
     const filteredVideo = videos.filter(

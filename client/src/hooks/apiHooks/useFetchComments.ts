@@ -20,8 +20,8 @@ const useFetchComments = (videoId: number | undefined) => {
     )
       return;
 
+    // console.log('댓글 요청 및 리덕스 저장');
     const fetch = async () => {
-      console.log('댓글 요청');
       const videoComments = await fetchComments(videoId).catch((e) => {
         console.log('Failed to fetch Comments');
         return null;

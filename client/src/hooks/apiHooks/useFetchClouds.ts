@@ -19,11 +19,10 @@ const useFetchClouds = (videoId: number | undefined) => {
       currentTime - clouds[videoId].lastFetched < fiveMinutesInMilliseconds
     )
       return;
-
+    // console.log('구름 요청 및 리덕스 저장');
     const fetch = async () => {
-      console.log('구름 요청');
       const videoClouds = await fetchClouds(videoId).catch((e) => {
-        console.log('Failed to fetch Comments');
+        console.log('Failed to fetch Clouds');
         return null;
       });
 

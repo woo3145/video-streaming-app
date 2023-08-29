@@ -5,6 +5,7 @@ import videoSlice from './modules/videoSlice';
 import commentsSlice from './modules/commentsSlice';
 import cloudSlice from './modules/cloudSlice';
 import videoQualitySlice from './modules/videoQualitySlice';
+import videoListSlice from './modules/videoListSlice';
 
 export const store = configureStore({
   devTools: true,
@@ -13,6 +14,7 @@ export const store = configureStore({
     comments: commentsSlice,
     clouds: cloudSlice,
     videoQuality: videoQualitySlice,
+    videoList: videoListSlice,
   },
 });
 
