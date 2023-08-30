@@ -1,11 +1,12 @@
 import * as AWS from 'aws-sdk';
-import { Context } from 'aws-lambda';
+import { S3Event } from 'aws-lambda';
+import { middyfyS3 } from '@libs/lambda';
 
 const mediaconvert = new AWS.MediaConvert({
   endpoint: process.env.ENDPOINT_MEDIA_CONVERT,
 });
 
-const handler = async (event: any, context: Context) => {
+const handler = async (event: S3Event) => {
   for (const record of event.Records) {
     const bucketName = record.s3.bucket.name;
     const objectKey = decodeURIComponent(
@@ -66,7 +67,8 @@ const handler = async (event: any, context: Context) => {
     } catch (error) {
       console.error(`Failed to start job for object "${objectKey}": ${error}`);
     }
+    return {};
   }
 };
 
-export const encodingAndThumbail = handler;
+export const encodingAndThumbail = middyfyS3(handler);
