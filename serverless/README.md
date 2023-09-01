@@ -1,95 +1,134 @@
-# Serverless - AWS Node.js Typescript
+# Serverless
 
-This project has been generated using the `aws-nodejs-typescript` template from the [Serverless framework](https://www.serverless.com/).
+## 💻 주요기능
 
-For detailed instructions, please refer to the [documentation](https://www.serverless.com/framework/docs/providers/aws/).
+- lambda 함수가 배포되면서 생성된 S3의 videos/ 폴더를 생성하고 비디오를 업로드하면 다음과 같은 동작이 수행됩니다.
 
-## Installation/deployment instructions
+  - encodedVideos/ 폴더에 3가지 해상도(720p, 640p, 320p)로 인코딩하여 저장합니다. (sample_720p.mp4, sample_640p.mp4, sample_320p.mp4)
+  - thumanails/ 폴더에 비디오의 첫 프레임을 추출하여 jpg 파일로 저장합니다.
+    (sample_thumbnail.0000000.jpg)
 
-Depending on your preferred package manager, follow the instructions below to deploy your project.
+- 해당 S3에 비디오 목록에 대한 videos.json 파일을 추가하면 클라이언트에서 비디오를 조회할 수 있습니다.
 
-> **Requirements**: NodeJS `lts/fermium (v.14.15.0)`. If you're using [nvm](https://github.com/nvm-sh/nvm), run `nvm use` to ensure you're using the same Node version in local and in your lambda's runtime.
+  ```json
+  [
+    {
+      "id": 1, // 클라이언트에서 id를 key로 댓글과 구름이 생성됨
+      "title": "클라이언트에 표시 할 비디오 제목",
+      "src": "sample.mp4" // 파일명
+    }
+  ]
+  ```
 
-### Using NPM
+### ⚙️ 환경 설정 (.env 파일)
 
-- Run `npm i` to install the project dependencies
-- Run `npx sls deploy` to deploy this stack to AWS
-
-### Using Yarn
-
-- Run `yarn` to install the project dependencies
-- Run `yarn sls deploy` to deploy this stack to AWS
-
-## Test your service
-
-This template contains a single lambda function triggered by an HTTP request made on the provisioned API Gateway REST API `/hello` route with `POST` method. The request body must be provided as `application/json`. The body structure is tested by API Gateway against `src/functions/hello/schema.ts` JSON-Schema definition: it must contain the `name` property.
-
-- requesting any other path than `/hello` with any other method than `POST` will result in API Gateway returning a `403` HTTP error code
-- sending a `POST` request to `/hello` with a payload **not** containing a string property named `name` will result in API Gateway returning a `400` HTTP error code
-- sending a `POST` request to `/hello` with a payload containing a string property named `name` will result in API Gateway returning a `200` HTTP status code with a message saluting the provided name and the detailed event processed by the lambda
-
-> :warning: As is, this template, once deployed, opens a **public** endpoint within your AWS account resources. Anybody with the URL can actively execute the API Gateway endpoint and the corresponding lambda. You should protect this endpoint with the authentication method of your choice.
-
-### Locally
-
-In order to test the hello function locally, run the following command:
-
-- `npx sls invoke local -f hello --path src/functions/hello/mock.json` if you're using NPM
-- `yarn sls invoke local -f hello --path src/functions/hello/mock.json` if you're using Yarn
-
-Check the [sls invoke local command documentation](https://www.serverless.com/framework/docs/providers/aws/cli-reference/invoke-local/) for more information.
-
-### Remotely
-
-Copy and replace your `url` - found in Serverless `deploy` command output - and `name` parameter in the following `curl` command in your terminal or in Postman to test your newly deployed application.
-
-```
-curl --location --request POST 'https://myApiEndpoint/dev/hello' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "name": "Frederic"
-}'
+```env
+ENDPOINT_MEDIA_CONVERT= AWS -> mediaConvert -> 계정 -> API EndPoint 복사
+MEDIA_CONVERT_IAM_ROLE= AWS -> IAM -> 생성된 Role -> ARN 복사
 ```
 
-## Template features
+### 🚀 실행 방법
 
-### Project structure
+0. MediaConvert의 작업 템플릿을 생성합니다.
+   [AWS Lambda로 동영상 인코딩 및 썸네일 추출하기](https://woo3145.netlify.app/posts/7-encoding-with-lambda)
 
-The project code base is mainly located within the `src` folder. This folder is divided in:
+1. 패키지를 설치합니다.
 
-- `functions` - containing code base and configuration for your lambda functions
-- `libs` - containing shared code base between your lambdas
-
-```
-.
-├── src
-│   ├── functions               # Lambda configuration and source code folder
-│   │   ├── hello
-│   │   │   ├── handler.ts      # `Hello` lambda source code
-│   │   │   ├── index.ts        # `Hello` lambda Serverless configuration
-│   │   │   ├── mock.json       # `Hello` lambda input parameter, if any, for local invocation
-│   │   │   └── schema.ts       # `Hello` lambda input event JSON-Schema
-│   │   │
-│   │   └── index.ts            # Import/export of all lambda configurations
-│   │
-│   └── libs                    # Lambda shared code
-│       └── apiGateway.ts       # API Gateway specific helpers
-│       └── handlerResolver.ts  # Sharable library for resolving lambda handlers
-│       └── lambda.ts           # Lambda middleware
-│
-├── package.json
-├── serverless.ts               # Serverless service file
-├── tsconfig.json               # Typescript compiler configuration
-├── tsconfig.paths.json         # Typescript paths
-└── webpack.config.js           # Webpack configuration
+```cs
+$ npm install
 ```
 
-### 3rd party libraries
+2. serverless.ts에서 환경변수를 주석처리하고 초기 배포합니다.
 
-- [json-schema-to-ts](https://github.com/ThomasAribart/json-schema-to-ts) - uses JSON-Schema definitions used by API Gateway for HTTP request validation to statically generate TypeScript types in your lambda's handler code base
-- [middy](https://github.com/middyjs/middy) - middleware engine for Node.Js lambda. This template uses [http-json-body-parser](https://github.com/middyjs/middy/tree/master/packages/http-json-body-parser) to convert API Gateway `event.body` property, originally passed as a stringified JSON, to its corresponding parsed object
-- [@serverless/typescript](https://github.com/serverless/typescript) - provides up-to-date TypeScript definitions for your `serverless.ts` service file
+```ts
+environment: {
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+    //   ENDPOINT_MEDIA_CONVERT: '${param:ENDPOINT_MEDIA_CONVERT}',
+    //   MEDIA_CONVERT_IAM_ROLE: '${param:MEDIA_CONVERT_IAM_ROLE}',
+},
+```
 
-### Advanced usage
+```cs
+$ serverless deploy
+```
 
-Any tsconfig.json can be used, but if you do, set the environment variable `TS_NODE_CONFIG` for building the application, eg `TS_NODE_CONFIG=./tsconfig.app.json npx serverless webpack`
+3. 생성된 AWS 자원으로 .env 파일을 설정합니다.
+
+4. 생성된 IAM 에 추가 권한을 설정합니다.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": ["{생성된 S3의 ARN}"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject"],
+      "Resource": ["{생성된 S3의 ARN}/*"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["mediaconvert:CreateJob"],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["iam:PassRole"],
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+5. IAM의 신뢰 관계를 수정합니다.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": ["mediaconvert.amazonaws.com", "lambda.amazonaws.com"]
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+```
+
+6. 주석을 제거하고 환경 변수와 함께 앱을 배포합니다.
+
+```ts
+// serverless.ts
+environment: {
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      ENDPOINT_MEDIA_CONVERT: '${param:ENDPOINT_MEDIA_CONVERT}',
+      MEDIA_CONVERT_IAM_ROLE: '${param:MEDIA_CONVERT_IAM_ROLE}',
+},
+```
+
+```cs
+$ serverless deploy --param="ENDPOINT_MEDIA_CONVERT=환경변수" --param="MEDIA_CONVERT_IAM_ROLE=환경변수"
+```
+
+7. S3에 파일을 업로드 합니다.
+
+- videos/ : 동영상 업로드
+- videos.json : 동영상 목록을 담은 JSON 파일
+  ```json
+  [
+    {
+      "id": 1, // 클라이언트에서 id를 key로 댓글과 구름이 생성됨
+      "title": "클라이언트에 표시 할 비디오 제목",
+      "src": "sample.mp4" // 파일명
+    },
+    ...
+  ]
+  ```

@@ -44,6 +44,7 @@ const useFetchVideos = () => {
       } catch (e) {
         if (e instanceof Error) {
           console.log(e);
+          dispatch(setVideoList([]));
         }
       }
     };

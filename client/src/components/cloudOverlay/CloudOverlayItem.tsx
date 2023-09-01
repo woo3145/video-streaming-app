@@ -23,6 +23,7 @@ interface Props {
   left: string;
 }
 
+/** Legacy */
 const CloudOverlayItem = React.memo(({ cloudComment, left }: Props) => {
   const { id, content, displaySize, displayHeight, isCreatedLocal } =
     cloudComment;

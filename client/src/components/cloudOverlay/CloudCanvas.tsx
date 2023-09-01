@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useAppSelector } from 'store/store';
 import { cn } from 'utils/twUtils';
 
-// 구름 댓글 기능 (improved) (댓글이 displayTime에 오른쪽에서 생성되어 speed초에 왼쪽끝에 닿음)
+/** Improved - 구름 댓글 기능 (댓글이 displayTime에 오른쪽에서 생성되어 speed초에 왼쪽끝에 닿음) */
 export const CloudCanvas = () => {
   const { clouds: _clouds } = useAppSelector((state) => state.clouds);
   const {

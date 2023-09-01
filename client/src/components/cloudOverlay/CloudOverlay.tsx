@@ -8,6 +8,7 @@ interface Props {
   clouds: ICloudComment[];
 }
 
+/** Legacy */
 const CloudOverlay = ({ speed = 5, clouds }: Props) => {
   const { videoWidth, videoHeight, duration, currentTime } = useAppSelector(
     (state) => state.video
