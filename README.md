@@ -45,7 +45,8 @@ https://woo3145-videos.netlify.app
 ## 🚀 실행 방법
 
 [클라이언트 문서](./client/README.md)
-[서버 문서(improved)](./serverless/README.md)
+
+[서버 문서(serverless)](./serverless/README.md)
 
 [서버 문서(legacy)](./server/README.md)
 
