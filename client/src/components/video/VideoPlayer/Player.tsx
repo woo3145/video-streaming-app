@@ -12,9 +12,9 @@ interface Props {
 }
 
 const Player = ({ videoRef }: Props) => {
-  const { src: videoSrc } = useAppSelector((state) => state.video);
+  const { video } = useAppSelector((state) => state.video);
   const { quality } = useAppSelector((state) => state.videoQuality);
-  const { isLoading } = useVideoPlayer(videoRef, videoSrc, quality);
+  const { isLoading } = useVideoPlayer(videoRef, video?.src || '', quality);
 
   const { isVisible } = useAppSelector((state) => state.clouds);
 

@@ -9,12 +9,13 @@ interface Props {
 
 const CloudList = ({ videoRef }: Props) => {
   const { setCurrentVideoTime } = useVideoSeek(videoRef);
-  const { id: videoId } = useAppSelector((state) => state.video);
+  const { video } = useAppSelector((state) => state.video);
   const { clouds: _clouds } = useAppSelector((state) => state.clouds);
 
   const clouds = useMemo(() => {
-    return _clouds[videoId]?.data || [];
-  }, [_clouds, videoId]);
+    if (!video) return [];
+    return _clouds[video.id]?.data || [];
+  }, [_clouds, video]);
 
   const sortedClouds = useMemo(() => {
     return [...clouds].sort((a, b) => a.displayTime - b.displayTime);

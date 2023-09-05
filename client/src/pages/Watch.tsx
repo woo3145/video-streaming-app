@@ -1,28 +1,18 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import CommentTabs from 'components/video/CommentTabs/CommentTabs';
 import Metadata from 'components/video/VideoPlayer/Metadata';
 import Player from 'components/video/VideoPlayer/Player';
-import { setVideoId, setVideoSrc } from 'store/modules/videoSlice';
+import { setVideo } from 'store/modules/videoSlice';
 import { useAppDispatch, useAppSelector } from 'store/store';
 import useFetchComments from 'hooks/apiHooks/useFetchComments';
 import useFetchClouds from 'hooks/apiHooks/useFetchClouds';
 import useFetchVideos from 'hooks/apiHooks/useFetchVideos';
 
 const Watch = () => {
-  useFetchVideos();
   const { videoId } = useParams();
   const { videos, isLoading } = useAppSelector((state) => state.videoList);
-
-  const video = useMemo(() => {
-    const filteredVideo = videos.filter(
-      (v) => v.id === parseInt(videoId || '')
-    );
-    if (!filteredVideo.length) {
-      return null;
-    }
-    return filteredVideo[0];
-  }, [videos, videoId]);
+  const video = videos.find((v) => v.id === parseInt(videoId || ''));
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const dispatch = useAppDispatch();
@@ -31,11 +21,11 @@ const Watch = () => {
   useEffect(() => {
     if (!video) return;
     if (video.id !== 0) {
-      dispatch(setVideoId(video.id));
-      dispatch(setVideoSrc(video.src));
+      dispatch(setVideo(video));
     }
   }, [dispatch, video]);
 
+  useFetchVideos();
   useFetchComments(video?.id);
   useFetchClouds(video?.id);
 

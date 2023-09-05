@@ -20,16 +20,20 @@ const initialInput: CommentInput = {
 //** 댓글 생성을 위한 커스텀 훅 */
 export const useCreateComment = () => {
   const dispatch = useAppDispatch();
-  const { id: videoId } = useAppSelector((state) => state.video);
+  const { video } = useAppSelector((state) => state.video);
   const [isFormValid, setIsFormValid] = useState(false);
   const [inputs, setInputs] = useState<CommentInput>(initialInput);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!video) {
+      toast.error('비디오가 존재하지 않습니다.');
+      return;
+    }
     const { nickname, password, content } = inputs;
     try {
       const newComment = await saveComment({
-        videoId: videoId,
+        videoId: video.id,
         nickname,
         password,
         content,
@@ -37,7 +41,7 @@ export const useCreateComment = () => {
 
       if (newComment) {
         newComment.isCreatedLocal = true;
-        dispatch(addComment({ videoId, comment: newComment }));
+        dispatch(addComment({ videoId: video.id, comment: newComment }));
 
         toast.success('댓글이 생성되었습니다.');
       }

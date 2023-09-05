@@ -18,17 +18,20 @@ const Home = () => {
           'md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6'
         )}
       >
-        {videos.length === 0 && <div>비디오가 없어요 😢</div>}
-        {videos.map((video, idx) => {
-          return (
-            <VideoCard
-              key={idx}
-              id={video.id.toString()}
-              thumbnailUrl={video.thumbnail}
-              title={video.title}
-            />
-          );
-        })}
+        {videos.length === 0 ? (
+          <div>비디오가 없어요 😢</div>
+        ) : (
+          videos.map((video) => {
+            return (
+              <VideoCard
+                key={video.id}
+                id={video.id.toString()}
+                thumbnailUrl={video.thumbnail}
+                title={video.title}
+              />
+            );
+          })
+        )}
       </div>
     </div>
   );

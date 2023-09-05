@@ -1,8 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface VideoState {
-  id: number;
-  src: string;
+  video: IVideoWithThumbnail | null;
   duration: number;
   currentTime: number;
   isPlaying: boolean;
@@ -16,8 +15,7 @@ export interface VideoState {
 }
 
 const initialState: VideoState = {
-  id: 0,
-  src: '',
+  video: null,
   duration: 0,
   currentTime: 0,
   isPlaying: false,
@@ -34,11 +32,8 @@ export const videoSlice = createSlice({
   name: 'video',
   initialState,
   reducers: {
-    setVideoId: (state, action: PayloadAction<number>) => {
-      state.id = action.payload;
-    },
-    setVideoSrc: (state, action: PayloadAction<string>) => {
-      state.src = action.payload;
+    setVideo: (state, action: PayloadAction<IVideoWithThumbnail>) => {
+      state.video = action.payload;
       state.duration = 0;
       state.currentTime = 0;
       state.isPlaying = false;
@@ -80,8 +75,7 @@ export const videoSlice = createSlice({
 });
 
 export const {
-  setVideoId,
-  setVideoSrc,
+  setVideo,
   setDuration,
   setCurrentTime,
   setIsPlaying,

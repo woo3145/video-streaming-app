@@ -4,11 +4,12 @@ import { useMemo } from 'react';
 
 const CommentList = () => {
   const { comments: _comments } = useAppSelector((state) => state.comments);
-  const { id: videoId } = useAppSelector((state) => state.video);
+  const { video } = useAppSelector((state) => state.video);
 
   const comments = useMemo(() => {
-    return _comments[videoId]?.data || [];
-  }, [_comments, videoId]);
+    if (!video) return [];
+    return _comments[video.id]?.data || [];
+  }, [_comments, video]);
 
   return (
     <ul className="text-lg xl:max-h-[400px] overflow-y-scroll">

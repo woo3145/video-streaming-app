@@ -26,14 +26,18 @@ const initialInput: CloudInput = {
 //** 구름댓글 생성을 위한 커스텀 훅 */
 export const useCreateCloud = () => {
   const dispatch = useAppDispatch();
-  const { id: videoId, currentTime } = useAppSelector((state) => state.video);
+  const { video, currentTime } = useAppSelector((state) => state.video);
   const [isFormValid, setIsFormValid] = useState(false);
   const [inputs, setInputs] = useState<CloudInput>(initialInput);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { nickname, password, content, size, speed, height } = inputs;
+    if (!video) {
+      toast.error('비디오가 존재하지 않습니다.');
+      return;
+    }
 
+    const { nickname, password, content, size, speed, height } = inputs;
     if (!(size && speed && height)) {
       toast.error('사이즈, 속도, 높이를 선택해주세요.');
       return;
@@ -41,7 +45,7 @@ export const useCreateCloud = () => {
 
     try {
       const newCloud = await saveCloud({
-        videoId: videoId,
+        videoId: video.id,
         nickname,
         password,
         content,
@@ -53,7 +57,7 @@ export const useCreateCloud = () => {
 
       if (newCloud) {
         newCloud.isCreatedLocal = true;
-        dispatch(addCloud({ videoId, cloud: newCloud }));
+        dispatch(addCloud({ videoId: video.id, cloud: newCloud }));
         toast.success('구름이 생성되었습니다.');
       }
     } catch (e) {
