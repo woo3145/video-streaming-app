@@ -5,7 +5,7 @@ import { cn } from 'utils/twUtils';
 const Logo = () => {
   return (
     <Link to="/" className="flex items-center gap-2 text-2xl text-primary">
-      <img className="pb-2" src="icons8-video-arcade-32.png" alt="video" />
+      <img className="pb-2" src="/icons8-video-arcade-32.png" alt="video" />
       <b>Woo3145</b> Videos
     </Link>
   );
