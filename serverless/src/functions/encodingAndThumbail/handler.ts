@@ -15,46 +15,16 @@ const handler = async (event: S3Event) => {
 
     const inputLocation = `s3://${bucketName}/${objectKey}`;
 
-    const thumbnailOutputLocation = `s3://${bucketName}/thumbnails/`;
-    const videoOutputLocation = `s3://${bucketName}/encodedVideos/`;
+    // const thumbnailOutputLocation = `s3://${bucketName}/thumbnails/`;
+    // const videoOutputLocation = `s3://${bucketName}/encodedVideos/`;
 
     const params = {
-      JobTemplate: 'encodingAndThumbnailTemplate',
+      JobTemplate: 'encodingAndThumbnailTemplate', // 템플릿 설정으로만 관리
       Role: process.env.MEDIA_CONVERT_IAM_ROLE,
       Settings: {
         Inputs: [
           {
             FileInput: inputLocation,
-          },
-        ],
-        OutputGroups: [
-          {
-            Name: 'File Group - encodedVideos',
-            Outputs: [
-              {
-                Extension: 'mp4',
-              },
-            ],
-            OutputGroupSettings: {
-              Type: 'FILE_GROUP_SETTINGS',
-              FileGroupSettings: {
-                Destination: `${videoOutputLocation}`,
-              },
-            },
-          },
-          {
-            Name: 'File Group - thumbnail',
-            Outputs: [
-              {
-                Extension: 'jpg',
-              },
-            ],
-            OutputGroupSettings: {
-              Type: 'FILE_GROUP_SETTINGS',
-              FileGroupSettings: {
-                Destination: `${thumbnailOutputLocation}`,
-              },
-            },
           },
         ],
       },

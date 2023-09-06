@@ -7,6 +7,7 @@
   - encodedVideos/ 폴더에 3가지 해상도(720p, 640p, 320p)로 인코딩하여 저장합니다. (sample_720p.mp4, sample_640p.mp4, sample_320p.mp4)
   - thumanails/ 폴더에 비디오의 첫 프레임을 추출하여 jpg 파일로 저장합니다.
     (sample_thumbnail.0000000.jpg)
+  - [1.1.0 추가] encodedVideos/ 폴더에 3가지 해상도(720p, 640p, 320p) 옵션을 가진 hls 파일로 인코딩하여 저장합니다. (sample.m3u8)
 
 - 해당 S3에 비디오 목록에 대한 videos.json 파일을 추가하면 클라이언트에서 비디오를 조회할 수 있습니다.
 

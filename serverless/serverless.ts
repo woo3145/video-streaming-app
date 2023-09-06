@@ -18,6 +18,7 @@ const serverlessConfiguration: AWS = {
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       ENDPOINT_MEDIA_CONVERT: '${param:ENDPOINT_MEDIA_CONVERT}',
       MEDIA_CONVERT_IAM_ROLE: '${param:MEDIA_CONVERT_IAM_ROLE}',
+      // 초기 배포는 [ ENDPOINT_MEDIA_CONVERT, MEDIA_CONVERT_IAM_ROLE ] 주석처리 후 $ serverless deploy 실행
       // 배포시 아래 명령어로 환경변수 추가
       // serverless deploy --param="ENDPOINT_MEDIA_CONVERT=환경변수" --param="MEDIA_CONVERT_IAM_ROLE=환경변수"
     },
