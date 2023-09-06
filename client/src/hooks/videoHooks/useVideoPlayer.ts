@@ -1,3 +1,4 @@
+import Hls from 'hls.js';
 import {
   RefObject,
   useCallback,
@@ -15,7 +16,10 @@ import {
   setVideoSize,
 } from 'store/modules/videoSlice';
 import { useAppDispatch } from 'store/store';
-import { appendQualityToFilename } from 'utils/commonUtils';
+import {
+  appendQualityToFilename,
+  changeExtensionToM3U8,
+} from 'utils/commonUtils';
 
 /**
  * 역할 : 비디오 재생을 위한 플레이어 관리
@@ -39,6 +43,21 @@ const useVideoPlayer = (
         }/encodedVideos/${appendQualityToFilename(videoSrc, videoQuality)}`
       : '';
   }, [videoSrc, videoQuality]);
+
+  const hlsVideoUrl = useMemo(() => {
+    if (videoSrc === '') return '';
+
+    // auto일 경우만 hls url 생성
+    if (videoQuality === 'auto') {
+      return `${
+        process.env.REACT_APP_RESOURCE_URL
+      }/encodedVideos/${changeExtensionToM3U8(videoSrc)}`;
+    } else {
+      return videoUrl;
+    }
+  }, [videoSrc, videoQuality, videoUrl]);
+
+  const hls = useRef<Hls | null>(null);
 
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false); // 비디오 로딩중 or 버퍼링중 상태
@@ -174,23 +193,21 @@ const useVideoPlayer = (
     }
   }, [videoQuality, videoRef]);
 
-  // 비디오 로드 후 자동재생
+  // 비디오 로드 & 자동재생
   useEffect(() => {
     const isAutoPlay = true; // 임시
     const videoElement = videoRef.current;
     if (!videoElement) return;
 
-    // - 브라우저는 페이지 로드 후(비디오 로드 시점 x, 페이지 로드 시점 o) 사용자의 인터랙션이 일어나기 전에 미디어의 소리까지 자동재생이 불가능 하도록 막아둠
-    // - 따라서 mute 상태면 자동재생 되고, mute가 아니면 일시정지 상태가 됨 (크롬기준, 브라우저마다 다름)
-    // - SPA의 경우 Home -> Watch로 이동 시 이전 상호작용이 기록되어 있어 소리까지 자동 재생 가능
-    // - SPA라도 새로고침 등으로 Watch로 첫 접속을 하면 소리까지 재생 X
+    if (Hls.isSupported() && videoQuality === 'auto') {
+      if (hls.current !== null) {
+        hls.current.destroy();
+      }
+      hls.current = new Hls();
+      hls.current.loadSource(hlsVideoUrl);
+      hls.current.attachMedia(videoElement);
 
-    // +++ chrome의 경우 사용빈도나 신뢰도에 따라 위 정책이 완화될 수 있음(실제로 개발 하다보면 어느순간 완화되어 자동재생이 됨)
-
-    // 비디오 로드와 재생
-    if (videoUrl !== '' && videoElement.src !== videoUrl) {
-      videoElement.src = videoUrl;
-      if (isAutoPlay) {
+      hls.current.on(Hls.Events.MANIFEST_PARSED, function () {
         videoElement
           .play()
           .then(() => {
@@ -205,9 +222,42 @@ const useVideoPlayer = (
               dispatch(setIsPlaying(true));
             }
           });
+      });
+    } else {
+      // hls를 지원하지 않는 브라우저 대응 (ex. safari)
+      videoElement.src = videoUrl;
+
+      // Auto play for native HLS support browsers
+      if (isAutoPlay) {
+        videoElement
+          .play()
+          .then(() => {
+            dispatch(setIsPlaying(true));
+          })
+          .catch((error) => {
+            console.error('미디어 정책에 의해 음소거 on');
+            videoElement.muted = true;
+            videoElement.play();
+            dispatch(setIsMuted(true));
+            dispatch(setIsPlaying(true));
+          });
       }
     }
-  }, [dispatch, videoRef, videoUrl]);
+
+    // - 브라우저는 페이지 로드 후(비디오 로드 시점 x, 페이지 로드 시점 o) 사용자의 인터랙션이 일어나기 전에 미디어의 소리까지 자동재생이 불가능 하도록 막아둠
+    // - 따라서 mute 상태면 자동재생 되고, mute가 아니면 일시정지 상태가 됨 (크롬기준, 브라우저마다 다름)
+    // - SPA의 경우 Home -> Watch로 이동 시 이전 상호작용이 기록되어 있어 소리까지 자동 재생 가능
+    // - SPA라도 새로고침 등으로 Watch로 첫 접속을 하면 소리까지 재생 X
+
+    // +++ chrome의 경우 사용빈도나 신뢰도에 따라 위 정책이 완화될 수 있음(실제로 개발 하다보면 어느순간 완화되어 자동재생이 됨)
+
+    return () => {
+      if (hls.current) {
+        hls.current.destroy();
+        hls.current = null;
+      }
+    };
+  }, [dispatch, videoRef, videoUrl, hlsVideoUrl, videoQuality]);
 
   return { isLoading };
 };

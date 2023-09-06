@@ -17,6 +17,7 @@
     "clsx": "^2.0.0",
     "crypto-browserify": "^3.12.0",
     "firebase": "^10.1.0",
+    "hls.js": "^1.4.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",

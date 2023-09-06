@@ -19,3 +19,9 @@ export const appendQualityToFilename = (
 
   return newFileName;
 };
+
+export const changeExtensionToM3U8 = (fileName: string) => {
+  const baseName = getFileNameWithoutExtension(fileName);
+  const newFileName = `${baseName}.m3u8`;
+  return newFileName;
+};
