@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button } from 'components/atoms/Button';
 import {
   DropdownMenu,
@@ -14,7 +14,11 @@ import Hls from 'hls.js';
 const QualityButton = () => {
   const dispatch = useAppDispatch();
   const quality = useAppSelector((state) => state.videoQuality.quality);
-  const isHlsSupported = Hls.isSupported();
+
+  const dummyVideoRef = useRef(document.createElement('video'));
+  const isHlsSupported =
+    Hls.isSupported() ||
+    dummyVideoRef.current.canPlayType('application/vnd.apple.mpegurl');
 
   useEffect(() => {
     if (isHlsSupported) {

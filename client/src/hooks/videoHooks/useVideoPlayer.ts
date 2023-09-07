@@ -40,7 +40,10 @@ const useVideoPlayer = (
     return videoSrc !== ''
       ? `${
           process.env.REACT_APP_RESOURCE_URL
-        }/encodedVideos/${appendQualityToFilename(videoSrc, videoQuality)}`
+        }/encodedVideos/${appendQualityToFilename(
+          videoSrc,
+          videoQuality === 'auto' ? '360' : videoQuality
+        )}`
       : '';
   }, [videoSrc, videoQuality]);
 
@@ -188,9 +191,12 @@ const useVideoPlayer = (
 
   // 비디오 Quality 변경 시 : 현재 재생시점 저장
   useEffect(() => {
-    if (videoRef.current) {
-      setPrevPosition(videoRef.current.currentTime);
-    }
+    const videoEl = videoRef.current;
+    return () => {
+      if (videoEl) {
+        setPrevPosition(videoEl.currentTime);
+      }
+    };
   }, [videoQuality, videoRef]);
 
   // 비디오 로드 & 자동재생
@@ -199,6 +205,27 @@ const useVideoPlayer = (
     const videoElement = videoRef.current;
     if (!videoElement) return;
 
+    const tryToPlay = (videoEl: HTMLVideoElement) => {
+      if (!isAutoPlay) return;
+      videoEl
+        .play()
+        .then(() => {
+          videoEl.muted = false;
+          dispatch(setIsMuted(false));
+          dispatch(setIsPlaying(true));
+        })
+        .catch((error) => {
+          if (error.name === 'NotAllowedError') {
+            console.error('미디어 정책에 의해 음소거 on');
+            videoEl.muted = true;
+            dispatch(setIsMuted(true));
+            dispatch(setIsPlaying(true));
+            videoEl.play();
+          }
+        });
+    };
+
+    // hls.js를 지원하는 경우
     if (Hls.isSupported() && videoQuality === 'auto') {
       if (hls.current !== null) {
         hls.current.destroy();
@@ -207,50 +234,36 @@ const useVideoPlayer = (
       hls.current.loadSource(hlsVideoUrl);
       hls.current.attachMedia(videoElement);
 
-      hls.current.on(Hls.Events.MANIFEST_PARSED, function () {
-        videoElement
-          .play()
-          .then(() => {
-            dispatch(setIsPlaying(true));
-          })
-          .catch((error) => {
-            if (error.name === 'NotAllowedError') {
-              console.error('미디어 정책에 의해 음소거 on');
-              videoElement.muted = true;
-              videoElement.play();
-              dispatch(setIsMuted(true));
-              dispatch(setIsPlaying(true));
-            }
-          });
-      });
+      hls.current.on(Hls.Events.MANIFEST_PARSED, () => tryToPlay(videoElement));
+    } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+      // 네이티브로 HLS를 지원하는 브라우저 (ex. Safari)에 대한 처리
+      videoElement.src = hlsVideoUrl;
+      tryToPlay(videoElement);
     } else {
-      // hls를 지원하지 않는 브라우저 대응 (ex. safari)
+      // hls를 지원하지 않는 브라우저 대응
       videoElement.src = videoUrl;
+      tryToPlay(videoElement);
 
       // Auto play for native HLS support browsers
       if (isAutoPlay) {
         videoElement
           .play()
           .then(() => {
+            videoElement.muted = false;
+            dispatch(setIsMuted(false));
             dispatch(setIsPlaying(true));
           })
           .catch((error) => {
-            console.error('미디어 정책에 의해 음소거 on');
-            videoElement.muted = true;
-            videoElement.play();
-            dispatch(setIsMuted(true));
-            dispatch(setIsPlaying(true));
+            if (error.name === 'NotAllowedError') {
+              console.error('미디어 정책에 의해 음소거 on');
+              videoElement.muted = true;
+              dispatch(setIsMuted(true));
+              dispatch(setIsPlaying(true));
+              videoElement.play();
+            }
           });
       }
     }
-
-    // - 브라우저는 페이지 로드 후(비디오 로드 시점 x, 페이지 로드 시점 o) 사용자의 인터랙션이 일어나기 전에 미디어의 소리까지 자동재생이 불가능 하도록 막아둠
-    // - 따라서 mute 상태면 자동재생 되고, mute가 아니면 일시정지 상태가 됨 (크롬기준, 브라우저마다 다름)
-    // - SPA의 경우 Home -> Watch로 이동 시 이전 상호작용이 기록되어 있어 소리까지 자동 재생 가능
-    // - SPA라도 새로고침 등으로 Watch로 첫 접속을 하면 소리까지 재생 X
-
-    // +++ chrome의 경우 사용빈도나 신뢰도에 따라 위 정책이 완화될 수 있음(실제로 개발 하다보면 어느순간 완화되어 자동재생이 됨)
-
     return () => {
       if (hls.current) {
         hls.current.destroy();
